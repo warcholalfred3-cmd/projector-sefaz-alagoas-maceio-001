@@ -1,0 +1,19 @@
+{
+  "summary": "Backend-only retest of the bug where the payment-reminder event was missing from the realtime feed. Logged in as admin donas, started POST /api/admin/inscricoes/lembrete-pagamento and polled the job status until it was 'concluido' with enviados>=1. GET /api/admin/dashboard/realtime?limit=10 now includes a kind='lembrete' event whose description starts with 'Lembrete de pagamento enviado -'. The other event kinds (pix_generated, access, cadastro, pix_copied, inscricao) still come back, sorted by created_at desc, with no _id. The prebuilt admin bundle (public/donaspainel main.fda9cfa5.js) maps kind 'lembrete' to a green icon (#16a34a). 6/6 tests passed.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": ["/app/backend/tests/test_lembrete_realtime_event.py", "/app/test_reports/pytest/pytest_lembrete_realtime.xml"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "The lembrete event meta stores the candidate's CPF and email in the events collection, and the realtime endpoint returns it. Admin-only, but storing less PII would be better.",
+    "The /admin/dashboard/realtime default limit is 10000, which is a large payload if the frontend leaves out the limit parameter.",
+    "Each lembrete run adds one event per recipient, so repeated clicks on the same day fill the feed with duplicate entries. There is no per-day dedupe for events (the inscricao 'lembrete_enviado_dia' field is set but not checked)."
+  ],
+  "updated_files": ["/app/backend/tests/test_lembrete_realtime_event.py"],
+  "success_rate": {"backend": "100%", "frontend": "N/A (skipped)"},
+  "test_credentials": "Admin donas / Seinao10@@ (from review request; /app/memory/test_credentials.md is missing)",
+  "seed_data_creation": "None. The test ran the lembrete job, which adds kind='lembrete' events and a row in email_jobs.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Regression test: tests/test_lembrete_realtime_event.py. The job takes about 1-2s for 1 recipient. The admin frontend is served as a prebuilt bundle at /app/frontend/public/donaspainel."
+}
