@@ -32,6 +32,10 @@ function menu(r){
  if(bd)layer.appendChild(bd);
  layer.appendChild(dr);
  r.appendChild(layer);
+ if(/(pagamento-pix|inscricao-realizada)/.test(location.pathname)){
+  dr.querySelectorAll('ul').forEach(function(u){u.remove();});
+  dr.querySelectorAll('.mnav-cta a').forEach(function(a){if(!/acompanhamento/i.test(a.textContent))a.remove();});
+ }
  var ls=document.createElement('style');
  ls.textContent='.mnav-layer.mnav-on #mnav{transform:none;visibility:visible;box-shadow:-8px 0 30px rgba(0,0,0,.15)}.mnav-layer.mnav-on #mnav-backdrop{opacity:1;pointer-events:auto}';
  r.appendChild(ls);

@@ -1,0 +1,24 @@
+{
+  "summary": "RETEST of mobile drawer clipping fix (seduc-theme.js menu(r) moves #mnav/#mnav-backdrop into .mnav-layer outside the scaled .sfbody). I used real mobile emulation: a new context with is_mobile=True and has_touch=True, iPhone at 390x844 DPR 3 and Pixel 7 at 393x851 DPR 2.75. On all 6 pages (pagamento-pix, inscricao-realizada, inscricao, dados-inscricao, confirmacao, minhas-inscricoes), after scrolling to scrollY=1000 and tapping #mnav-open, the drawer opens at top=0 with height == innerHeight (844/851) and the backdrop is full height with opacity 1. #mnav is a direct child of .mnav-layer, which is a child of the shadow root. MENU x shows, all 6 links plus 2 CTAs pass the elementFromPoint check (8/8), and the close button is hit-testable. Closing works by tapping the backdrop, by the x button and by Esc on every page and device, and html overflow is restored afterwards. Navigation works: 'Fazer inscricao' goes to /termos.html, 'Pagina de acompanhamento' goes to /minhas-inscricoes.html, and 'Concursos' goes to /. Regression checks pass: the mobile header is 71px with the hamburger visible, and scrollWidth == innerWidth (390/393) on all pages including minhas-inscricoes. On desktop 1920 the horizontal main_menu is a block, the hamburger, drawer and backdrop have display:none, and there is no horizontal overflow. Screenshots look correct.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Minor: the request says cache was bumped to seduc-theme.js?v=20, but all 6 HTML pages still reference ?v=19. Bump to v=20 so mobile users with a cached v=19 get the new menu(r) code. Note that the deployed file served at ?v=19 already contains the fix."
+  ],
+  "critical_code_review_comments": [
+    "The old .sfbody.mnav-on #mnav / #mnav-backdrop rules in chrome.css are now dead code because the elements are no longer inside .sfbody. Removing them is harmless.",
+    "On minhas-inscricoes the drawer has 7 items because 'Pagina de acompanhamento' is removed on that page. This looks intentional."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "The header lives in the open shadow root of #seduc-header-host. The drawer now sits in .mnav-layer (a shadow root child) and the 'mnav-on' class is toggled on both .sfbody and .mnav-layer. Use browser.new_context with device_scale_factor>=2 to reproduce the HiDPI scale(0.8) condition.",
+  "rca of the issue": "Root cause from iteration_55: .sfbody gets transform:scale(0.8) on DPR>=1.25, which creates a containing block for position:fixed descendants. Fix verified: the drawer is moved outside the transformed ancestor."
+}
