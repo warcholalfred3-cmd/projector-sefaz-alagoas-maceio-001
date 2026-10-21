@@ -1925,6 +1925,12 @@ async def _run_lembrete(job_id: str, base_url: str):
                 logger.warning(f'lembrete falhou {d.get("email")}: {e}')
             if ok:
                 enviados += 1
+                nome_c = d.get('nome', '') or 'Candidato'
+                await insert_event(
+                    'lembrete',
+                    f"Lembrete de pagamento enviado - {nome_c}",
+                    {'nome': nome_c, 'cpf': d.get('cpf', ''), 'email': d.get('email', '')},
+                )
                 await _db.inscricoes.update_one(
                     {'cpf': d.get('cpf'), 'protocolo': d.get('protocolo', '')},
                     {'$set': {'lembrete_enviado_dia': hoje, 'lembrete_enviado_at': datetime.now(timezone.utc).isoformat()}},
