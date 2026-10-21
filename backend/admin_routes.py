@@ -340,7 +340,7 @@ async def track_registration(data: TrackIn, request: Request):
             'id': str(uuid.uuid4()),
             'nome': nome, 'cpf': cpf, 'email': email,
             'concurso': concurso,
-            'edital': extra.get('edital', ''),
+            'edital': extra.get('edital') or 'SEFAZ_AL_26',
             'cargo_codigo': extra.get('cargo_codigo', '') or extra.get('codigo', ''),
             'cargo_titulo': extra.get('cargo_titulo', '') or extra.get('titulo', ''),
             'jornada': extra.get('jornada', ''),

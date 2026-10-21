@@ -1,0 +1,31 @@
+{
+  "summary": "Residue sweep after the SEFAZ/AL rework, tested on the public URL. Full public flow PASS on desktop: inicio (modal OK) -> termos -> inscricao (generated CPF 013.037.085-15, RG front/back uploaded, email delivered@resend.dev) -> dados-inscricao (AFTE, MACEIO/AL) -> confirmacao -> inscricao-realizada (R$ 300,00). localStorage holds __edital=SEFAZ_AL_26, __concurso='SEFAZ/AL 2026 - Cebraspe' and __valor=300. Backend: 6/6 pytest pass. The inscription in /api/admin/inscriptions has concurso containing 'SEFAZ/AL', edital SEFAZ_AL_26 and valor 300. No inscription in the DB still has a SEDUC/VUNESP/014/2026 edital or concurso. Panel: login OK, and dashboard, cadastro, usuarios, documentos, configuracoes and inscricoes show no VUNESP/SEDUC/Vestibular/Polo/Curso text. The candidate detail shows the label 'Cargo' (no 'Curso'). The 8 public pages load at 1920 and 390 with no broken images, no horizontal scroll and no JS errors (only the Cloudflare beacon blocked by CSP, which is infra). Two remnants of the old contest are still visible (see issues).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "dados-inscricao.html (lines ~822, ~831) and confirmacao.html (lines ~750-751)", "issue": "RESIDUE FROM THE CEARÁ CONTEST: the quota text cites 'Lei Estadual nº 17.432/2021' (black candidates) and 'Lei Estadual nº 17.433/2021' (PcD). These are Ceará state laws (17.432/2021 is the Ceará racial quota law used by SEDUC-CE/PMCE). For SEFAZ/AL, replace them with the Alagoas legislation from the edital, or a neutral text such as 'previstas no Edital nº 1 – SEFAZ/AL'.", "selector": "#cotas_negros, #PORTADOR_DEFICIENCIA labels; [data-testid=c-negros], [data-testid=c-pcd]", "priority": "HIGH"},
+      {"component": "donaspainel candidate detail modal (static/js/main.*.js section key 'ensino')", "issue": "RESIDUE FROM THE VESTIBULAR: the detail modal has a section titled 'ENSINO MÉDIO' (fields situacao/tipo_escola/escolaridade/cargo/vaga/concurso), and the only field shown there is 'Concurso'. Rename it to e.g. 'Concurso / Cargo'. The 'É militar?' field also always shows 'Não' (derived) for SEFAZ candidates, which is a leftover from the old form. Hide it when eh_militar is missing. Can be done in admin-extras.js renameLabels/DOM patch if the bundle source is not available.", "selector": "[data-testid=view-modal]", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "confirmacao.html", "issues": ["The city displays as 'MACEIO/AL' (option value, no accent), while the select on dados-inscricao shows 'MACEIÓ/AL'. Use the option label."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_sefaz_residue_cleanup.py", "/app/test_reports/pytest/pytest_residue.xml"],
+  "action_items": [
+    "Replace the Ceará laws 17.432/2021 and 17.433/2021 in dados-inscricao.html and confirmacao.html (and in any email/PDF templates or admin texts that reuse them) with the Alagoas/edital reference",
+    "Admin detail modal: rename the 'Ensino médio' section title and hide 'É militar?' when there is no data",
+    "Optional: show 'MACEIÓ/AL' with the accent on confirmacao"
+  ],
+  "critical_code_review_comments": [
+    "finalizar.js fallbacks are now SEFAZ ('SEFAZ/AL 2026 - Cebraspe', 'SEFAZ_AL_26', 300). OK.",
+    "admin_routes.py stores edital straight from extra.edital with no server-side default. A client that sends nothing (old cached JS) will store an empty edital. Consider a server-side default of 'SEFAZ_AL_26'.",
+    "The hidden footer 'Desenvolvido por ProSeleta' still exists in the HTML of 5 pages. It is not visible (innerText scan found nothing), but it is better to remove it."
+  ],
+  "updated_files": ["/app/backend/tests/test_sefaz_residue_cleanup.py"],
+  "success_rate": {"backend": "100% (6/6)", "frontend": "~90% (flow works; 2 visible residues found)"},
+  "seed_data_creation": "One real inscription was created through the UI: TEST CANDIDATO SEFAZ, CPF 01303708515, delivered@resend.dev, protocol 2026708515, with RG docs as 1px PNGs. Delete it from the panel if needed.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Test file test_sefaz_residue_cleanup.py uses the UI_CPF env var (default 01303708515). The 'Documentos' nav in the panel opens a separate page (/donaspainel/documentos.html). Panel detail opens via [data-testid^=btn-view-] and modal [data-testid=view-modal]. Cloudflare beacon CSP errors are expected."
+}

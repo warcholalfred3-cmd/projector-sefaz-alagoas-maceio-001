@@ -747,8 +747,8 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
 @media(max-width:640px){#TopoInformacoes .conf-lbl{flex-basis:auto}#TopoInformacoes .conf-row{flex-direction:column;gap:2px}#TopoInformacoes .conf-flags p{flex-direction:column;align-items:flex-start;gap:4px}}
 </style>
 <div class="conf-list" data-testid="tabela-confirmacao"><div class="conf-sec" data-testid="conf-sec-0">Dados da inscrição</div><div class="conf-row"><span class="conf-lbl">Inscrição</span><span class="conf-val" data-testid="c-inscricao" id="c-inscricao">—</span></div><div class="conf-row"><span class="conf-lbl">Cargo</span><span class="conf-val" data-testid="c-vaga" id="c-vaga">—</span></div><div class="conf-row"><span class="conf-lbl">Estado da Prova</span><span class="conf-val" data-testid="c-uf-prova" id="c-uf-prova">—</span></div><div class="conf-row"><span class="conf-lbl">Cidade de Aplicação da Prova</span><span class="conf-val" data-testid="c-municipio-prova" id="c-municipio-prova">—</span></div><div class="conf-sec" data-testid="conf-sec-1">Dados pessoais</div><div class="conf-row"><span class="conf-lbl">Nome</span><span class="conf-val" data-testid="c-nome" id="c-nome">—</span></div><div class="conf-row"><span class="conf-lbl">CPF</span><span class="conf-val" data-testid="c-cpf" id="c-cpf">—</span></div><div class="conf-row"><span class="conf-lbl">Data Nascimento</span><span class="conf-val" data-testid="c-data" id="c-data">—</span></div><div class="conf-row"><span class="conf-lbl">Sexo</span><span class="conf-val" data-testid="c-sexo" id="c-sexo">—</span></div><div class="conf-sec" data-testid="conf-sec-3">Endereço</div><div class="conf-row"><span class="conf-lbl">CEP</span><span class="conf-val" data-testid="c-cep" id="c-cep">—</span></div><div class="conf-row"><span class="conf-lbl">Logradouro</span><span class="conf-val" data-testid="c-logradouro" id="c-logradouro">—</span></div><div class="conf-row"><span class="conf-lbl">Número</span><span class="conf-val" data-testid="c-numero" id="c-numero">—</span></div><div class="conf-row"><span class="conf-lbl">Complemento</span><span class="conf-val" data-testid="c-complemento" id="c-complemento">—</span></div><div class="conf-row"><span class="conf-lbl">Bairro</span><span class="conf-val" data-testid="c-bairro" id="c-bairro">—</span></div><div class="conf-row"><span class="conf-lbl">Cidade</span><span class="conf-val" data-testid="c-cidade" id="c-cidade">—</span></div><div class="conf-row"><span class="conf-lbl">UF</span><span class="conf-val" data-testid="c-uf" id="c-uf">—</span></div><div class="conf-sec" data-testid="conf-sec-4">Contato</div><div class="conf-row"><span class="conf-lbl">Celular</span><span class="conf-val" data-testid="c-celular" id="c-celular">—</span></div><div class="conf-row"><span class="conf-lbl">E-mail</span><span class="conf-val" data-testid="c-email" id="c-email">—</span></div><div class="conf-sec" data-testid="conf-sec-5">Documento de identificação</div><div class="conf-row"><span class="conf-lbl">Documento</span><span class="conf-val" data-testid="c-doc" id="c-doc">—</span></div><div class="conf-row"><span class="conf-lbl">Arquivos</span><span class="conf-val" data-testid="c-arquivos" id="c-arquivos">—</span></div></div>
-<div class="conf-flags"><p style="margin:22px 0 6px 0;">É optante pela reserva de vagas prevista na Lei Estadual nº 17.432/2021 para pessoas negras? <span data-testid="c-negros" id="c-negros" style="float:right;">—</span></p>
-<p style="margin:6px 0;">É optante pela reserva de vagas prevista na Lei Estadual nº 17.433/2021 para pessoas com deficiência? <span data-testid="c-pcd" id="c-pcd" style="float:right;">—</span></p>
+<div class="conf-flags"><p style="margin:22px 0 6px 0;">É optante pela reserva de vagas prevista no Edital nº 1 – SEFAZ/AL para pessoas negras? <span data-testid="c-negros" id="c-negros" style="float:right;">—</span></p>
+<p style="margin:6px 0;">É optante pela reserva de vagas prevista no Edital nº 1 – SEFAZ/AL para pessoas com deficiência? <span data-testid="c-pcd" id="c-pcd" style="float:right;">—</span></p>
 <p style="margin:6px 0;">Necessidade de atendimento especial? <span data-testid="c-atendimento" id="c-atendimento" style="float:right;">—</span></p>
 </div><div style="margin-top:28px;">
 <button data-testid="btn-alterar-dados" id="btn-alterar" style="padding:12px 24px;background:#e5e7eb;border:1.5px solid #6b7280;color:#0a2540;font-weight:700;font-size:14px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;border-radius:6px;margin:0 8px 0 0;min-width:180px;height:44px;box-sizing:border-box;" type="button">Alterar Dados</button>
@@ -817,7 +817,7 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
   set('c-sexo', sexoMap[d.SEXO] || '');
   set('c-vaga', d.__vaga_label || d.VAGA || '');
         set('c-uf-prova', ({'AL':'Alagoas','SP':'São Paulo','DF':'Distrito Federal','MS':'Mato Grosso do Sul','PR':'Paraná','MG':'Minas Gerais'}[d.UF_PROVA] || d.UF_PROVA || ''));
-        set('c-municipio-prova', d.MUNICIPIO_PROVA || '');
+        set('c-municipio-prova', ({'MACEIO/AL':'MACEIÓ/AL'}[d.MUNICIPIO_PROVA] || d.MUNICIPIO_PROVA || ''));
         // (c-lotacao removed)
   set('c-doc', d.DOC_TIPO);
   set('c-arquivos', (d.DOC_FRENTE_NAME || '') + (d.DOC_FRENTE_NAME && d.DOC_VERSO_NAME ? ' + ' : '') + (d.DOC_VERSO_NAME || ''));
@@ -928,9 +928,6 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
 <div class="links">
  © CEBRASPE — SEFAZ/AL 2026
  </div>
-<div class="DesenvolvimentoProSeleta">
- Desenvolvido por <a href="#">ProSeleta - Gestão de Processos Seletivos Online</a>
-</div>
 </div>
 </div>
 </div>
