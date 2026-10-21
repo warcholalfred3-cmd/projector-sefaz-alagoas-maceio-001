@@ -1,0 +1,32 @@
+{
+  "summary": "Ran a frontend-only retest of the mobile hamburger drawer bug, using Playwright device emulation (isMobile, hasTouch, Pixel 7 at 393x851 DPR2 and iPhone 13 at 390x844 DPR3). THE BUG IS NOT FIXED. On all 5 pages tested (pagamento-pix, inscricao-realizada, inscricao, dados-inscricao, confirmacao) #mnav opens but is only 56.8px tall instead of 844-851px. None of the 6 items or the 2 CTA buttons can be clicked (elementFromPoint misses them). The fix shipped in seduc-theme.js v19 is correctly applied (host overflow:visible, display:flow-root), but it does not address the real cause. ROOT CAUSE: line 20 of /app/frontend/public/cebraspe/chrome.css has '@media screen and (-webkit-min-device-pixel-ratio:1.25),(min-resolution:120dpi){.sfbody{transform:scale(0.8);transform-origin:top left;width:125%;height:125%}}'. Every real phone has DPR of 2 or more, so .sfbody gets a transform. A transformed element becomes the containing block for position:fixed descendants. So #mnav (top:0;bottom:0) is sized to the 71px .sfbody (71*0.8 = 56.8px), and #mnav-backdrop is clipped the same way. That is why the backdrop click does not close the menu. This also explains why the bug cannot be reproduced at DPR=1: the screenshot tool and desktop browsers there give a full-height drawer of 844px. minhas-inscricoes.html has the same broken drawer at DPR3, plus horizontal overflow. Proven in-page: injecting '.sfbody{transform:none!important;width:auto!important;height:auto!important}' under max-width:1000px gives a full-height 844px drawer at DPR3. The X close button works. Desktop at 1920 is fine on all 6 pages: header host 201px, horizontal menu visible, burger hidden, no horizontal scroll. Mobile header host height is 71px on all pages.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Mobile drawer #mnav (shadow root of #seduc-header-host)", "issue": "On HiDPI mobile (DPR>=1.25, which means every real phone) the drawer is only 56.8px tall and the items and CTAs are not visible or clickable. Caused by transform:scale(0.8) on .sfbody (chrome.css line 20), which makes .sfbody the containing block for position:fixed. Affects inscricao, dados-inscricao, confirmacao, pagamento-pix, inscricao-realizada, minhas-inscricoes. The v19 overflow fix has no effect.", "selector": "#mnav", "priority": "CRITICAL"},
+      {"component": "Mobile drawer backdrop", "issue": "#mnav-backdrop (fixed inset:0) is also confined to the transformed .sfbody, so tapping the dark area outside the header does not close the menu at DPR>=1.25. The X close button works.", "selector": "#mnav-backdrop", "priority": "HIGH"},
+      {"component": "minhas-inscricoes.html mobile layout", "issue": "At 390px DPR3 emulation the layout viewport grows to innerWidth=658 and scrollWidth=662, so the page has horizontal overflow and is zoomed out. At DPR1 it is fine (393). Likely the width:125% from the same DPR media query on the footer or header .sfbody.", "selector": "#vunesp-footer-host / .sfbody", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix the real cause in /app/frontend/public/cebraspe/chrome.css. Option A: inside the mobile media query (max-width:1000px), neutralise the DPR scale with '.sfbody{transform:none!important;width:auto!important;height:auto!important}'. Verified that this gives a full-height drawer. Then re-check header and logo sizing on mobile, since it is no longer scaled by 0.8.",
+    "Option B: keep the scale but move #mnav and #mnav-backdrop out of .sfbody, so they are direct children of the shadow root. Toggle the 'mnav-on' class on a non-transformed wrapper or on the host, and adjust the CSS selectors '.sfbody.mnav-on #mnav'.",
+    "Bump the chrome.css cache version (V='18' in seduc-theme.js is used for chrome.css and parts.json) so phones fetch the new CSS.",
+    "Test with deviceScaleFactor>=2 (e.g. Playwright device emulation). At DPR=1 the bug does not appear.",
+    "Investigate the horizontal overflow on minhas-inscricoes.html at DPR3 (innerWidth 658)."
+  ],
+  "critical_code_review_comments": [
+    "seduc-theme.js lines 40-41: the overflow:visible and display:flow-root workaround targets the wrong cause. An overflow:hidden ancestor does not clip position:fixed descendants; transform, filter and contain do. It is harmless, but it can be removed once the real fix is in.",
+    "chrome.css line 20: the global DPR-based transform:scale(0.8) with width/height 125% is a fragile legacy hack. It breaks fixed positioning and causes layout overflow on HiDPI devices."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "20% (desktop regression and X close pass; the drawer full height, item clickability and backdrop close fail at DPR>=2 on all pages)"},
+  "seed_data_creation": "none",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Use browser.new_context(viewport=390x844, device_scale_factor=3, is_mobile=True, has_touch=True) through page.context.browser in the browser tool. Check document.getElementById('seduc-header-host').shadowRoot.getElementById('mnav').getBoundingClientRect().height == innerHeight after clicking #mnav-open. Also check that the computed transform of .sfbody is 'none' on mobile, or that #mnav is not inside it.",
+  "rca of the issue": "Reproduction: emulate a phone with DPR 2 or 3, open /pagamento-pix.html and tap the burger. #mnav is 56.8px tall. Cause: the chrome.css media query (-webkit-min-device-pixel-ratio:1.25) sets .sfbody{transform:scale(0.8)}. Per the CSS spec, a transformed ancestor is the containing block for fixed descendants, so #mnav (top:0;bottom:0) takes the .sfbody height of 71px * 0.8. Mitigation: remove the transform on mobile, or move the drawer and backdrop outside the transformed element."
+}

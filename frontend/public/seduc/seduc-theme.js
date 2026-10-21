@@ -26,7 +26,16 @@ function host(id,html,cls,atTop){
 function menu(r){
  var wrap=r.querySelector('.sfbody'),dr=r.getElementById('mnav'),op=r.getElementById('mnav-open');
  if(!wrap||!dr||!op)return;
- function set(on){wrap.classList.toggle('mnav-on',on);dr.setAttribute('aria-hidden',on?'false':'true');document.documentElement.style.overflow=on?'hidden':'';}
+ // drawer fora do .sfbody (que recebe transform:scale em telas HiDPI e prenderia o position:fixed)
+ var bd=r.getElementById('mnav-backdrop'),layer=document.createElement('div');
+ layer.className='mnav-layer';
+ if(bd)layer.appendChild(bd);
+ layer.appendChild(dr);
+ r.appendChild(layer);
+ var ls=document.createElement('style');
+ ls.textContent='.mnav-layer.mnav-on #mnav{transform:none;visibility:visible;box-shadow:-8px 0 30px rgba(0,0,0,.15)}.mnav-layer.mnav-on #mnav-backdrop{opacity:1;pointer-events:auto}';
+ r.appendChild(ls);
+ function set(on){wrap.classList.toggle('mnav-on',on);layer.classList.toggle('mnav-on',on);dr.setAttribute('aria-hidden',on?'false':'true');document.documentElement.style.overflow=on?'hidden':'';}
  op.addEventListener('click',function(){set(true);});
  r.querySelector('#mnav .mnav-close').addEventListener('click',function(){set(false);});
  r.getElementById('mnav-backdrop').addEventListener('click',function(){set(false);});
@@ -36,9 +45,6 @@ function build(p){
  if(document.getElementById('seduc-header-host'))return;
  fontsLink();
  var hr=host('seduc-header-host',p.h,p.cls,true);
- var heEl=document.getElementById('seduc-header-host');
- if(heEl){heEl.style.setProperty('overflow','visible','important');heEl.style.setProperty('display','flow-root','important');}
- var mfix=document.createElement('style');mfix.textContent='.sfbody{overflow:visible!important;display:flow-root!important}';hr.appendChild(mfix);
  if(/minhas-inscricoes/.test(location.pathname)){hr.querySelectorAll('.header__action-follow-button,[data-testid=header-minhas-inscricoes-btn]').forEach(function(el){el.remove();});}
  menu(hr);
  document.querySelectorAll('#aocp-footer,.seduc-footer').forEach(function(el){el.remove();});
