@@ -303,9 +303,12 @@ body{overflow-x:hidden}
   @keyframes avpop{from{transform:translateY(14px) scale(.97);opacity:0}to{transform:none;opacity:1}}
   #aviso-modal .av-card{background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.35);padding:38px 34px 34px;text-align:center}
   #aviso-modal img.av-logo{display:block;margin:0 auto 20px;height:48px;width:auto}
-  #aviso-modal h2{margin:0 0 16px;font-size:28px;font-weight:800;color:#00385e;font-family:Arial,Helvetica,sans-serif}
+  #aviso-modal h2{margin:0 0 16px;font-size:28px;font-weight:800;color:#00385e;font-family:Arial,Helvetica,sans-serif;text-transform:none;letter-spacing:0}
   #aviso-modal p{margin:0 0 28px;font-size:16px;line-height:1.6;color:#30415a;font-family:Arial,Helvetica,sans-serif}
-  #aviso-modal .av-btn{appearance:none;border:0;cursor:pointer;background:#00385e;color:#fff;font-size:17px;font-weight:700;font-family:Arial,Helvetica,sans-serif;padding:14px 40px;border-radius:999px;transition:background .15s,transform .15s}
+  #aviso-modal p strong{font-family:inherit}
+  #aviso-modal .av-btn{appearance:none;border:0;outline:none;cursor:pointer;background:#00385e;color:#fff;font-size:17px;font-weight:700;font-family:Arial,Helvetica,sans-serif;padding:14px 40px;border-radius:999px;transition:background .15s,transform .15s}
+  #aviso-modal .av-btn:focus{outline:none}
+  #aviso-modal .av-btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(0,56,94,.3)}
   #aviso-modal .av-btn:hover{background:#012744;transform:translateY(-1px)}
   @media(max-width:480px){#aviso-modal .av-card{padding:30px 22px 26px}#aviso-modal h2{font-size:23px}#aviso-modal p{font-size:15px}}
 </style>

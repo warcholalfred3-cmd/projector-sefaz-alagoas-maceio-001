@@ -1,0 +1,29 @@
+{
+  "summary": "Frontend-only retest of the 'Aviso importante' <dialog> modal on /inicio.html (public URL). All 5 requested checks PASS on desktop 1440x820 and mobile 390x844. The modal opens about 300ms after load with scrollY=0. It is :modal (top layer) and exactly centered in the viewport: desktop rect top=235.7, bottom=584.3, centre offset dx=0, dy=0; mobile top=249.6, bottom=594.4, left=20, right=370, offset 0/0. elementFromPoint at the viewport centre lands inside the dialog. The Cebraspe logo loads (naturalWidth>0, alt='Cebraspe'), and the title, the 21/10/2026 23h59 text and the OK button all render. 'OK, entendi' closes the modal and sets sessionStorage sefaz_aviso_modal_shown=1. Two reloads in the same session do not show it again. After clearing sessionStorage, and in a new tab, it appears again. ESC and a click on the backdrop also close it. There is no horizontal overflow on mobile. The original positioning bug is fixed.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "inicio.html aviso modal", "issues": [
+        "Title renders as 'AVISO IMPORTANTE' (uppercase), probably from the site's global h2 text-transform. If sentence case is wanted, add text-transform:none to #aviso-modal h2.",
+        "The <strong> date/time (21/10/2026, 23h59) uses a different font (global strong font-family) from the Arial paragraph, so it looks inconsistent. Add font-family:inherit to #aviso-modal strong.",
+        "The auto-focused 'OK, entendi' button shows the site's red dashed focus outline as soon as the modal opens, which looks like an error state. Consider :focus-visible styling with a subtle ring."
+      ]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional cosmetic: #aviso-modal h2{text-transform:none} and #aviso-modal strong{font-family:inherit}, and soften the red dashed focus outline on #aviso-modal-ok"
+  ],
+  "critical_code_review_comments": [
+    "mark() runs on open (not only on close), so a user who reloads before clicking OK will not see the modal again in that session. This is acceptable for 'once per session'.",
+    "There is a fallback for browsers without showModal (position:fixed). This is fine."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Modal is <dialog id='aviso-modal' data-testid='aviso-importante-modal'>, button data-testid='aviso-importante-ok', sessionStorage key 'sefaz_aviso_modal_shown'. Test pitfall: if you clear sessionStorage right after the first navigation, the pending 300ms setTimeout sets the key again. Wait about 800ms before clearing and reloading."
+}
