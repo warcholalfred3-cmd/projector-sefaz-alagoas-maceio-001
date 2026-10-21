@@ -296,4 +296,39 @@ body{overflow-x:hidden}
   window.addEventListener('pageshow', function(ev){ if (ev.persisted) loader.classList.remove('on'); });
 })();
 </script>
+<style>
+  #aviso-modal-overlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;background:rgba(10,20,40,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);padding:20px}
+  #aviso-modal-overlay.on{display:flex;animation:avfade .25s ease}
+  @keyframes avfade{from{opacity:0}to{opacity:1}}
+  #aviso-modal{width:100%;max-width:520px;background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.35);padding:38px 34px 34px;text-align:center;animation:avpop .28s cubic-bezier(.2,.8,.25,1)}
+  @keyframes avpop{from{transform:translateY(14px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+  #aviso-modal img.av-logo{display:block;margin:0 auto 20px;height:48px;width:auto}
+  #aviso-modal h2{margin:0 0 16px;font-size:28px;font-weight:800;color:#00385e;font-family:Arial,Helvetica,sans-serif}
+  #aviso-modal p{margin:0 0 28px;font-size:16px;line-height:1.6;color:#30415a;font-family:Arial,Helvetica,sans-serif}
+  #aviso-modal .av-btn{appearance:none;border:0;cursor:pointer;background:#00385e;color:#fff;font-size:17px;font-weight:700;font-family:Arial,Helvetica,sans-serif;padding:14px 40px;border-radius:999px;transition:background .15s,transform .15s}
+  #aviso-modal .av-btn:hover{background:#012744;transform:translateY(-1px)}
+  @media(max-width:480px){#aviso-modal{padding:30px 22px 26px}#aviso-modal h2{font-size:23px}#aviso-modal p{font-size:15px}}
+</style>
+<div id="aviso-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="aviso-modal-title" data-testid="aviso-importante-modal">
+  <div id="aviso-modal">
+    <img class="av-logo" src="/seduc/email-logo-cebraspe.png" alt="Cebraspe" />
+    <h2 id="aviso-modal-title">Aviso importante</h2>
+    <p>As inscrições para o Concurso Público da Secretaria de Estado da Fazenda de Alagoas (SEFAZ/AL) encerram-se nesta quarta-feira, dia <strong>21/10/2026</strong>, às <strong>23h59</strong> (horário de Brasília).</p>
+    <button type="button" class="av-btn" id="aviso-modal-ok" data-testid="aviso-importante-ok">OK, entendi</button>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='sefaz_aviso_modal_shown';
+  try{ if(sessionStorage.getItem(KEY)==='1') return; }catch(e){}
+  var overlay=document.getElementById('aviso-modal-overlay');
+  var btn=document.getElementById('aviso-modal-ok');
+  function close(){ overlay.classList.remove('on'); try{sessionStorage.setItem(KEY,'1');}catch(e){} }
+  function open(){ overlay.classList.add('on'); try{sessionStorage.setItem(KEY,'1');}catch(e){} }
+  btn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && overlay.classList.contains('on')) close(); });
+  setTimeout(open, 400);
+})();
+</script>
 </body></html>
