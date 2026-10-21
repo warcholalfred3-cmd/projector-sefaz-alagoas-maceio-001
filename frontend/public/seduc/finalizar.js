@@ -18,10 +18,10 @@
   function payload(d, withForm){
     var extra = {
       nome: d.NOME || '', cpf: d.CPF || '', email: d.EMAIL || '',
-      concurso: d.__concurso || 'Concurso Público para Professor da Secretaria da Educação do Estado do Ceará (SEDUC/CE) - Edital 014/2026',
-      edital: d.__edital || '014/2026-SEDUC/SEPLAG',
+      concurso: d.__concurso || 'SEFAZ/AL 2026 - Cebraspe',
+      edital: d.__edital || 'SEFAZ_AL_26',
       cargo_codigo: d.__cargo_codigo || '', cargo_titulo: d.__cargo_titulo || '',
-      taxa: d.__taxa || '', valor: d.__valor || 150,
+      taxa: d.__taxa || '', valor: d.__valor || 300,
       protocolo: protocolo(d),
       stage: 'inscricao_finalizada', finalized: true, finalizado: true,
       visitor_id: vid()

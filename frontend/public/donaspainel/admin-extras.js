@@ -711,7 +711,7 @@
       'Pix Key Used At': 1
     };
     /* Labels para RENOMEAR */
-    var renameLabels = { 'Pix Key Used': 'Chave pix usada', 'Cargo Titulo': 'Curso', 'Cargo Título': 'Curso' };
+    var renameLabels = { 'Pix Key Used': 'Chave pix usada', 'Cargo Titulo': 'Cargo', 'Cargo Título': 'Cargo' };
 
     var foundUsed = false;
     var processedCount = 0;
