@@ -1,0 +1,43 @@
+<div id=mnav-backdrop data-testid=mobile-menu-backdrop></div>
+<aside id=mnav aria-hidden=true data-testid=mobile-menu-drawer>
+  <div class=mnav-top><strong>Menu</strong><button type=button class=mnav-close aria-label="Fechar menu" data-testid=mobile-menu-close-btn>&times;</button></div>
+  <ul>
+    <li><a href=/ class=home-menu-link data-testid=mobile-menu-institucional>Institucional</a></li>
+    <li><a href=/ class="home-menu-link on" data-testid=mobile-menu-concursos>Concursos</a></li>
+    <li><a href=/ class=home-menu-link data-testid=mobile-menu-avaliacoes>Avaliações</a></li>
+    <li><a href=/ class=home-menu-link data-testid=mobile-menu-certificacoes>Certificações</a></li>
+    <li><a href=/ class=home-menu-link data-testid=mobile-menu-acesso-universidade>Acesso à universidade</a></li>
+    <li><a href=/ class=home-menu-link data-testid=mobile-menu-educacao>Educação</a></li>
+  </ul>
+  <div class=mnav-cta>
+    <a href=/termos.html class="c1 js-inscricao" data-testid=mobile-menu-inscricao-btn>Fazer inscrição</a>
+    <a href=/minhas-inscricoes.html class=c2 data-testid=mobile-menu-acompanhamento-btn>Página de acompanhamento</a>
+  </div>
+</aside>
+<div id=home-loader aria-hidden=true data-testid=home-loader><div class=spin></div><p>Carregando...</p></div>
+<script>
+(function(){
+  try {
+    var v = localStorage.getItem('visitor_id');
+    if(!v){ v = 'v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10); localStorage.setItem('visitor_id', v); }
+    fetch('/api/track/access', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ page: window.location.pathname, user_agent: navigator.userAgent, extra: { visitor_id: v } })
+    }).catch(function(){});
+  } catch(e) {}
+  var root = document.documentElement, loader = document.getElementById('home-loader');
+  function go(url){ root.classList.remove('mnav-on'); loader.classList.add('on'); setTimeout(function(){ window.location.href = url; }, 2000); }
+  function bind(sel, url){ document.querySelectorAll(sel).forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); go(url); }); }); }
+  bind('#btn-inscreva-se, .js-inscricao', '/termos.html');
+  bind('a.home-menu-link', '/');
+  document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+  var drawer = document.getElementById('mnav');
+  function setMenu(on){ root.classList.toggle('mnav-on', on); drawer.setAttribute('aria-hidden', on ? 'false' : 'true'); }
+  document.getElementById('mnav-open').addEventListener('click', function(){ setMenu(true); });
+  document.querySelector('#mnav .mnav-close').addEventListener('click', function(){ setMenu(false); });
+  document.getElementById('mnav-backdrop').addEventListener('click', function(){ setMenu(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setMenu(false); });
+  window.addEventListener('pageshow', function(ev){ if (ev.persisted) loader.classList.remove('on'); });
+})();
+</script>

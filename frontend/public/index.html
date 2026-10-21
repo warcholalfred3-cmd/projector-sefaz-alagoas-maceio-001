@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="description" content="Cebraspe | SEFAZ/AL 2026" />
+        <meta http-equiv="refresh" content="0; url=/inicio.html" />
+        <title>Cebraspe | SEFAZ/AL 2026</title>
+        <script>window.location.replace('/inicio.html');</script>
+    </head>
+    <body>
+<style id="__pl_style">
+#__page_loader{position:fixed;inset:0;background:rgba(255,255,255,.92);z-index:2147483646;display:flex;align-items:center;justify-content:center;transition:opacity .25s;opacity:1}
+#__page_loader.__hidden{opacity:0;pointer-events:none}
+#__page_loader .__spinner{width:52px;height:52px;border:4px solid #e4e9ef;border-top-color:#1858BF;border-radius:50%;animation:__pl_spin .8s linear infinite}
+@keyframes __pl_spin{to{transform:rotate(360deg)}}
+</style>
+<div id="__page_loader" aria-hidden="true"><div class="__spinner"></div></div>
+<script id="__pl_js">
+(function(){
+  var loader=document.getElementById('__page_loader');
+  function show(){ if(loader) loader.classList.remove('__hidden'); }
+  function hide(){ if(loader) loader.classList.add('__hidden'); }
+  var t0=Date.now();
+  function scheduleHide(){ var wait=Math.max(0,700-(Date.now()-t0)); setTimeout(hide,wait); }
+  if(document.readyState==='complete') scheduleHide();
+  else window.addEventListener('load',scheduleHide);
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest&&e.target.closest('a[href]');
+    if(!a) return;
+    var href=a.getAttribute('href')||'';
+    if(!href||href.charAt(0)==='#'||/^javascript:/i.test(href)||a.target==='_blank') return;
+    try{ var u=new URL(href,window.location.href); if(u.origin!==window.location.origin) return; }catch(err){ return; }
+    show();
+  },true);
+  document.addEventListener('submit',show,true);
+  window.addEventListener('beforeunload',show);
+})();
+</script>
+
+        <noscript>Você precisa habilitar o JavaScript para acessar este site.</noscript>
+        <div id="root"></div>
+    </body>
+</html>

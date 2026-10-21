@@ -1,0 +1,25 @@
+{
+  "summary": "Frontend-only test of the Polo -> Curso selects on /dados-inscricao.html. Almost everything passed. select-polo has the placeholder 'Selecione o polo' and 25 polos, sorted with pt-BR localeCompare: Araçatuba, Araraquara, Assis, Bauru, Botucatu ... Sorocaba, Tupã, with Treineiro last. select-vaga is disabled and shows 'Selecione o polo primeiro' until a polo is chosen; it then shows the 'Informe o Curso' placeholder. Course counts: Bauru 28 (all end in /Bauru), Araraquara 17, Sorocaba 2, Treineiro 1 (value 178). The counts add up to 183 courses, and every course belongs to its own polo. Changing the polo resets the course to ''. Clearing the polo disables the course select again. btn-cadastrar stays disabled until both polo and course are set, and changing the polo disables it again. Full flow: Bauru 'Ciência da Computação - Bacharelado - integral - FC/Bauru' -> confirmacao c-vaga (label 'Curso Escolhido') shows the full name. Revisiting dados restored polo Bauru and the same course. I then switched to Treineiro -> confirmacao -> finalize -> inscricao-realizada shows R$ 225,00 -> pagamento-pix shows R$ 225,00 with the QR code and the PIX code. No horizontal overflow at 1920 or 390 (on mobile both selects run from 45px to 345px). One edge-case bug in restore, described below.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "dados-inscricao restore (generic restore script plus the polo_curso.html script)", "issue": "If the saved inscricao_dados has the VAGA key before the POLO key, the course is lost on restore. The generic restore loop sets VAGA, then sets POLO and dispatches 'change'. That calls fill() with no keep value, which rebuilds the options and resets VAGA to ''. Reproduced with localStorage {NOME,VAGA:'178',POLO:'Treineiro'}: the polo was restored but the course was empty. The normal first-time flow writes POLO before VAGA, so it works. Real trigger: a user whose data was saved before this feature has VAGA at an earlier key position. After their next submit, Object.assign(prev, data) appends POLO after VAGA, so the next revisit loses the course.", "selector": "#POLO, #VAGA", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix in /app/memory/home_build/polo_curso.html (then rebuild) using either option: (a) have the generic restore loop skip the POLO/VAGA keys, since polo_curso already restores them from VAGA; or (b) in the polo 'change' handler, keep the current VAGA if it still belongs to the selected polo, e.g. fill(vaga.value)."
+  ],
+  "critical_code_review_comments": [
+    "Polo order follows pt-BR localeCompare, so Araçatuba comes before Araraquara. That is correct for Portuguese, but the review request listed Araraquara first. Confirm which order is intended.",
+    "The course placeholder changes from 'Selecione o polo primeiro' to 'Informe o Curso' once a polo is chosen. This is fine; just noting it."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "95% (1 edge-case restore bug)"},
+  "seed_data_creation": "Created 1 inscription (TEST_ POLO CURSO, CPF 71625779208, teste@example.com). Cleanup removed cadastros 1, registrations 4, pix_generated 1 and inscricoes 1. localStorage was cleared.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Same flow as iteration_35. On dados, select #POLO (select-polo) by value (e.g. 'Bauru' or 'Treineiro'), then #VAGA by index or value; Treineiro is value 178. To reproduce the restore bug: localStorage.setItem('inscricao_dados', JSON.stringify({VAGA:'178',POLO:'Treineiro'})), reload dados and check that #VAGA is still '178'."
+}

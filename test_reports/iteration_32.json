@@ -1,0 +1,29 @@
+{
+  "summary": "Retest of the admin-extras.js fixes (frontend only). Both bugs from iteration 31 are FIXED. Setup: 2 finalized inscriptions for CPF 111.444.777-35 via POST /api/track/registration (course 141 Música Sopros and course 178 Treineiro). /api/admin/inscriptions returned them in this order: 178, then 141. The Inscrições list showed the same order: row 1 .adm-vaga-inline = 'Treineiro', row 2 = the full Música name. The Exibir modal of each row agreed with its row (it uses native data: row 1 Curso = Treineiro, row 2 Curso = Música), so the row-order matching is correct. Modal: E-mail = teste@example.com (not overwritten), the label reads 'Curso' (no 'Cargo Titulo'), and there are no .adm-vaga-inline elements inside the modal. Mapping stayed correct after closing the modals, after 'Atualizar', and when searching by name or by raw CPF. The Cadastro eye button (btn-exibir-cadastro) opens the modal and shows Nome/CPF/E-mail/Último concurso/Inscrições=2/Data. Cleanup done: deleted both test inscriptions plus cadastros 11144477735 and 52998224725 (the latter left over from iteration 31).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Admin Inscrições search", "issue": "Searching by formatted CPF '111.444.777-35' returns 0 rows. Searching by raw digits '11144477735' or by name works. This is native panel search behavior and probably existed before.", "selector": "input[placeholder*='Buscar']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Cadastro details modal", "issues": ["An extra white 👁 button appears in the purple modal header between the name and the close X. It looks like it was injected by mistake (adm-view-btn injected into the modal header?)."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: stop the stray 👁 button from being injected into the Cadastro modal header.",
+    "Optional: make the inscriptions search accept a formatted CPF (strip non-digits).",
+    "Latent risk: matching assumes the DOM list order equals the /api/admin/inscriptions order for each CPF. If a status filter or pagination hides one of a CPF's inscriptions, the shown row gets inscs[0], which may be the wrong course. Consider matching by protocolo or created_at text, which are already in the row and modal."
+  ],
+  "critical_code_review_comments": [
+    "enrichInscriptionRows idx-per-CPF mapping breaks when the visible list is a filtered subset (status filter) or a later page, because the 'seen' counter starts from the first API item for that CPF and not from the visible subset."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "skipped", "frontend": "100% of requested checks (4/4)"},
+  "test_credentials": "Admin donas / Seinao10@@",
+  "seed_data_creation": "Created and then deleted 2 inscriptions plus a cadastro for CPF 11144477735. Also deleted the leftover cadastro 52998224725 from iteration 31.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "admin-extras.js?v=q2. Admin login on /donaspainel: the inputs have no type=text, so use locator('input').nth(0/1). Inscrições rows carry data-adm-enriched; the course is in .adm-vaga-inline. The details modal uses .kv-k labels. The Cadastro eye button is [data-testid=btn-exibir-cadastro]."
+}

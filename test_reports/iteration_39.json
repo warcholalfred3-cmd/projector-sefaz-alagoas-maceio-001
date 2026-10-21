@@ -1,0 +1,14 @@
+{
+  "summary": "Mobile decl-veracidade checkbox fix verified. At 390x844 the checkbox is display:block and sits fully above the text on both /inscricao.html and /dados-inscricao.html (checkbox bottom <= text top, text starts at the label's left padding). Clicking it still checks it. At 1920 desktop it stays inline-block beside the text, so desktop is unchanged. On dados-inscricao at 390px, after the required selects (POLO, VAGA, MUNICIPIO_PROVA) were filled, the Cadastrar button was disabled before the box was checked and enabled after.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": ["Fix is a single @media(max-width:767px) rule at the end of /app/memory/home_build/pages.css (display:block; float/position reset; margin 0 0 10px). Fine."],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Measure with a Range from after the checkbox to the end of the label (getClientRects) to get the text's top and left. Button enabling was checked on dados-inscricao only; the inscricao.html validateForm logic was not changed by the CSS."
+}

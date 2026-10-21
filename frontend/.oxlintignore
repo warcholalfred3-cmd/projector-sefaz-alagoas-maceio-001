@@ -1,0 +1,6 @@
+node_modules
+build
+dist
+public/donaspainel
+public/static
+**/*.min.js

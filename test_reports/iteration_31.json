@@ -1,0 +1,33 @@
+{
+  "summary": "Tested the swap from the 183 Unesp courses replacing the SEDUC cargo list. Candidate flow PASSES. /dados-inscricao.html: select-vaga is labeled 'Curso' and has the placeholder 'Informe o Curso' plus exactly 183 options. The options match cursos.txt line for line and in the same order. Every option has data-price 225.00 and no 'Professor' option remains. Two runs: the long Música (Sopros) course at 1920 and Treineiro at 390. In both, the full course name is shown on confirmacao (c-vaga, 'Curso Escolhido'), inscricao-realizada (r-vaga, R$ 225,00), pagamento-pix (p-vaga, p-valor R$ 225,00, PIX code 5406225.00) and minhas-inscricoes ('Curso' row, R$ 225,00). The backend stores the full cargo_titulo with valor 225 and taxa 'R$ 225,00'. Mobile 390: scrollWidth is 390 on every page, even with the long name; the select is 300px wide and the long text wraps cleanly. ADMIN BUG: when one CPF has more than one inscription, the Inscrições list shows the wrong course. admin-extras.js matches rows by CPF+valor, and every fee is now 225, so each row of that CPF gets the first course in the list. The 'Exibir' modal's E-mail field is also replaced with a course name.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Admin Inscrições list (/donaspainel, admin-extras.js enrichInscriptionRows ~L285-300)", "issue": "With 2 inscriptions for the same CPF (Música 141 + Treineiro 178), BOTH rows showed 'Treineiro'. The row finds its inscription by CPF + valor, and every fee is now 225, so it always takes inscs[0]. The API data is correct.", "selector": ".adm-vaga-inline", "priority": "HIGH"},
+      {"component": "Admin 'Exibir' details modal", "issue": "In the Identificação section the E-mail field shows a course name ('Treineiro') instead of the email. enrichInscriptionRows treats every leaf element with an email that sits near a CPF and 'R$' text as a list row, and the modal matches that. It also used the wrong course. In 'Outros dados' the label is still 'Cargo Titulo' (should be 'Curso').", "selector": "modal Detalhes do candidato", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "/dados-inscricao.html & /confirmacao.html", "issues": ["Neither page shows the taxa R$ 225,00. The value first appears on inscricao-realizada. Consider adding a 'Taxa' row on confirmacao or a note under the Curso select."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_cursos_unesp.py", "/app/test_reports/pytest/pytest_cursos.xml"],
+  "action_items": [
+    "Fix admin-extras.js enrichInscriptionRows: pick the inscription by row order/created_at/protocolo + cargo instead of CPF+valor. Skip elements inside the details modal so the E-mail field is not overwritten.",
+    "Rename the 'Cargo Titulo' label in the admin details modal to 'Curso'.",
+    "Optional: show 'Taxa: R$ 225,00' on dados-inscricao or confirmacao.",
+    "Optional cleanup: inscricao-realizada.html fallback (when __taxa is missing) still uses the old 120/160 SEDUC logic and should fall back to 225. /index.html meta title/description still say 'Professor SEDUC 2026'."
+  ],
+  "critical_code_review_comments": [
+    "admin-extras.js uses DOM text scraping (looks for '@' leaf + CPF + R$ in ancestors) to inject course names. This is fragile and caused the wrong-course/email-overwrite bug.",
+    "The protocolo comes only from the CPF ('2026'+last 6 digits), so two inscriptions from the same CPF get the same protocolo (seen: both 2026224725).",
+    "Course codes are now '1'..'183', while backend docs/comments mention '01103'/'COD' formats. They work, but the comments are stale."
+  ],
+  "updated_files": ["/app/backend/tests/test_cursos_unesp.py"],
+  "success_rate": {"backend": "100% (3/3)", "frontend": "90% (candidate flow 100%; admin list wrong course for multi-inscription CPF)"},
+  "test_credentials": "Admin donas / Seinao10@@ (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "Test inscriptions for CPFs 52998224725 and 11144477735 were created and then deleted.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Fast setup: seed localStorage inscricao_dados {NOME,CPF,EMAIL,DATA_NASCIMENTO,SEXO} on /dados-inscricao.html, reload, select course + municipio + termo, then click btn-cadastrar. Long course is index 141, Treineiro is 178. To reproduce the admin bug: finalize 2 different courses with the same CPF, then open /donaspainel > Inscrições."
+}

@@ -1,0 +1,14 @@
+{
+  "summary": "Backend-only short test of lembrete email fix. 3/3 pass: resumo total>=1; track_registration falls back to cadastros form_data.EMAIL when finalized POST lacks lowercase email (inscricoes.email='delivered@resend.dev'); resumo backfills empty inscricoes.email from cadastros. Mass reminder POST NOT triggered. Test docs (CPF 99988877766) cleaned up.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": ["/app/backend/tests/test_lembrete_email_fallback.py", "/app/test_reports/pytest/pytest_lembrete.xml"],
+  "action_items": [],
+  "critical_code_review_comments": ["_lembrete_backfill_emails does one cadastros lookup per empty-email inscricao on every resumo GET; fine at current scale but could be slow with many rows."],
+  "updated_files": ["/app/backend/tests/test_lembrete_email_fallback.py"],
+  "success_rate": {"backend": "100%", "frontend": "N/A"},
+  "seed_data_creation": "Temporary CPF 99988877766 docs created and deleted by fixture teardown",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Test file self-cleans; never call the lembrete-pagamento POST (sends real emails)."
+}

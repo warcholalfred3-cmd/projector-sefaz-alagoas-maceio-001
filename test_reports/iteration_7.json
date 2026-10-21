@@ -1,0 +1,23 @@
+{
+  "summary": "Verified bug fix for mobile document upload. On MOBILE viewport (390x844) and DESKTOP (1920x1080), the /inscricao form now waits for POST /api/track/documents to complete before navigating to /dados-inscricao.html (with 20s fallback). Both flows produced a REQ + 200 RESP, and both CPFs appear in GET /api/admin/documentos with has_frente=true and has_verso=true. Backend endpoints (POST /api/track/documents, GET /api/admin/documentos, GET /api/admin/documentos/{cpf}/{tipo}) tested via pytest — all pass.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_documents_upload.py",
+    "/app/test_reports/pytest/documents_upload.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "admin_routes.py is very large (~1740 lines). Recommend splitting into routers per resource (auth, cadastros, inscricoes, documentos, pix, telegram) to reduce file size below 700 lines each.",
+    "Endpoint GET /api/admin/documentos/{cpf}/{tipo} accepts token via query param but ignores Authorization header — inconsistent with other admin routes. Consider supporting both (use Depends(security) and fall back to token query).",
+    "In /api/track/documents there is no upper-bound size validation for doc_frente/doc_verso base64 payloads — a malicious client could send very large payloads to blow up Mongo. Add a max size check (e.g., <5MB per doc).",
+    "docsUpload fallback timeout is 20s and the user is redirected even if the upload silently fails — consider also awaiting the response.ok flag and showing a warning if upload failed."
+  ],
+  "updated_files": ["/app/backend/tests/test_documents_upload.py"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "Two synthetic CPFs created via mobile/desktop flow (TESTE MOBILE DOC / TESTE DESKTOP DOC) — these can be cleaned up by admin later.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Bug fix for mobile document upload is confirmed. inscricao.html now (1) compresses images client-side to 1600px jpeg 0.8, (2) awaits POST /api/track/documents before navigating (20s fallback). Backend admin_routes.py has separate endpoints /track/documents (saves form_data.doc_frente/doc_verso by CPF) and /admin/documentos (lists cadastros that have any doc). Admin login: farpa / Ads102030. Note: /api/admin/documentos/{cpf}/{tipo} requires token as query param, not Authorization header.",
+  "rca of the issue": "Original bug: on mobile, page navigated via setTimeout(1000) BEFORE the base64 upload of the (large) document finished, causing the browser to cancel the in-flight fetch. Fix: (a) client-side compression via canvas MAX 1600px jpeg 0.8 shrinks the payload; (b) navigation moved to docsUpload.then(__irProxima) with setTimeout(20000) fallback ensuring the request completes before unloading. E2E validated on 390x844 mobile viewport — request/response captured and CPF present in /admin/documentos."
+}

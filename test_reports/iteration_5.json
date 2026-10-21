@@ -1,0 +1,33 @@
+{
+  "summary": "End-to-end smoke test after pod restart. Backend + Frontend confirmed ONLINE. All 6 requested checks executed. 5/6 pass as specified; 1 mismatch is expected due to the rebrand from iteration 4 (see notes).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results": {
+    "GET /api/": "PASS - HTTP 200 {\"message\":\"Painel Administrativo API\"}",
+    "POST /api/admin/auth/login (farpa/Ads102030)": "PASS - HTTP 200, JWT returned, user.username='farpa'",
+    "POST /api/admin/auth/login (wrong password)": "PASS - HTTP 401 {\"detail\":\"Credenciais inválidas\"}",
+    "Frontend / (home Cebraspe PC-MA)": "PASS - Cebraspe layout renders with 'CONCURSO DA POLÍCIA CIVIL DO ESTADO DO MARANHÃO (PC_MA_26)', 357 vagas, cargo 'OFICIAL INVESTIGADOR DE POLÍCIA'",
+    "Admin route /farpapainel": "MISMATCH - Route intentionally redirects to '/' via craco devServer (craco.config.js line 175-178 'Rota antiga /farpapainel* redireciona para a home'). Current admin route is /donaspainel (verified: loads 'Concurso PC MA 26' admin login screen at /donaspainel#/login with USUÁRIO/SENHA + Entrar button).",
+    "GET /api/cep/01310100": "PASS - HTTP 200 returns full ViaCEP payload (Avenida Paulista, Bela Vista, São Paulo/SP, IBGE 3550308)"
+  },
+  "test_report_links": ["/app/test_reports/farpapainel.png"],
+  "action_items": [
+    "Clarify with the user: the admin panel path was rebranded to /donaspainel in iteration 4 and /farpapainel is now a hard redirect to '/'. If the user still wants /farpapainel to serve the admin bundle, remove the redirect at /app/frontend/craco.config.js lines 175-183. Otherwise, update the task documentation and memory/test_credentials.md to use /donaspainel."
+  ],
+  "critical_code_review_comments": [
+    "craco.config.js contains SPA/route middleware only in devServer, so behavior in a build/served-static deployment could differ from dev. Currently the preview URL is running dev server, so redirect works.",
+    "Legacy pytest files in /app/backend/tests/ still reference the old flow; not run in this iteration."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (4/4 backend checks pass: /api/, login OK, login FAIL, /api/cep)", "frontend": "100% (home + /donaspainel login render; /farpapainel behavior matches current codebase intent)"},
+  "test_credentials": "farpa / Ads102030 (verified working via API). donas / Seinao10@@ also seeded. Admin UI at /donaspainel.",
+  "seed_data_creation": "None (farpa already present in admins collection)",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend + frontend healthy after pod restart. All /api endpoints tested via curl pass. /farpapainel is redirected to home by design (craco.config.js). Actual admin panel is at /donaspainel (React-Router hash) and shows 'Concurso PC MA 26' branding. The user's task description still mentions /farpapainel as the admin route which contradicts the current codebase after iteration 4 rebrand — surface this to the main agent for clarification.",
+  "rca of the issue": "N/A — smoke test only. The /farpapainel discrepancy is not a bug; it is an intentional redirect introduced during the rebrand in iteration 4."
+}

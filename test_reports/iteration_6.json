@@ -1,0 +1,52 @@
+{
+  "summary": "Validated the R$120 -> R$180 PIX valor bug fix on both backend and frontend. Backend endpoint /api/pix/generate correctly enforces the inscription's real valor as source of truth (5406180.00) even when the client sends valor=120. Frontend page /pagamento-pix.html correctly displays R$180,00 in the intended flow (with __valor=180 or with __valor missing -> fallback). Admin panel (/api/admin/inscriptions and /api/admin/dashboard/kpis) shows valor=180.0 and valor_total=180.0 for the seeded inscription CPF 23079653785. 8/8 pytest backend regression tests pass.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "pagamento-pix.html",
+        "issue": "Display 'Valor' (#p-valor) is populated from sessionStorage.__valor without cross-checking the authoritative value returned by /api/pix/generate (res.data.valor). If sessionStorage has stale/wrong __valor (e.g. 120), the visible text shows 'R$ 120,00' while the generated PIX code correctly encodes 5406180.00 -> user-visible amount disagrees with actual PIX amount. In the intended candidate flow this does not occur (dados-inscricao.html writes __valor=180 from data-price), so the reported bug for real users is FIXED. Recommend making the backend response the single source of truth for the display too (setText('p-valor', fmtBRL(res.data.valor)) after fetch).",
+        "selector": "#p-valor",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results": {
+    "GET /api/": "PASS (200)",
+    "POST /api/admin/auth/login farpa/Ads102030": "PASS (200, token issued)",
+    "POST /api/admin/auth/login wrong pw": "PASS (401)",
+    "POST /api/pix/generate cpf=23079653785 valor=120": "PASS - response.valor=180.0, pix_code contains 5406180.00, does NOT contain 5406120.00",
+    "POST /api/pix/generate cpf=23079653785 valor=180": "PASS - pix_code has 5406180.00",
+    "POST /api/pix/generate cpf=23079653785 (no valor)": "PASS - pix_code has 5406180.00 (defaults from inscription)",
+    "GET /api/admin/inscriptions": "PASS - 1 item, cpf=23079653785, valor=180.0, cargo=OFICIAL INVESTIGADOR DE POLÍCIA, status='PIX gerado'",
+    "GET /api/admin/dashboard/kpis": "PASS - valor_total=180.0, inscricoes=1",
+    "Frontend /pagamento-pix.html [__valor=180]": "PASS - p-valor='R$ 180,00', pix_code has 5406180.00",
+    "Frontend /pagamento-pix.html [no __valor - fallback]": "PASS - p-valor='R$ 180,00'",
+    "Frontend /pagamento-pix.html [__valor=120 forced]": "PARTIAL - p-valor shows 'R$ 120,00' (frontend trusts sessionStorage) BUT pix_code correctly has 5406180.00 (backend forces 180). User will be charged 180 - display/QR mismatch."
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_pix_valor_fix.py",
+    "/app/test_reports/pytest/pix_valor_fix.xml"
+  ],
+  "action_items": [
+    "OPTIONAL (defense in depth): update /app/frontend/public/pagamento-pix.html so that after receiving /api/pix/generate response, it overwrites the displayed 'Valor' with res.data.valor: e.g. `setText('p-valor', fmtBRL(res.data.valor));` inside the success branch (around line 890). This eliminates the theoretical display/PIX-code mismatch if sessionStorage ever carries a wrong __valor. Not blocking for the reported bug — the intended candidate flow now works correctly."
+  ],
+  "critical_code_review_comments": [
+    "pagamento-pix.html: Backend PIX response already returns authoritative valor but frontend keeps showing the sessionStorage value; consider using backend response as UI source of truth for the amount.",
+    "confirmacao.html sends taxa/valor as body params to /api/track/registration — good, but ensure backend also normalises against inscription valor (already done in /api/pix/generate).",
+    "CSP: static.cloudflareinsights.com script blocked by CSP (script-src 'self' 'unsafe-inline' data:). Harmless (only telemetry) but noisy in console.",
+    "SEXO select uses non-semantic values ('0' MASCULINO, '1' FEMININO) — should be 'M'/'F' for readability, but functional."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_pix_valor_fix.py (created)"
+  ],
+  "success_rate": {"backend": "100% (8/8 pytest)", "frontend": "PIX page display 3/3 scenarios expected results (2 fully correct, 1 partial where display trusts stale local data)"},
+  "test_credentials": "Admin: farpa / Ads102030 (verified). Existing test inscription CPF: 23079653785 with valor=180.",
+  "seed_data_creation": "None. Existing inscription (cpf=23079653785) was used.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Bug R$120 -> R$180 is fixed for the real candidate flow. Backend /api/pix/generate now uses insc.valor as source of truth and returns 5406180.00 even if client sends valor=120 (verified with pytest regression suite at /app/backend/tests/test_pix_valor_fix.py). Admin panel shows 180 correctly. The only residual concern is that pagamento-pix.html paints #p-valor from sessionStorage.__valor and does not update it from the backend response — this is a display robustness issue, not the reported bug, and does not affect users in the normal flow (dados-inscricao.html writes __valor=180 from the vaga data-price='180.00').",
+  "rca of the issue": "Original bug: pagamento-pix.html had hardcoded valor:120 and taxa:'R$ 120,00', so the visible amount and the PIX EMV field 54 both showed R$120 while the admin/database correctly held R$180. Fix applied by main agent: (1) pagamento-pix.html now reads storedValor from sessionStorage.__valor with fallback 180 (never 120 hardcoded); (2) backend /api/pix/generate at admin_routes.py:~1253 looks up the inscription by cpf and overrides the payload valor with insc.valor before building the BRCode. Verified via pytest (8/8 pass) + browser test on the live preview URL."
+}

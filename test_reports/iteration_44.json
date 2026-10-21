@@ -1,0 +1,22 @@
+{
+  "summary": "Re-tested the /termos.html header vs card alignment (the only item that failed in iteration_43) and ran a quick regression. Everything passes. Measured edges in px: 1920 logo img left 216, card 216-1706, button right 1704. 1366 logo 56, card 56-1312, button 1310. 1100 logo 56, card 56-1046, button 1044. Left edges match exactly and right edges are 2px apart, inside the 3px tolerance.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "verified_passing": [
+    "Header/card alignment at 1920, 1366 and 1100: left edges differ by 0px, right edges by 2px",
+    "Font sizes at 1366: h3 32px, p 20px, label 19px",
+    "Checkbox: 24px, no box-shadow or outline, white when unchecked, rgb(216,147,0) when checked",
+    "Continuar has aria-disabled=true and pointer-events:none until the box is ticked; after ticking it goes to /inscricao.html",
+    "Voltar goes to /",
+    "No horizontal overflow at 390 or 360; the hamburger (button.mnav-open) opens the drawer with the menu items and both action buttons"
+  ],
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Measure the logo using 'header .logo_wrapper img', not .logo_wrapper, which spans the full container. The button is a.header__action-follow-button."
+}

@@ -1,0 +1,24 @@
+{
+  "summary": "Frontend-only test of the change that makes Maceió/AL the only exam city. Ran the desktop E2E flow: termos -> inscricao (CPF 52998224725, RG doc upload) -> dados-inscricao -> confirmacao -> inscricao-realizada -> pagamento-pix, with no page errors. On dados-inscricao, select-municipio-prova has exactly one option ('MACEIO/AL', label 'MACEIÓ/AL') and it is already selected. local-prova-aviso is visible and the hidden UF_PROVA is 'AL'. Confirmacao shows Estado da prova = Alagoas and Cidade = MACEIO/AL. inscricao-realizada shows protocolo 2026224725 with status PENDENTE DE PAGAMENTO, and pagamento-pix loads with R$ 225,00. At 390px, dados-inscricao has no horizontal overflow (scrollWidth 390) and the select is 350px wide. Admin check: MUNICIPIO_PROVA=MACEIO/AL and UF_PROVA=AL are saved in cadastro form_data (/api/admin/cadastros/{cpf}/details). They are NOT in the /api/admin/inscriptions record (localidade '-') and do not appear in export-full.txt. Test data was deleted afterwards.",
+  "backend_issues": {"critical": [], "minor": [
+    {"endpoint": "/api/track/registration (stage=inscricao_finalizada) -> /api/admin/inscriptions", "issue": "The inscription document has no exam city (localidade='-'). The confirmacao.html payload does not send localidade/MUNICIPIO_PROVA at the top level of extra, and admin_routes.py insc_doc only reads extra.get('localidade','-'). The value exists only inside form_data, so the admin inscriptions list and export-full.txt do not show the exam city."}
+  ]},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": [
+    {"screen": "inscricao-realizada / pagamento-pix", "issues": ["Pre-existing and not caused by this change: the course list is still UNESP (e.g. 'Medicina Veterinária - integral - FMVA/Araçatuba', with 'Polo universitário') under SEFAZ/AL 2026 branding."]}
+  ]},
+  "test_report_links": [],
+  "action_items": [
+    "Optional: in confirmacao.html, add localidade: d.MUNICIPIO_PROVA (or 'MACEIO/AL') to the finalize payload extra. Alternatively, in admin_routes.py insc_doc, fall back to extra.form_data.MUNICIPIO_PROVA. Either way, the admin inscriptions list and export would then show the exam city."
+  ],
+  "critical_code_review_comments": [
+    "dados-inscricao.html: syncUf re-forces the value at DOMContentLoaded, +300ms and +1200ms. This works, but because there is only one option, the timers are redundant.",
+    "export-full.txt does not list Município/UF da prova."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "95% (all requested UI checks pass; the exam city is missing from the inscription record)"},
+  "test_credentials": "Admin donas / Seinao10@@ (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "Created the registration for CPF 52998224725 (inscription c2495b0f... and its cadastro). Both were deleted via the admin API.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Flow: termos first checkbox -> btn-continuar-termos. inscricao: NOME, CPF, DATA_NASCIMENTO, SEXO index 1, CEP 57020000 (autofill), NUMERO, CELULAR, EMAIL, DOC_TIPO=RG, upload frente/verso, #declaracao_veracidade, btn-continuar-inscricao. dados-inscricao: select-polo idx1, select-vaga idx1, input[name=termo], btn-cadastrar. confirmacao: #c-uf-prova, #c-municipio-prova, btn-confirmar-inscricao. Then btn-pagar-inscricao. Admin login: POST /api/admin/auth/login returns a token."
+}

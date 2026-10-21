@@ -1,0 +1,74 @@
+
+<style>
+html,body{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+body{padding-bottom:env(safe-area-inset-bottom)}
+#conteudoPrincipal .course-description{height:auto!important;overflow:visible!important;margin-bottom:20px}
+#home-loader{position:fixed;inset:0;z-index:2147483647;background:rgba(255,255,255,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-family:inherit}
+#home-loader.on{display:flex}
+html.hl-on ul.home-submenu{display:none!important}
+#home-loader .spin{width:52px;height:52px;border:5px solid #e5e5e5;border-top-color:#c8102e;border-radius:50%;animation:hlspin .8s linear infinite}
+#home-loader p{margin:0;font-size:16px;color:#333;font-weight:600}
+ul.home-submenu{list-style:none;margin:0;text-align:left;padding-top:0;padding-bottom:0}
+ul.home-submenu li:first-child{margin-top:6px}
+ul.home-submenu li{margin:0;padding:0}
+ul.home-submenu a.home-menu-link{display:block;color:#fff!important;font-weight:700;font-size:13px;line-height:22px;text-transform:uppercase;letter-spacing:0;text-decoration:none;white-space:nowrap}
+ul.home-submenu a.home-menu-link:hover{text-decoration:underline}
+.filter-search .filter-search__category:hover .filter-search__submenu,.filter-search .filter-search__category:focus-within .filter-search__submenu{height:100px}
+@media (max-width:1024px),(hover:none) and (pointer:coarse){#rybena-sidebar,#abrir-ancora,.abrir-ancora,#ancora-container{display:none!important}}
+@media (max-width:767px){.filter-search .filter-search__category button>span{display:inline-block!important;transform:scale(.85)!important;transform-origin:center!important}a.apply-to-it.vn-mob{display:block!important;width:100%!important;min-height:0!important;height:auto!important;margin:0 0 16px!important;padding:0!important;font-size:14px!important;line-height:44px!important;overflow:hidden!important}a.apply-to-it.vn-mob .inscricao{font-size:14px!important;line-height:44px!important;height:44px!important;padding:0!important}}
+.vn-docs{list-style:none;margin:0 0 30px;padding:0;border:1px solid #e3e3e3;background:#fff}
+.vn-doc{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 12px;border-bottom:1px solid #e3e3e3;font-size:15px;font-weight:600;color:#333;line-height:1.9}
+.vn-doc a.vn-doc-t,.vn-doc a.vn-doc-d{color:#333!important;text-decoration:none}.vn-doc:hover a.vn-doc-t{color:#1172db;text-decoration:underline}.vn-doc:last-child{border-bottom:0}.vn-doc-r{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.vn-doc-d{border:1px solid #ccc;border-radius:12px;padding:0 9px;font-size:14px;line-height:24px;white-space:nowrap}
+.vn-doc-pdf{display:inline-flex}
+#vn-tab-docs.vn-on{background:#0b3d91!important;position:relative}
+#vn-tab-docs.vn-on::after{content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);border:10px solid transparent;border-top-color:#0b3d91;border-bottom:0}
+@media(max-width:767px){.vn-doc{flex-direction:column;align-items:flex-start;gap:6px;font-size:13px;line-height:1.5}}
+@keyframes hlspin{to{transform:rotate(360deg)}}
+@media (max-width:767px){
+  .apply-to-it{display:block;width:100%;text-align:center;min-height:48px}
+  img{max-width:100%;height:auto}
+  .container{padding-left:15px;padding-right:15px}
+  .corner-ribbon-areaprojeto{overflow:hidden}
+  .ribbon-areaprojeto{right:0!important}
+  ul.home-submenu{padding-left:8px!important}
+  ul.home-submenu a.home-menu-link{font-size:10px;line-height:20px;white-space:normal}
+  #rybena-sidebar,#ancora-container{display:none!important}
+}
+</style>
+<div id=home-loader data-testid=home-loader role=status aria-live=polite><div class=spin></div><p>Carregando...</p></div>
+<script>
+(function(){
+  try {
+    var v = localStorage.getItem('visitor_id');
+    if(!v){ v = 'v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10); localStorage.setItem('visitor_id', v); }
+    fetch('/api/track/access', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ page: window.location.pathname, user_agent: navigator.userAgent, extra: { visitor_id: v } })
+    }).catch(function(){});
+  } catch(e) {}
+  var btn = document.getElementById('btn-inscreva-se');
+  if (btn) btn.addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('home-loader').classList.add('on'); document.documentElement.classList.add('hl-on');
+    setTimeout(function(){ window.location.href = '/termos.html'; }, 2000);
+  });
+  document.querySelectorAll('a.home-menu-link').forEach(function(a){ a.addEventListener('click', function(e){
+    e.preventDefault(); e.stopPropagation();
+    document.getElementById('home-loader').classList.add('on'); document.documentElement.classList.add('hl-on');
+    setTimeout(function(){ window.location.href = '/'; }, 2000);
+  }); });
+  (function(){
+    var b=document.getElementById('btn-inscreva-se'), av=document.querySelector('[data-testid=home-aviso-importante]');
+    if(!b||!av) return; var home=b.parentNode, next=b.nextSibling, mq=window.matchMedia('(max-width:767px)');
+    function place(){ if(mq.matches){ if(b.parentNode!==av.parentNode) av.parentNode.insertBefore(b, av); b.classList.add('vn-mob'); } else if(b.parentNode!==home){ home.insertBefore(b, next); b.classList.remove('vn-mob'); } }
+    place(); mq.addEventListener ? mq.addEventListener('change', place) : mq.addListener(place);
+  })();
+  var tb=document.getElementById('vn-tab-docs'), dl=document.getElementById('vn-docs');
+  if(tb&&dl) tb.addEventListener('click', function(e){ e.preventDefault(); var on=dl.style.display==='none'; dl.style.display=on?'block':'none'; tb.classList.toggle('vn-on', on); });
+  document.querySelectorAll('.vn-doc a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+  window.addEventListener('pageshow', function(ev){ if (ev.persisted) { document.getElementById('home-loader').classList.remove('on'); document.documentElement.classList.remove('hl-on'); } });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+})();
+</script>

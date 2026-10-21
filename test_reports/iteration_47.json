@@ -1,0 +1,24 @@
+{
+  "summary": "Tested the change to R$ 300,00 for SEFAZ/AL cargo AFTE, frontend and backend. dados-inscricao: the section is titled 'Cargo'. The Polo select and the 'Polo universitário' text are gone. select-vaga has exactly one option, value 1, 'Auditor Fiscal da Administração Tributária Estadual (AFTE)', data-price 300.00, pre-selected. taxa-inscricao-info shows 'Taxa de inscrição: R$ 300,00'. MACEIO/AL is still pre-selected. Desktop E2E passed with no page errors: termos -> inscricao (CPF 52998224725 + RG upload) -> dados-inscricao -> confirmacao (c-vaga = AFTE, Estado Alagoas, Cidade MACEIO/AL) -> inscricao-realizada ('Cargo:' AFTE, 'Valor da Inscrição: R$ 300,00') -> pagamento-pix (Cargo AFTE, Valor R$ 300,00). The PIX key is configured and the EMV contains amount 5406300.00, so a QR code is generated. In the admin API, the UI-created inscription has cargo_titulo AFTE, cargo_codigo 1, valor 300.0 and taxa 'R$ 300,00'. The server also forces 300 when the client sends valor 225. minhas-inscricoes shows the 'Cargo' label with AFTE and Valor R$ 300,00. At 390px: no overflow on dados-inscricao or minhas-inscricoes (scrollWidth 390), and the select is 350px wide. Test data was cleaned up.",
+  "backend_issues": {"critical": [], "minor": [
+    {"endpoint": "GET /api/admin/settings", "issue": "valor_inscricao returns 225.0, a stale value stored in the db.settings document. The 300.0 code default only applies when no settings exist. The value is not used to compute any amount (admin_routes always uses VALOR_INSCRICAO=300), but the admin panel settings still show R$ 225."}
+  ]},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": [
+    {"screen": "dados-inscricao mobile 390", "issues": ["The long AFTE label is truncated inside the native select ('...Tributária Est'). Optional: also show the full cargo name as text below the select."]}
+  ]},
+  "test_report_links": ["/app/backend/tests/test_valor_300_afte.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Update the stored settings valor_inscricao to 300 in the db, or have GET /api/admin/settings return VALOR_INSCRICAO, so the admin panel shows R$ 300,00.",
+    "Remove or update obsolete tests that still expect 225 or 183 UNESP courses: test_cursos_unesp.py, test_vunesp_rebrand.py (test_settings_valor_225 etc.), and possibly test_valor_150.py / test_taxa_120.py."
+  ],
+  "critical_code_review_comments": [
+    "admin_routes.py hardcodes VALOR_INSCRICAO and ignores settings.valor_inscricao, so the admin settings field is misleading."
+  ],
+  "updated_files": ["/app/backend/tests/test_valor_300_afte.py"],
+  "success_rate": {"backend": "75% (3/4; only the settings value is stale)", "frontend": "100%"},
+  "test_credentials": "Admin donas / Seinao10@@",
+  "seed_data_creation": "Created inscriptions for CPF 52998224725 (UI) and 11144477735 (pytest). Both were deleted together with their cadastros.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Same flow selectors as iteration_46, but select-polo no longer exists. The confirmacao page uses .conf-row divs with data-testid c-vaga. The PIX key is configured (danielmmm950@gmail.com)."
+}

@@ -1,0 +1,26 @@
+{
+  "summary": "Frontend-only testing of /confirmacao.html after migration PC_MA -> SESAU_AL_26 and addition of 'Localidade de Vaga'. All primary acceptance criteria pass: title 'Cebraspe - Concurso Público SESAU_AL_26', CONCURSO block shows 'Concurso Público da Secretaria de Estado da Saúde de Alagoas (SESAU_AL_26) — Edital 001/2026', no references to Maranhão/Polícia/PC_MA remain, footer copyright shows SESAU_AL_26, /confirmacao (extensionless) resolves to same page. Injecting sessionStorage 'inscricao_dados' with LOCALIDADE_VAGA='Maceió' + reload correctly populates c-localidade-vaga='Maceió' and all other cells (c-vaga, c-uf-prova, c-municipio-prova, c-nome, c-cpf, c-email, c-celular, c-cep). The new row 'Localidade de Vaga:' appears immediately after 'Vaga Escolhida:' as required. Layout improvements verified visually: rounded borders, subtle box-shadow, and zebra striping (nth-child(even) background) on the confirmation table.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "confirmacao.html", "issues": ["The '.periodoInscricoes' element (Inscrições de 20/07/2026 a 26/08/2026) is present in the DOM but hidden by an intentional CSS rule '.periodoInscricoes { display: none !important; }' added in the Cebraspe layout override (comment: 'info já consta na home'). The review request states this period should be visible on the confirmation page. If the intent is truly to show it there, remove/limit that CSS rule scope. Otherwise this is by-design.", "Missing data-testid on 'Data Nascimento' and 'Documento' value cells (values render correctly as 01/01/1999 and RG, but selectors c-data-nasc / c-doc-tipo are not present — minor testability gap, no functional impact)."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Decide: keep '.periodoInscricoes' hidden on confirmacao.html (current) or unhide to match acceptance criterion #1 which says the period 'Inscrições de 20/07/2026 a 26/08/2026' should be shown."
+  ],
+  "critical_code_review_comments": [
+    "confirmacao.html is 1600+ lines with heavy inline CSS/JS blocks; consider extracting shared Cebraspe layout CSS to a common stylesheet to reduce duplication across static pages.",
+    "Multiple stacked @media (max-width:...) blocks with cascading !important overrides create fragile responsive behavior; consolidate into a single mobile stylesheet."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "Injected sessionStorage 'inscricao_dados' with test payload (FULANO DE TAL / Maceió / Arapiraca-AL) — non-persistent, no cleanup needed.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "confirmacao.html reads sessionStorage 'inscricao_dados' JSON. Cells: c-inscricao, c-vaga, c-localidade-vaga, c-uf-prova, c-municipio-prova, c-nome, c-sexo, c-cpf, c-email, c-celular, c-cep, c-arquivos, c-logradouro, c-numero, c-complemento, c-bairro, c-cidade, c-uf. Note: Data Nascimento and Documento cells lack data-testid. .periodoInscricoes hidden by global CSS rule.",
+  "rca of the issue": "N/A — no bug reproduced. Migration and Localidade de Vaga integration are working as specified."
+}

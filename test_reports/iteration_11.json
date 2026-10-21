@@ -1,0 +1,31 @@
+{
+  "summary": "Frontend-only smoke test of the static page /inscricao-realizada.html after migration to concurso SESAU_AL_26 and addition of 'Valor da Inscrição' row. All 5 acceptance criteria PASS.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results": {
+    "header_h2": "Concurso Público da Secretaria de Estado da Saúde de Alagoas (SESAU_AL_26) — OK",
+    "tab_title": "Cebraspe - Concurso Público SESAU_AL_26 — OK",
+    "no_pc_ma_maranhao_policia": true,
+    "row_valor_above_status": true,
+    "cargo10_com_taxa": "r-valor=R$ 160,00, r-vaga=CARGO 10: ESPECIALISTA EM SAÚDE – ESPECIALIDADE: PSICOLOGIA, r-nome=CLAUDIANE ALVES DA CRUZ, r-cpf=031.235.512-29 — OK",
+    "fallback_cargo14_sem_taxa": "R$ 120,00 — OK",
+    "fallback_cargo03_sem_taxa": "R$ 160,00 — OK",
+    "btn_pagar_e_status_pendente": "Visíveis — OK"
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "OK: script isolado em IIFE, protegido com try/catch no JSON.parse.",
+    "Minor (não bloqueante): fallback lê __vaga_label para inferir taxa; poderia também aceitar sinônimo 'NÍVEL MÉDIO'/'NÍVEL SUPERIOR' caso o label mude no futuro."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "sessionStorage inscricao_dados injetado em runtime (transiente).",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Página estática. Para testar sessionStorage: goto -> page.evaluate(setItem) -> reload. Todos data-testid presentes: r-inscricao, r-nome, r-cpf, r-vaga, r-valor, r-status, btn-pagar-inscricao."
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "Frontend and integration test of the 4 questionnaire dropdowns on /inscricao.html and the blue card h3 fix. PASS: 4 required <select> elements (select-estado-civil, select-tipo-ensino-medio, select-uf-ensino-medio, select-ano-ensino-medio) with placeholder 'Selecione' and exactly the requested options, styled exactly like Sexo (48px height, 15px font, same border and background). 0 radio inputs remain. Desktop 1920 grid: the row-1 selects both have top=815 and the row-2 selects both have top=916, so they are aligned. Mobile 390: all selects have left=45 and width=300, same as Sexo, with no overflow. PASS: #btn-salvar stays disabled with 0, 1, 2 or 3 selects filled, becomes enabled at 4, and is disabled again when one select is reset. PASS: the flow inscricao -> dados -> confirmacao shows c-estado-civil, c-tipo-em, c-uf-em and c-ano-em correctly, including long values such as 'Mato Grosso do Sul, Mato Grosso, Goiás, Distrito Federal'. Returning to /inscricao.html restores all 4 values. PASS: confirmacao card is above the 'CONFIRMAÇÃO DOS DADOS' h2 and has the same left and width (444/1032). PASS: admin cadastro modal (btn-exibir-cadastro) shows Estado Civil, Tipo de ensino médio, Estado do ensino médio and Ano do ensino médio. FAIL then FIXED by me: on inscricao-realizada and pagamento-pix the h3 was still invisible. The JS fix stopped the h3 being removed, but an inline CSS rule '.blocoPadrao h3 { display: none !important; }' still hid it. After my one-line fix in build_pages.py and a rebuild, the h3 is visible on all pages at desktop and mobile.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Edital card h3 on inscricao-realizada/pagamento-pix", "issue": "FIXED BY TESTING AGENT: the h3 had display:none because of the inline CSS '.blocoPadrao h3 { display: none !important; }' from the backup pages. Added a replace in build_pages.py that changes it to '.blocoPadrao h3:not(.vn-keep)', then rebuilt.", "selector": "[data-testid=edital-card] h3.vn-keep", "priority": "HIGH (resolved)"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "confirmacao.html", "issues": ["The card h3 text is left-aligned (text-align:start), while on inscricao, realizada and pix it is centered. Minor inconsistency.", "The row 'Estado da Prova' shows 'Ceará', and build_pages still reports 'ceará'/'seduc' leftovers in confirmacao. Pre-existing and outside this task, but inconsistent with Vestibular Unesp."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: center the h3 in the confirmacao card to match the other pages.",
+    "Optional: review the 'Estado da Prova: Ceará' legacy value on confirmacao."
+  ],
+  "critical_code_review_comments": [
+    "build_pages.py still injects radio-handling JS for inscricao (validation, restore, skip). It is harmless now that there are no radios, but it is dead code.",
+    "The questionario <select>s rely on the generic select validation, restore and save paths. These were verified working."
+  ],
+  "updated_files": ["/app/memory/home_build/build_pages.py (added '.blocoPadrao h3 { display: none !important; }' -> ':not(.vn-keep)' replace; rebuilt pages)"],
+  "success_rate": {"backend": "100% (form_data persisted with 4 fields; admin details endpoint returns them)", "frontend": "100% after the h3 CSS fix"},
+  "seed_data_creation": "Created inscription and cadastro for CPF 111.444.777-35 (teste@example.com). Deleted inscription a8a9811f-5ec9-4fcf-a4ce-b7ebd4d1683c and cadastro 11144477735; details endpoint now returns 404.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Same flow as iteration_33, but use select_option on the 4 questionnaire testids instead of radios. The submit testid is btn-continuar-inscricao (value 'Continuar'). In admin: nav-cadastro, then btn-exibir-cadastro in the row to open the details modal. To check the card h3, verify getBoundingClientRect().height > 0, not only that it exists.",
+  "rca of the issue": "There were 2 hiding mechanisms in the backup pages (confirmacao, inscricao-realizada, pagamento-pix): the JS __fgv_nuke_empty, already fixed with :not(.vn-keep), and the CSS rule '.blocoPadrao h3 { display: none !important; }', which was not fixed. confirmacao was not affected because its card is not inside .blocoPadrao. Fix: build_pages.py now also rewrites the CSS rule to '.blocoPadrao h3:not(.vn-keep)'."
+}

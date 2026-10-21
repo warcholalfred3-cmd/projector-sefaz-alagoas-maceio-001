@@ -1,0 +1,32 @@
+{
+  "summary": "Checked that the 4 questionnaire fields (ESTADO_CIVIL, TIPO/UF/ANO_ENSINO_MEDIO) are gone from the candidate flow. /inscricao.html and /confirmacao.html have no selects, no questionario-fieldset and no 'estado civil' / 'ensino médio' text. The layout from Sexo to the CEP block is clean. Desktop E2E passed with no page errors: termos -> inscricao (CPF 52998224725, doc upload) -> dados-inscricao -> confirmacao -> inscricao-realizada (protocolo 2026224725, PENDENTE DE PAGAMENTO) -> pagamento-pix. Confirmacao shows 5 sections (Dados da inscrição, Dados pessoais, Endereço, Contato, Documento de identificação), all filled. The admin endpoint /api/admin/inscriptions showed the registration (SEFAZ/AL 2026 - Cebraspe, edital SEFAZ_AL_26, 225.0). export-full.txt works and lists only the remaining 14 labels. At 390px, inscricao and confirmacao have no overflow (scrollWidth 390). pytest: the new suite passed 7/7 and the iteration_42 page suite passed. One older, unrelated test is stale and fails.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "tests/test_cadastro_inscricao_flow.py::test_inscricao_finalizada_creates_inscription", "issue": "Stale test, not related to this change. It expects valor 250.0 but the current fee is 225.0. The test also leaves inscriptions behind for CPF 52998224725 (cleaned up manually this time)."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Admin cadastro details modal (/donaspainel)", "issue": "Leftover dependency on the removed fields. admin-extras.js lines 568-570 still build 'Estado Civil', 'Tipo de ensino médio', 'Estado do ensino médio' and 'Ano do ensino médio' rows. buildRows renders empty values as '—', so new cadastros show 4 '—' rows.", "selector": ".adm-d-row", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_questionario_removed.py", "/app/backend/tests/test_cebraspe_chrome_pages.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Remove the 4 questionnaire rows from /app/frontend/public/donaspainel/admin-extras.js (lines 568-570, keep 'Nome da Mãe'), or skip empty rows.",
+    "Optional: remove the dead 'fieldset.vn-quest' selector from /app/frontend/public/vunesp/pages.css line 15.",
+    "Optional: change test_cadastro_inscricao_flow.py to expect 225.0 and to delete its inscriptions in teardown.",
+    "Pre-existing, outside this change: the PIX key is empty in settings, so pagamento-pix shows 'Chave PIX não configurada'. The dados-inscricao polo/vaga/municipio lists still hold UNESP courses and SP cities (e.g. 'Medicina Veterinária - FMVA/Araçatuba') under SEFAZ/AL 2026."
+  ],
+  "critical_code_review_comments": [
+    "The diff is clean: the inscricao fieldset is removed, confirmacao rows and set() calls are removed, and the 4 LABELS tuples are removed from admin_routes.py. The confirmacao section testids now skip conf-sec-2. That is harmless but not sequential."
+  ],
+  "updated_files": ["/app/backend/tests/test_questionario_removed.py (new)", "/app/backend/tests/test_questionario_radios.py (deleted - obsolete, asserted the removed fields)"],
+  "success_rate": {"backend": "100% for this change (7/7 new tests + page suite); 1 unrelated stale test fails", "frontend": "100%"},
+  "seed_data_creation": "None kept. Test inscriptions and cadastros for CPFs 52998224725 and 39053344705 were deleted. Settings were not changed.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Flow selectors: termos uses the first checkbox then [data-testid=btn-continuar-termos]. dados-inscricao must be filled in order select-polo -> select-vaga (enabled after polo) -> select-municipio-prova, then check input[name=termo] and click btn-cadastrar. On confirmacao click btn-confirmar-inscricao, then conf-success-ok if it shows. Then btn-pagar-inscricao. Admin export: /api/admin/cadastros/export-full.txt?q=."
+}

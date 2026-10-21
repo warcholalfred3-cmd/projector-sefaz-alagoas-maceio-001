@@ -1,0 +1,15 @@
+{
+  "summary": "Tested dados-inscricao after renaming the section 'Curso' to 'Vaga' and removing Polo. Frontend checks all passed (100%). Section title (label.description) reads 'Vaga'. Neither 'Curso' nor 'Polo' appears in the DOM; the only lowercase 'curso' match comes from the word 'concurso'. select-polo is absent. Field label reads '* Cargo'. select-vaga has exactly one option, AFTE (value 1), pre-selected. taxa-inscricao-info reads 'Taxa de inscrição: R$ 300,00'. cargo-nome-info is hidden at 1920 and visible at 390 with the full AFTE name. At 390 there is no horizontal overflow (scrollWidth 390). E2E flow termos -> inscricao (CPF 52998224725 + RG upload) -> dados-inscricao -> confirmacao (c-vaga AFTE, no Curso/Polo text) -> inscricao-realizada (AFTE, R$ 300,00) -> pagamento-pix (Cargo AFTE, Valor R$ 300,00, QR shown, EMV amount 300.00) completed with no page errors. GET /api/admin/settings returns valor_inscricao 300 (the stale 225 from iteration_47 is fixed). The created inscription has valor 300.0 and taxa 'R$ 300,00'. The inscription and cadastro were deleted afterwards.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": ["The inline style color:#333/#555 on cargo-nome-info and taxa-inscricao-info is overridden by the theme, so they render blue. This is cosmetic and consistent with the local-prova-aviso text."],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (settings check only)", "frontend": "100%"},
+  "test_credentials": "Admin donas / Seinao10@@",
+  "seed_data_creation": "Created an inscription and cadastro for CPF 52998224725 through the UI. Both were deleted via the admin API.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "inscricao.html: NOME and SEXO have no id, so use [name=NOME] and [name=SEXO]. Other selectors are as in iteration_46/47. Cleanup: DELETE /api/admin/inscriptions/{id} and DELETE /api/admin/cadastros/{cpf}; list inscriptions with GET /api/admin/inscriptions."
+}

@@ -1,0 +1,22 @@
+{
+  "summary": "Validated /pagamento-pix.html for the SESAU_AL_26 migration. Screen h2, tab title, footer, and print header (#print-header) all show 'Concurso Público da Secretaria de Estado da Saúde de Alagoas (SESAU_AL_26)' / 'COMPROVANTE DE PAGAMENTO PIX'. No occurrences of Maranhão / Polícia / PC_MA / 'Edital nº 001/2026' anywhere. sessionStorage injection with CLAUDIANE ALVES DA CRUZ populated p-nome/p-cpf/p-vaga/p-valor (R$ 160,00)/p-inscricao (2026551229). QR image loaded (base64) and #p-code textarea filled with PIX EMV code containing 5406160.00. Botão VOLTAR, caixa Atenção, botões Copiar Código / Imprimir Pagamento presentes. Print media emulation shows organized 1-page layout (header + tabela + QR/copia-cola + aviso), sem quebras estranhas. Backend /api/pix/generate 200 OK para valor 160 (CPF conhecido) e 120 (CPF novo, cargo 14).",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Comprovante PIX (print)", "issues": ["Beneficiário na string PIX aparece como 'CONCURSO ALAGOAS' e cidade 'MARCEIO AL' (typo de MACEIO). Isso vem do settings admin (pix_nome/pix_cidade), não do template — mas o comprovante impresso exibe esse texto no código copia-e-cola. Recomenda-se atualizar as settings PIX para 'MACEIO' correto."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_pix_valor_fix.py", "/app/backend/tests/test_taxa_120.py"],
+  "action_items": ["(Opcional) Corrigir typo 'MARCEIO AL' -> 'MACEIO AL' no admin settings pix_cidade."],
+  "critical_code_review_comments": [
+    "Backend /api/pix/generate sobrescreve o 'valor' recebido do cliente pelo valor real da inscrição no banco quando o CPF já tem inscrição — comportamento correto para segurança, mas causa confusão ao testar via curl com CPFs já cadastrados (o valor 120 vira 160). Documentar."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "Nenhuma. Apenas injeção de sessionStorage no navegador para simular candidato.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Página /pagamento-pix.html está totalmente migrada para SESAU_AL_26. Backend /api/pix/generate está OK. Único ponto cosmético: pix_cidade nas settings tem typo 'MARCEIO' (impacto visual apenas no código copia-e-cola)."
+}

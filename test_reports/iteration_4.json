@@ -1,0 +1,19 @@
+{
+  "summary": "Validated rebrand PM MA 26 -> PC MA 26 and route change /farpapainel -> /donaspainel. All 5 requirements pass: (1) /donaspainel/#/login serves admin login with 'Concurso PC MA 26', 'CONCURSO PC MA 26 - EDITAL 001/2026', 'Acessar painel' + USUÁRIO/SENHA fields. (2) Login donas/Seinao10@@ succeeds via POST /api/admin/auth/login (200 + JWT), redirects to Dashboard showing 'Dashboard - Concurso PC MA 26' and sidebar brand 'Concurso PC MA 26'. Body scanned: zero occurrences of 'PM MA 26', 'Polícia Militar', or 'Concurso PM' in login, dashboard or configurações pages. (3) Configurações → Chave PIX + Notificações Telegram (Bot Token, Chat ID, Status toggle). No PM MA 26 residual. UI has no explicit 'Título' field; backend fallback title in _build_telegram_message = 'NOVA INSCRIÇÃO - PC MA 26'. (4) GET /farpapainel/ returns HTTP 302 with Location: /. (5) POST /api/admin/auth/login {username:'farpa', password:'Ads102030'} returns 401 'Credenciais inválidas'. Grep of /app/frontend/public/donaspainel/ shows no old branding.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": ["/app/test_reports/login.png", "/app/test_reports/dashboard.png", "/app/test_reports/config.png", "/app/test_reports/config_full.png"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Legacy pytest files in /app/backend/tests/ (test_track_access.py, test_telegram_notifications.py, test_dedupe_events.py, test_taxa_120.py, test_dataprev_full.py) still hardcode ADMIN_USER='farpa'. They will fail because farpa was removed. Update them to 'donas'/'Seinao10@@' or delete if obsolete.",
+    "admin_routes.py line 204 defensively skips both '/farpapainel' and '/donaspainel' in track_access — good migration hygiene."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "donas / Seinao10@@ on /donaspainel",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Rebrand PC MA 26 fully applied to admin panel bundle at /app/frontend/public/donaspainel/. Old /farpapainel redirects to '/' (302) via craco devServer middleware. Old admin 'farpa' removed from DB; only 'donas' seeded. Legacy pytest files under /app/backend/tests/ still reference 'farpa' and would fail if run.",
+  "rca of the issue": "N/A — verification task, no bug."
+}

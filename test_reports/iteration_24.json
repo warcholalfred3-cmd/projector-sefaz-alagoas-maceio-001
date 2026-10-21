@@ -1,0 +1,23 @@
+{
+  "summary": "Frontend-only validation of the mobile hamburger menu on /inscricao-realizada and /pagamento-pix headers (open shadow DOM injected by /seduc/seduc-theme.js). All assertions pass on mobile (390x844) and desktop (1920x800), plus regression on 4 other pages.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "seduc-theme.js hard-codes the shadow-host at top of body and relies on document-level click listener to close the menu. Since the burger lives inside an open shadow root, the outside document click properly closes it — verified. OK.",
+    "No horizontal overflow at 390px — OK. Burger is visible, big green 'Minhas inscrições' button is hidden via CSS @media (max-width:768px) a.minhas{display:none!important}."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "100% (6/6 scenarios + 4 regression pages)"},
+  "test_credentials": "N/A",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Header is injected into open shadow root on #seduc-header-host. Playwright's page.locator pierces open shadow DOM automatically — selectors like [data-testid=\"header-menu-toggle\"] work directly. Verified: mobile 390x844 -> hamburger visible, big btn hidden, menu toggles open/close via burger click, outside click closes, link navigates to /minhas-inscricoes.html. Desktop 1920x800 -> big btn visible, hamburger hidden. Regression pages /inscricao.html, /dados-inscricao.html, /confirmacao show Início/Concursos (Sair hidden on mobile) and no hamburger; /minhas-inscricoes.html has no nav/hamburger — matches spec.",
+  "rca of the issue": "N/A — feature works as specified."
+}

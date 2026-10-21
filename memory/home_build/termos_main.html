@@ -1,0 +1,48 @@
+<section id=conteudoPrincipal>
+ <div class=mainContainer>
+<div class=termos-topo></div>
+<div class="container course-container">
+ <section class="row vestibular corner-ribbon-areaprojeto">
+ <span class="ribbon ribbon-areaprojeto"><span>VNSP2514</span></span>
+ <article class="vestibular course-single col-xs-12 col-sm-12" data-testid=termos-card>
+ <h3 class=course-title>Vestibular | <strong>Vestibular Unesp 2027</strong></h3>
+ <div class=course-informations>
+ <p><strong> Inscrições: </strong> <span class="apply from"> 04/09 </span> <span class="apply to"> 20/10 </span></p>
+ <p><strong>Vagas:</strong> 5.850</p>
+ </div>
+ <div class="course-description termos-desc">
+ <p><strong>TERMOS DE INSCRIÇÃO | VESTIBULAR UNESP 2027</strong><br>Antes de prosseguir com sua inscrição no Vestibular Unesp 2027, leia atentamente os termos abaixo e confirme o aceite para continuar.<br><strong>Prazo final:</strong> 20/10/2026, às 23h59.</p>
+ <label class=termos-aceite data-testid=termos-aceite-label>
+ <input id=termos name=aceito_termos data-testid=termos-checkbox type=checkbox value=1>
+ <span>Declaro que li e concordo com os termos do Manual do Candidato do Vestibular Unesp 2027, assim como aceito como foro para resolução de conflitos a mediação e arbitragem (Lei Federal nº 9.307/1996).</span>
+ </label>
+ <div class=termos-acoes>
+ <a aria-disabled=true href=/inscricao.html id=bt-continuar data-testid=btn-continuar-termos class=termos-btn>Continuar</a>
+ <a id=btn-voltar-termos data-testid=btn-voltar-termos href=/ class="termos-btn termos-btn--outline">Voltar</a>
+ </div>
+ </div>
+ </article>
+ </section>
+</div>
+ </div>
+ </section>
+<style>
+.termos-topo{height:30px}
+#conteudoPrincipal{padding-bottom:180px}
+@media (max-width:767px){#conteudoPrincipal{padding-bottom:100px}}
+.termos-desc p{font-size:12px;line-height:20px}
+.termos-aceite{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:12px;line-height:20px;font-weight:400;color:#333;padding:16px 18px;background:#f5f5f5;border-left:4px solid #1172db;margin:18px 0 0;max-width:900px}
+.termos-aceite input{width:18px;height:18px;margin:1px 0 0;flex-shrink:0;accent-color:#1172db}
+.termos-acoes{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 30px}
+.termos-btn{display:inline-block;min-width:160px;text-align:center;padding:14px 28px;background:#1172db;color:#fff!important;font-size:14px;text-transform:uppercase;text-decoration:none!important;border:2px solid #1172db;opacity:.55;pointer-events:none;cursor:not-allowed;transition:opacity .2s,background-color .2s}
+.termos-btn--outline{background:#fff;color:#1172db!important;opacity:1;pointer-events:auto;cursor:pointer}
+.termos-btn--outline:hover{background:#eef5fd}
+@media (max-width:767px){.termos-btn{flex:1 1 100%;min-height:48px}.termos-aceite{padding:14px}}
+</style>
+<script>
+(function(){
+  var cb=document.getElementById('termos'),bt=document.getElementById('bt-continuar');
+  function sync(){var on=cb.checked;bt.style.opacity=on?'1':'.55';bt.style.pointerEvents=on?'auto':'none';bt.style.cursor=on?'pointer':'not-allowed';bt.setAttribute('aria-disabled',on?'false':'true');}
+  cb.addEventListener('change',sync);sync();
+})();
+</script>

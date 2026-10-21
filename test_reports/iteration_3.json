@@ -1,0 +1,19 @@
+{
+  "summary": "Verified content-only fix on /inscricao.html, /dados-inscricao.html and /confirmacao.html via live preview URL and source files. All old 'Polícia Militar / Soldado / QPMus / Músicos / Quadro de Praças' texts are gone; dates updated to 24/07/2026 - 24/08/2026; job selector on dados-inscricao.html has a single option 'OFICIAL INVESTIGADOR DE POLÍCIA' (plus 'Escolher').",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100%"},
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Static HTML pages under /app/frontend/public/. Grep on live URLs confirmed presence of 'Oficial Investigador de Polícia' and dates 24/07/2026-24/08/2026, and absence of Soldado/Músicos/QPMus/Quadro de Praças. select[data-testid=select-vaga] contains only one job option 'OFICIAL INVESTIGADOR DE POLÍCIA' with data-price 180.00 besides the placeholder 'Escolher'.",
+  "rca of the issue": "N/A - fix validated"
+}

@@ -1,0 +1,183 @@
+Administração - Bacharelado - integral - FCE/Tupã
+Administração - Bacharelado - noturno - FCAV/Jaboticabal
+Administração - Bacharelado - noturno - FCE/Tupã
+Administração Pública - Bacharelado - integral - FCLAr/Araraquara
+Administração Pública - Bacharelado - noturno - FCLAr/Araraquara
+Arquitetura e Urbanismo - integral - FAAC/Bauru
+Arquitetura e Urbanismo - integral - FCT/Presidente Prudente
+Arquivologia - matutino - FFC/Marília
+Artes Cênicas - Bacharelado - Habilitação em Interpretação Teatral - integral - IA/São Paulo
+Artes Visuais - Bacharelado e Licenciatura - integral - IA/São Paulo
+Artes Visuais - Bacharelado e Licenciatura - vespertino/noturno - FAAC/Bauru
+Arte-Teatro - Licenciatura - noturno - IA/São Paulo
+Biblioteconomia - matutino - FFC/Marília
+Ciência da Computação - Bacharelado - integral - FC/Bauru
+Ciência da Computação - Bacharelado - integral - IBILCE/São José do Rio Preto
+Ciência da Computação - Bacharelado - vespertino/noturno - FCT/Presidente Prudente
+Ciências Biológicas - Bacharelado - integral - FC/Bauru
+Ciências Biológicas - Bacharelado - integral - IBB/Botucatu
+Ciências Biológicas - Bacharelado - Vespertino/Noturno e Licenciatura - noturno - FEIS/Ilha Solteira
+Ciências Biológicas - Bacharelado e Licenciatura - integral - FCLAs/Assis
+Ciências Biológicas - Bacharelado e Licenciatura - integral - IB/Rio Claro
+Ciências Biológicas - Bacharelado e Licenciatura - integral - IBILCE/São José do Rio Preto
+Ciências Biológicas - Bacharelado e Licenciatura - noturno - FCAV/Jaboticabal
+Ciências Biológicas - Bacharelado e Licenciatura - noturno - IB/Rio Claro
+Ciências Biológicas - Bacharelado em Biologia Marinha ou Gerenciamento Costeiro - integral - IBCLP/Litoral Paulista
+Ciências Biológicas - Licenciatura - noturno - FC/Bauru
+Ciências Biológicas - Licenciatura - noturno - IBB/Botucatu
+Ciências Biológicas - Licenciatura - noturno - IBCLP/Litoral Paulista
+Ciências Biomédicas - integral - IBB/Botucatu
+Ciências da Computação - Bacharelado - integral - IGCE/Rio Claro
+Ciências da Computação - Bacharelado - noturno - IGCE/Rio Claro
+Ciências Econômicas - Bacharelado - integral - FCLAr/Araraquara
+Ciências Econômicas - Bacharelado - noturno - FCLAr/Araraquara
+Ciências Sociais - Bacharelado e Licenciatura - matutino - FCLAr/Araraquara
+Ciências Sociais - Bacharelado e Licenciatura - matutino - FFC/Marília
+Ciências Sociais - Bacharelado e Licenciatura - noturno - FCLAr/Araraquara
+Ciências Sociais - Bacharelado e Licenciatura - noturno - FFC/Marília
+Comunicação Audiovisual - integral - FAAC/Bauru
+Design - integral - FAAC/Bauru
+Design - noturno - FAAC/Bauru
+Direito - matutino - FCHS/Franca
+Direito - noturno - FCHS/Franca
+Ecologia - integral - IB/Rio Claro
+Educação Física - Bacharelado - integral - FC/Bauru
+Educação Física - Bacharelado - noturno - FC/Bauru
+Educação Física - Bacharelado e Licenciatura - integral - FCT/Presidente Prudente
+Educação Física - Bacharelado e Licenciatura - integral - IB/Rio Claro
+Educação Física - Bacharelado e Licenciatura - vespertino/noturno - FCT/Presidente Prudente
+Educação Física - Licenciatura - integral - FC/Bauru
+Educação Física - Licenciatura - noturno - FC/Bauru
+Enfermagem - integral - FMB/Botucatu
+Engenharia Aeronáutica - integral - FESJBV/São João da Boa Vista
+Engenharia Agronômica - integral - FCA/Botucatu
+Engenharia Agronômica - integral - FCAT/Dracena
+Engenharia Agronômica - integral - FCAV/Jaboticabal
+Engenharia Agronômica - integral - FCAVR/Registro
+Engenharia Agronômica - integral - FEIS/Ilha Solteira
+Engenharia Ambiental - integral - FCT/Presidente Prudente
+Engenharia Ambiental - integral - ICT/São José dos Campos
+Engenharia Ambiental - integral - ICTS/Sorocaba
+Engenharia Ambiental - integral - IGCE/Rio Claro
+Engenharia Cartográfica e de Agrimensura - integral - FCT/Presidente Prudente
+Engenharia Civil - integral - FEB/Bauru
+Engenharia Civil - integral - FEG/Guaratinguetá
+Engenharia Civil - integral - FEIS/Ilha Solteira
+Engenharia de Alimentos - integral - IBILCE/São José do Rio Preto
+Engenharia de Bioprocessos e Biotecnologia - integral - FCA/Botucatu
+Engenharia de Bioprocessos e Biotecnologia - integral - FCF/Araraquara
+Engenharia de Bioprocessos e Biotecnologia - integral - FCLAs/Assis
+Engenharia de Biossistemas - integral - FCE/Tupã
+Engenharia de Controle e Automação - integral - ICTS/Sorocaba
+Engenharia de Energia - integral - FEC/Rosana
+Engenharia de Materiais - integral - FEG/Guaratinguetá
+Engenharia de Pesca - integral - FCAVR/Registro
+Engenharia de Produção - integral - FEG/Guaratinguetá
+Engenharia de Produção - vespertino/noturno - FEB/Bauru
+Engenharia de Produção - vespertino/noturno - ICE/Itapeva
+Engenharia Elétrica - integral - FEB/Bauru
+Engenharia Elétrica - integral - FEG/Guaratinguetá
+Engenharia Elétrica - integral - FEIS/Ilha Solteira
+Engenharia Eletrônica e de Telecomunicações - integral - FESJBV/São João da Boa Vista
+Engenharia Florestal - integral - FCA/Botucatu
+Engenharia Industrial - Madeira - integral - ICE/Itapeva
+Engenharia Mecânica - integral - FEB/Bauru
+Engenharia Mecânica - integral - FEG/Guaratinguetá
+Engenharia Mecânica - integral - FEIS/Ilha Solteira
+Engenharia Mecânica - noturno - FEG/Guaratinguetá
+Engenharia Química - integral - IQAr/Araraquara
+Estatística - integral - FCT/Presidente Prudente
+Farmácia - integral - FCF/Araraquara
+Farmácia - noturno - FCF/Araraquara
+Filosofia - Bacharelado e Licenciatura - noturno - FFC/Marília
+Física - Bacharelado e Licenciatura - integral - IGCE/Rio Claro
+Física - Bacharelado e Licenciatura - noturno - FEG/Guaratinguetá
+Física - Bacharelado em Física Biológica e Licenciatura em Física - integral - IBILCE/São José do Rio Preto
+Física - Bacharelado em Física de Materiais ou Física Computacional - vespertino/noturno e Licenciatura em Física - noturno - FC/Bauru
+Física - Licenciatura - noturno - FCT/Presidente Prudente
+Física - Licenciatura - noturno - FEIS/Ilha Solteira
+Física Médica - integral - IBB/Botucatu
+Fisioterapia - integral - FCT/Presidente Prudente
+Fisioterapia - integral - FFC/Marília
+Fonoaudiologia - integral - FFC/Marília
+Geografia - Bacharelado e Licenciatura - integral - IGCE/Rio Claro
+Geografia - Bacharelado e Licenciatura - matutino - FCT/Presidente Prudente
+Geografia - Bacharelado e Licenciatura - matutino - FCTE/Ourinhos
+Geografia - Bacharelado e Licenciatura - noturno - FCT/Presidente Prudente
+Geografia - Bacharelado e Licenciatura - noturno - FCTE/Ourinhos
+Geografia - Licenciatura - noturno - IGCE/Rio Claro
+Geologia - integral - IGCE/Rio Claro
+História - Bacharelado e Licenciatura - matutino - FCHS/Franca
+História - Bacharelado e Licenciatura - noturno - FCHS/Franca
+História - Licenciatura - matutino - FCLAs/Assis
+História - Licenciatura - noturno - FCLAs/Assis
+Jornalismo - matutino - FAAC/Bauru
+Jornalismo - noturno - FAAC/Bauru
+Letras - Bacharelado e Licenciatura - matutino - FCLAr/Araraquara
+Letras - Bacharelado e Licenciatura - noturno - FCLAr/Araraquara
+Letras - Licenciatura - integral - IBILCE/São José do Rio Preto
+Letras - Licenciatura - matutino - FCLAs/Assis
+Letras - Licenciatura - noturno - FCLAs/Assis
+Letras - Licenciatura - noturno - IBILCE/São José do Rio Preto
+Letras - Tradução - Bacharelado - integral - IBILCE/São José do Rio Preto
+Licenciatura em Música - integral - IA/São Paulo
+Matemática - Bacharelado e Licenciatura - integral - IBILCE/São José do Rio Preto
+Matemática - Bacharelado e Licenciatura - integral - IGCE/Rio Claro
+Matemática - Licenciatura - matutino - FCT/Presidente Prudente
+Matemática - Licenciatura - noturno - FC/Bauru
+Matemática - Licenciatura - noturno - FCT/Presidente Prudente
+Matemática - Licenciatura - noturno - FEG/Guaratinguetá
+Matemática - Licenciatura - noturno - FEIS/Ilha Solteira
+Matemática - Licenciatura - noturno - IBILCE/São José do Rio Preto
+Medicina - integral - FMB/Botucatu
+Medicina Veterinária - integral - FCAV/Jaboticabal
+Medicina Veterinária - integral - FMVA/Araçatuba
+Medicina Veterinária - integral - FMVZ/Botucatu
+Meteorologia - Bacharelado - integral - FC/Bauru
+Música - Bacharelado - Habilitação em Canto - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Composição - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Instrumento: Cordas (Contrabaixo Acústico, Viola, Violino, Violoncelo) - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Instrumento: Percussão - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Instrumento: Sopros (Clarineta, Flauta, Instrumento Antigo - Flauta Doce, Oboé) - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Instrumento: Teclados (Piano, Órgão Tubular) - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Instrumento: Violão - integral - IA/São Paulo
+Música - Bacharelado - Habilitação em Regência - integral - IA/São Paulo
+Nutrição - vespertino/noturno - IBB/Botucatu
+Odontologia - integral - FOA/Araçatuba
+Odontologia - integral - FOAr/Araraquara
+Odontologia - integral - ICT/São José dos Campos
+Odontologia - vespertino/noturno - FOA/Araçatuba
+Odontologia - vespertino/noturno - ICT/São José dos Campos
+Pedagogia - Licenciatura - matutino - FFC/Marília
+Pedagogia - Licenciatura - noturno - FC/Bauru
+Pedagogia - Licenciatura - noturno - FCLAr/Araraquara
+Pedagogia - Licenciatura - noturno - FCT/Presidente Prudente
+Pedagogia - Licenciatura - noturno - FFC/Marília
+Pedagogia - Licenciatura - noturno - IB/Rio Claro
+Pedagogia - Licenciatura - noturno - IBILCE/São José do Rio Preto
+Pedagogia - Licenciatura - vespertino - FCLAr/Araraquara
+Pedagogia - Licenciatura - vespertino - FCT/Presidente Prudente
+Psicologia - integral - FC/Bauru
+Psicologia - integral - FCLAs/Assis
+Psicologia - noturno - FC/Bauru
+Psicologia - vespertino/noturno - FCLAs/Assis
+Química - Bacharelado em Química Ambiental e Licenciatura em Química - integral - IBILCE/São José do Rio Preto
+Química - Bacharelado em Química e em Química Tecnológica - integral - IQAr/Araraquara
+Química - Bacharelado em Química Tecnológica - vespertino/noturno - FC/Bauru
+Química - Licenciatura - noturno - FC/Bauru
+Química - Licenciatura - noturno - FCT/Presidente Prudente
+Química - Licenciatura - noturno - IQAr/Araraquara
+Relações Internacionais - noturno - FCHS/Franca
+Relações Internacionais - noturno - FFC/Marília
+Relações Internacionais - vespertino - FCHS/Franca
+Relações Públicas - noturno - FAAC/Bauru
+Serviço Social - matutino - FCHS/Franca
+Serviço Social - noturno - FCHS/Franca
+Sistemas de Informação - Bacharelado - noturno - FC/Bauru
+Terapia Ocupacional - integral - FFC/Marília
+Treineiro
+Turismo - integral - FEC/Rosana
+Zootecnia - integral - FCAT/Dracena
+Zootecnia - integral - FCAV/Jaboticabal
+Zootecnia - integral - FEIS/Ilha Solteira
+Zootecnia - integral - FMVZ/Botucatu

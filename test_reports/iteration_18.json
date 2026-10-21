@@ -1,0 +1,28 @@
+{
+  "summary": "E2E tested the full inscrição flow for Edital 014/2026 SEDUC/CE cargo + city replacement. Verified /inscricao.html -> /dados-inscricao.html -> /confirmacao -> /inscricao-realizada -> /pagamento-pix on desktop (1920x4000) and mobile (390x844). All data replacements are correct: 14 cargos (codes 1-14 Arte-Educação..Sociologia, each 'R$ 150,00'), 21 Ceará cities (Acaraú..Tianguá, no Macapá/Oiapoque/Laranjal), single lotação option, cotas laws 17.432/2021 and 17.433/2021 present on both dados and confirmação. Confirmação shows Vaga 'Professor de Matemática' + R$ 150,00 + Estado 'Ceará' + Município 'SOBRAL/CE'. inscricao-realizada shows cargo and R$ 150,00. Pagamento-pix shows expected 'Chave PIX não configurada' error (as noted in request, not a bug). Mobile: both selects visible, no horizontal overflow.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "/pagamento-pix (error state)", "issues": ["When PIX key is not configured the page only shows the error message and omits the 'Valor R$ 150,00' summary. Expected per request (PIX key error is expected), but UX could display the valor + inscrição info even in error state so the candidate still sees the amount owed. Non-blocking."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "dados-inscricao.html CARGOS array is correctly hard-coded with 14 entries, codes 1-14 and uniform fee R$ 150,00 matching Edital 014/2026-SEDUC/SEPLAG.",
+    "MUNICIPIO_PROVA options contain exactly the 21 cities of CE and no stale AP cities (Macapá/Oiapoque/Laranjal). UF_PROVA is correctly fixed to 'CE'.",
+    "LOCAL_LOTACAO is a single required option matching the edital wording.",
+    "Cotas labels reference Lei Estadual nº 17.432/2021 (pessoas negras) and nº 17.433/2021 (PcD) on both dados-inscricao.html and confirmacao.html.",
+    "pagamento-pix.html fallback value is 150 (line ~868), consistent with the new uniform fee; it's only visible when PIX is configured, but the stored valor + inscricao-realizada already show R$ 150,00."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "Admin /donaspainel: donas / Seinao10@@ (not needed; data checks done end-user-side)",
+  "seed_data_creation": "Created one inscrição with NOME 'TESTE CARGOS QA', CPF 111.444.777-35, cargo 12 Matemática, Sobral/CE. Main agent should purge TESTE-prefixed data.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Flow fully verified end-to-end. CARGOS/MUNICIPIO_PROVA/LOCAL_LOTACAO definitions in /app/frontend/public/dados-inscricao.html lines ~800-865. Form fields on inscricao.html use name=NOME, CPF, DATA_NASCIMENTO, SEXO, NUMERO, CELULAR, EMAIL, DOC_TIPO, DOC_FRENTE, DOC_VERSO; declaration checkbox is #declaracao_veracidade; submit is #btn-salvar. Confirm button data-testid=btn-confirmar-inscricao then conf-success-ok then btn-pagar-inscricao.",
+  "rca of the issue": "N/A - no bugs found; all requested data replacements are in place and persist through the entire flow."
+}

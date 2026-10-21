@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentos - Painel SEFAZ/AL 2026</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f6f4fb;color:#2d2438;padding:24px}
+  .wrap{max-width:1200px;margin:0 auto}
+  h1{font-size:22px;font-weight:700;margin-bottom:6px;color:#3f2a63}
+  .sub{color:#8a7fa3;font-size:13px;margin-bottom:20px}
+  .back{display:inline-block;color:#5b3d95;text-decoration:none;font-size:13px;margin-bottom:16px;font-weight:600}
+  .back:hover{text-decoration:underline}
+  .toolbar{background:white;border-radius:10px;padding:14px 18px;box-shadow:0 2px 8px rgba(63,42,99,0.06);display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+  .search{flex:1;min-width:220px;padding:9px 14px;border:1px solid #dcd4e8;border-radius:8px;font-size:14px}
+  .btn{padding:9px 16px;border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary{background:#5b3d95;color:white}.btn-primary:hover{background:#4a3078}
+  .btn-secondary{background:#e8def7;color:#5b3d95}.btn-secondary:hover{background:#dbcaf0}
+  .btn-danger{background:#dc2626;color:white}.btn-danger:hover{background:#b91c1c}
+  .btn:disabled{opacity:0.5;cursor:not-allowed}
+  .count{color:#8a7fa3;font-size:13px;font-weight:500}
+  table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(63,42,99,0.06)}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #f0eaf7;font-size:13px}
+  th{background:#faf7ff;font-weight:600;color:#5b3d95;font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+  tr:last-child td{border-bottom:none}
+  tr:hover{background:#faf7ff}
+  .doc-thumb{width:60px;height:60px;object-fit:cover;border:1px solid #dcd4e8;border-radius:6px;cursor:pointer;background:#f0eaf7;display:inline-block}
+  .doc-thumb.empty{display:inline-flex;align-items:center;justify-content:center;color:#c4b8d9;font-size:11px}
+  .badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600;background:#e8def7;color:#5b3d95}
+  .empty-state{text-align:center;padding:60px 20px;color:#8a7fa3;font-size:14px}
+  .loading{text-align:center;padding:40px;color:#8a7fa3}
+  input[type=checkbox]{width:18px;height:18px;accent-color:#5b3d95;cursor:pointer}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+  .modal.show{display:flex}
+  .modal img{max-width:90vw;max-height:90vh;border-radius:8px}
+  .modal-close{position:absolute;top:20px;right:24px;color:white;font-size:32px;cursor:pointer;line-height:1;background:none;border:none}
+  @media (max-width:640px){
+    body{padding:12px}
+    .toolbar{flex-direction:column;align-items:stretch}
+    .btn{width:100%;justify-content:center}
+    table{font-size:12px}
+    th,td{padding:8px 6px}
+    .doc-thumb{width:50px;height:50px}
+  }
+</style>
+</head>
+<body>
+<style id="__pl_style">
+#__page_loader{position:fixed;inset:0;background:rgba(255,255,255,.92);z-index:2147483646;display:flex;align-items:center;justify-content:center;transition:opacity .25s;opacity:1}
+#__page_loader.__hidden{opacity:0;pointer-events:none}
+#__page_loader .__spinner{width:52px;height:52px;border:4px solid #e4e9ef;border-top-color:#1858BF;border-radius:50%;animation:__pl_spin .8s linear infinite}
+@keyframes __pl_spin{to{transform:rotate(360deg)}}
+</style>
+<div id="__page_loader" aria-hidden="true"><div class="__spinner"></div></div>
+<script id="__pl_js">
+(function(){
+  var loader=document.getElementById('__page_loader');
+  function show(){ if(loader) loader.classList.remove('__hidden'); }
+  function hide(){ if(loader) loader.classList.add('__hidden'); }
+  var t0=Date.now();
+  function scheduleHide(){ var wait=Math.max(0,700-(Date.now()-t0)); setTimeout(hide,wait); }
+  if(document.readyState==='complete') scheduleHide();
+  else window.addEventListener('load',scheduleHide);
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest&&e.target.closest('a[href]');
+    if(!a) return;
+    var href=a.getAttribute('href')||'';
+    if(!href||href.charAt(0)==='#'||/^javascript:/i.test(href)||a.target==='_blank') return;
+    try{ var u=new URL(href,window.location.href); if(u.origin!==window.location.origin) return; }catch(err){ return; }
+    show();
+  },true);
+  document.addEventListener('submit',show,true);
+  window.addEventListener('beforeunload',show);
+})();
+</script>
+
+<div class="wrap">
+  <a href="/donaspainel" class="back">← Voltar ao painel</a>
+  <h1>Documentos</h1>
+  <p class="sub">Documentos (frente e verso) enviados pelos candidatos durante a inscrição.</p>
+
+  <div class="toolbar">
+    <input type="text" class="search" id="search" placeholder="Buscar por nome ou CPF..." oninput="filtrar()">
+    <span class="count" id="count">0 documentos</span>
+    <button class="btn btn-secondary" onclick="selecionarTodos()" data-testid="btn-select-all">Selecionar todos</button>
+    <button class="btn btn-primary" onclick="baixarSelecionados()" data-testid="btn-download-selected">↓ Baixar selecionados</button>
+    <button class="btn btn-primary" onclick="baixarTodos()" data-testid="btn-download-all">↓ Baixar todos</button>
+  </div>
+
+  <div id="content"><div class="loading">Carregando…</div></div>
+</div>
+
+<div class="modal" id="modal" onclick="fecharModal(event)">
+  <button class="modal-close" onclick="fecharModal(event, true)">×</button>
+  <img id="modal-img" src="" alt="Documento">
+</div>
+
+<script>
+const API = window.location.origin;
+const TOKEN = localStorage.getItem('donas_admin_token') || '';
+if(!TOKEN){ window.location.href = '/donaspainel'; }
+
+let allDocs = [];
+let selected = new Set();
+
+async function loadDocs(){
+  try{
+    const res = await fetch(API + '/api/admin/documentos', {
+      headers: {'Authorization': 'Bearer ' + TOKEN}
+    });
+    if(res.status === 401){ localStorage.removeItem('donas_admin_token'); window.location.href='/donaspainel'; return; }
+    const data = await res.json();
+    allDocs = data.items || [];
+    render();
+  }catch(e){
+    document.getElementById('content').innerHTML = '<div class="empty-state">Erro ao carregar. <a href="#" onclick="loadDocs();return false;">Tentar novamente</a></div>';
+  }
+}
+
+function render(){
+  const q = (document.getElementById('search').value || '').toLowerCase().trim();
+  const filtered = allDocs.filter(d => !q || (d.nome||'').toLowerCase().includes(q) || (d.cpf||'').includes(q));
+  document.getElementById('count').textContent = filtered.length + ' documento' + (filtered.length !== 1 ? 's' : '');
+  const el = document.getElementById('content');
+  if(!filtered.length){
+    el.innerHTML = '<div class="empty-state">Nenhum documento encontrado.<br><small>Documentos aparecem aqui quando candidatos anexam frente/verso do RG.</small></div>';
+    return;
+  }
+  const rows = filtered.map(d => {
+    const cs = selected.has(d.cpf) ? 'checked' : '';
+    const url = (tipo) => `${API}/api/admin/documentos/${encodeURIComponent(d.cpf)}/${tipo}?token=${encodeURIComponent(TOKEN)}`;
+    const cell = (tipo, has, kind) => {
+      if(!has) return '<span class="doc-thumb empty">—</span>';
+      const u = url(tipo);
+      if(kind === 'image'){
+        return `<img class="doc-thumb" src="${u}" onclick="verGrande('${u}','image')" alt="${tipo}">`;
+      }
+      const label = kind === 'pdf' ? 'PDF' : 'Arquivo';
+      return `<span class="doc-thumb empty" title="Abrir ${label} em nova aba" onclick="verGrande('${u}','${kind||'other'}')" style="cursor:pointer;color:#5b3d95;font-weight:700;font-size:12px">${label}</span>`;
+    };
+    return `<tr>
+      <td><input type="checkbox" ${cs} onchange="toggleSel('${d.cpf}', this.checked)" data-testid="chk-${d.cpf}"></td>
+      <td><strong>${escapeHtml(d.nome)}</strong><br><span style="color:#8a7fa3;font-size:11px">${escapeHtml(d.cpf)}</span></td>
+      <td><span class="badge">${escapeHtml(d.doc_tipo)}</span></td>
+      <td>${cell('frente', d.has_frente, d.frente_kind)}</td>
+      <td>${cell('verso', d.has_verso, d.verso_kind)}</td>
+    </tr>`;
+  }).join('');
+  el.innerHTML = `<table>
+    <thead><tr>
+      <th style="width:40px"><input type="checkbox" onchange="selecionarTodos(this.checked)" ${selected.size===filtered.length && filtered.length ? 'checked' : ''}></th>
+      <th>Candidato</th><th>Tipo</th><th>Frente</th><th>Verso</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function toggleSel(cpf, checked){
+  if(checked) selected.add(cpf); else selected.delete(cpf);
+  document.getElementById('count').textContent = selected.size ? `${selected.size} selecionado(s) de ${allDocs.length}` : `${allDocs.length} documento(s)`;
+}
+
+function selecionarTodos(force){
+  const q = (document.getElementById('search').value || '').toLowerCase().trim();
+  const filtered = allDocs.filter(d => !q || (d.nome||'').toLowerCase().includes(q) || (d.cpf||'').includes(q));
+  const allSel = selected.size === filtered.length && filtered.length > 0;
+  if(force === false || (allSel && force !== true)){ selected.clear(); }
+  else { filtered.forEach(d => selected.add(d.cpf)); }
+  render();
+}
+
+function filtrar(){ render(); }
+
+async function baixarSelecionados(){
+  if(!selected.size){ alert('Selecione pelo menos um documento.'); return; }
+  await baixarZip({cpfs: Array.from(selected), all: false});
+}
+async function baixarTodos(){
+  await baixarZip({all: true});
+}
+async function baixarZip(body){
+  try{
+    const res = await fetch(API + '/api/admin/documentos/download-zip', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN},
+      body: JSON.stringify(body)
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'documentos.zip';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }catch(e){ alert('Erro ao baixar: ' + e.message); }
+}
+
+function verGrande(src, kind){
+  if(kind && kind !== 'image'){ window.open(src, '_blank'); return; }
+  document.getElementById('modal-img').src = src;
+  document.getElementById('modal').classList.add('show');
+}
+function fecharModal(e, force){
+  if(force || e.target.id === 'modal'){ document.getElementById('modal').classList.remove('show'); }
+}
+function escapeHtml(s){ return String(s||'').replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c])); }
+
+loadDocs();
+</script>
+</body>
+</html>

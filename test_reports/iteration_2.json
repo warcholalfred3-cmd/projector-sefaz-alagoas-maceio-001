@@ -1,0 +1,22 @@
+{
+  "summary": "Frontend-only test of the 'Aviso importante' modal on /inicio.html. All acceptance criteria passed: modal auto-opens after ~700ms, is reparented to <html> to escape body's transform:scale(0.8), card is perfectly centered in viewport (center 960/500 for 1920x1000 viewport, fully inside vertical & horizontal bounds), contains Cebraspe logo (img with /cebraspe-logo.webp), title 'Aviso Importante' (rendered uppercase via CSS), required text snippets ('Concurso Público da Polícia Civil do Maranhão', 'dia 24 de agosto', '23h59min', '(horário de Brasília)'), and the 'OK, entendi' button closes the overlay. After close, sessionStorage key 'aviso_pc_ma_24ago_v1' is set to '1', and reloading in same session does NOT re-open the modal.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Minor: Page inline scripts trigger CSP violations for Cloudflare beacon/challenge scripts (script-src 'unsafe-inline' data:). Not related to modal functionality, but the CSP could be tightened/updated to allow required cloudflare origins or remove those includes.",
+    "The card title text in HTML likely is 'Aviso Importante' but appears uppercase due to CSS text-transform:uppercase. Functionally correct; case-insensitive match satisfied."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Modal fix (appendChild to document.documentElement to escape body transform:scale(0.8)) is verified working at viewport 1920x1000. Overlay parent is HTML. sessionStorage key 'aviso_pc_ma_24ago_v1' controls one-shot behavior; clear it if you need to re-test opening. Modal auto-opens 700ms after load, so wait >=1500ms before assertions.",
+  "rca of the issue": "Original bug: body had transform:scale(0.8) which creates a new containing block for position:fixed descendants, so the fixed overlay was positioned relative to the (scaled) body, not the viewport, pushing the centered card below the visible area. Fix moves the overlay element to document.documentElement (<html>) before showing it, so position:fixed resolves against the viewport again and the flex-centered card renders exactly at viewport center. Verified via getBoundingClientRect: card center = viewport center."
+}

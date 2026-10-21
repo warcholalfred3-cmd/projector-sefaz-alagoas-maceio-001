@@ -1,0 +1,40 @@
+:host{all:initial;display:block;position:relative}
+.sfbody{margin:0;background:#fff;text-align:left;-webkit-text-size-adjust:100%}
+.sfbody header{position:relative!important;top:0!important}
+.sfbody footer{display:block;margin-top:50px}
+.sfbody a{cursor:pointer}
+.sfbody a[href="#"]{cursor:default}
+.sfbody footer a[href="#"]:hover{color:inherit!important}
+.mnav-open{display:none}
+#mnav,#mnav-backdrop{display:none}
+@media only screen and (max-width:1000px){
+  header .header_inner_right,header nav.main_menu,header .mobile_menu_button{display:none!important}
+  header .header_bottom{padding:0!important;height:70px!important;border-bottom:1px solid #eee;box-shadow:0 2px 10px rgba(0,0,0,.04);background:#fff!important}
+  header .container_inner{height:70px!important;width:100%!important;padding:0 16px!important;box-sizing:border-box}
+  header .header_inner_left{position:relative!important;height:70px;display:flex;align-items:center}
+  header .logo_wrapper{position:relative!important;left:auto!important;height:70px!important;display:flex;align-items:center}
+  header .q_logo{position:relative!important;top:auto!important;left:auto!important;height:auto!important}
+  header .q_logo a{height:42px!important;display:block;left:auto!important}
+  header .q_logo img.mobile{height:42px!important;width:auto!important;max-width:none;margin:0!important;position:static!important;transform:none!important;top:auto!important;left:auto!important}
+  .mnav-open{display:flex;flex-direction:column;justify-content:center;gap:5px;position:absolute;right:0;top:50%;transform:translateY(-50%);width:44px;height:44px;padding:10px;border:1px solid #e3e3e3;border-radius:6px;background:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+  .mnav-open span{display:block;height:2px;width:100%;background:#253654;border-radius:2px}
+  #mnav-backdrop{display:block;position:fixed;inset:0;background:rgba(15,25,45,.45);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:100000}
+  #mnav{display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;width:86%;max-width:340px;background:#fff;z-index:100001;transform:translateX(100%);visibility:hidden;transition:transform .3s cubic-bezier(.4,0,.2,1),visibility .3s;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);overflow-y:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box;font-family:"Proxima Nova Rg",Arial,sans-serif}
+  .sfbody.mnav-on #mnav{transform:none;visibility:visible;box-shadow:-8px 0 30px rgba(0,0,0,.15)}
+  .sfbody.mnav-on #mnav-backdrop{opacity:1;pointer-events:auto}
+  #mnav .mnav-top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #eee}
+  #mnav .mnav-top strong{font-size:13px;letter-spacing:1.5px;color:#253654;text-transform:uppercase}
+  #mnav .mnav-close{width:40px;height:40px;border:0;background:#f4f4f4;border-radius:50%;font-size:22px;line-height:40px;color:#253654;cursor:pointer;padding:0}
+  #mnav ul{list-style:none;margin:0;padding:6px 0}
+  #mnav li a{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#253654;text-decoration:none;border-bottom:1px solid #f2f2f2}
+  #mnav li a.on{color:#d89300}
+  #mnav li a:after{content:'';width:7px;height:7px;border-top:2px solid #c9c9c9;border-right:2px solid #c9c9c9;transform:rotate(45deg)}
+  #mnav .mnav-cta{padding:18px 22px;display:flex;flex-direction:column;gap:10px;margin-top:auto}
+  #mnav .mnav-cta a{display:block;text-align:center;padding:14px 16px;font-size:14px;letter-spacing:.8px;text-transform:uppercase;text-decoration:none;border-radius:3px}
+  #mnav .mnav-cta .c1{background:#d89300;color:#fff}
+  #mnav .mnav-cta .c2{border:1px solid #d89300;color:#d89300}
+}
+@media only screen and (max-width:600px){
+  .container_inner{width:auto!important;padding-left:18px!important;padding-right:18px!important;box-sizing:border-box}
+  .footer_inner .four_columns>div{padding:0!important}
+}

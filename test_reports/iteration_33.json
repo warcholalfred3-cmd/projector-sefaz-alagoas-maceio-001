@@ -1,0 +1,30 @@
+{
+  "summary": "Frontend-only test of the blue edital card change on 6 public pages. PASS: the sentence 'Vestibular Unesp 2027 - VNSP2514 / Fundação VUNESP — Vestibular da Universidade...' is gone from the visible body on all 6 pages. PASS: alignment. On desktop 1920 the card left edge and width equal the content below it exactly (0px difference): inscricao/dados 506/908 (h2, LGPD box, fieldsets), confirmacao 444/1032, realizada/pix 477/966, minhas 460/1000. Mobile 390 has no horizontal overflow, and the LGPD box is 13px, left-aligned and readable. PASS: regression flow (inscricao -> dados (Treineiro) -> confirmacao -> inscricao-realizada R$ 225,00 -> pagamento-pix R$ 225,00 with QR and PIX code -> minhas-inscricoes lists the inscription). FAIL (HIGH): on confirmacao.html, inscricao-realizada.html and pagamento-pix.html the blue card is an EMPTY blue bar, because the 'VESTIBULAR | VESTIBULAR UNESP 2027' h3 is removed at runtime.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Edital card on confirmacao/inscricao-realizada/pagamento-pix", "issue": "The h3 'VESTIBULAR | VESTIBULAR UNESP 2027' is in the served HTML but gets deleted after load. The card shows as an empty blue strip.", "selector": "[data-testid=edital-card] .aec-head h3", "priority": "HIGH"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "confirmacao.html", "issues": ["The title 'CONFIRMAÇÃO DOS DADOS' sits ABOVE the blue card, while on the other pages the card comes first.", "Mobile 390: the card is at left=12 width=366 but h2.tituloPagina is at left=6 width=378 (6px offset)."]},
+      {"screen": "inscricao.html desktop", "issues": ["About 90px of empty space between the header and the blue card (minor)."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "In /app/memory/home_build/build_pages.py, add a REPL entry or a per-page replace that changes \"document.querySelectorAll('.blocoPadrao h3').forEach(function(el){ el.remove(); });\" to \"document.querySelectorAll('.blocoPadrao h3').forEach(function(el){ if(!el.closest('.aocp-edital-card')) el.remove(); });\". Affects confirmacao, inscricao-realizada and pagamento-pix (inline script id=__fgv_nuke_empty). Then rebuild and verify the h3 is visible.",
+    "Optional: on confirmacao, put the card before the h2 and fix the 6px mobile offset between the h2 and the card."
+  ],
+  "critical_code_review_comments": [
+    "Moving the card into .blocoPadrao .dados conflicts with the legacy __fgv_nuke_empty script, which removes every '.blocoPadrao h3'.",
+    "The remaining 'VNSP2514' strings are not part of the card and look intended: JS edital fields, the dados-inscricao concurso <option> 'Vestibular Unesp 2027 - VNSP2514', and the pagamento-pix line 'Universidade Estadual Paulista (Unesp) - VNSP2514'."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "75% (text removal, alignment and flow pass; header missing on 3 of 6 pages)"},
+  "seed_data_creation": "Created a test inscription for CPF 111.444.777-35 (teste@example.com, Treineiro). Deleted it afterwards via DELETE /api/admin/inscriptions/{id} and /api/admin/cadastros/11144477735.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "The full inscricao flow works in one script: fill NOME, CPF, data, SEXO; click the 4 radio testids; CEP 01310-100 autofills the address; fill numero, email, celular; select #DOC_TIPO index 1; set_input_files on input-doc-frente and input-doc-verso; check declaracao_veracidade; click btn-continuar-inscricao. On dados: select-vaga index 178 (Treineiro), select-municipio-prova index 1, check all checkboxes, click btn-cadastrar. On confirmacao click btn-confirmar-inscricao, then conf-success-ok. On realizada click btn-pagar-inscricao. To verify the fix, check that '.aocp-edital-card h3' exists after load on confirmacao and pagamento-pix.",
+  "rca of the issue": "build_pages.py lines 65-69 move .aocp-edital-card into '.blocoPadrao .dados'. The inline script __fgv_nuke_empty in confirmacao/inscricao-realizada/pagamento-pix (from the backup pages) runs document.querySelectorAll('.blocoPadrao h3').forEach(el=>el.remove()). I confirmed this by hooking Element.remove: the h3 is removed by confirmacao.html line ~1542. inscricao and dados-inscricao do not have this script, so they show the header."
+}

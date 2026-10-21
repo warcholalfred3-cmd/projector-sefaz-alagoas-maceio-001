@@ -1,0 +1,25 @@
+{
+  "summary": "Frontend-only test of updated /termos.html (VUNESP / Vestibular Unesp 2027) on desktop 1920x800 and mobile 390x844, plus homepage regression. All requested checks passed.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Mobile header (both / and /termos.html)", "issues": ["At 390px the Institucional / Recrutamento Vunesp / Área do Candidato links are hidden and there is no hamburger to reach them (only the logo shows). It's the same on the homepage, so termos matches it. Low priority."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: remove the public backup files /app/frontend/public/termos.html.seducbak, termos.html.oldbak, inicio.html.seducbak and cev-logo.png. They can still be fetched by URL and contain old CEV/SEDUC content."
+  ],
+  "critical_code_review_comments": [
+    "home_extra.html loader script is shared by / and /termos.html; a.home-menu-link handlers -> loader -> '/' after 2s, works correctly.",
+    "Category submenu items open on click of #ancora-concurso etc. (not on hover) on desktop; same as homepage."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Verified: no CEV/SEDUC/Ceará in visible text of /termos.html (the regex hits in the raw HTML come from base64 data only); header and footer innerText are identical to '/'; card text checks out (Vestibular Unesp 2027, 04/09-20/10, 5.850, TERMOS DE INSCRIÇÃO | VESTIBULAR UNESP 2027, 20/10/2026 às 23h59); CONTINUAR stays disabled until termos-checkbox is checked, then goes to /inscricao.html (desktop+mobile); VOLTAR goes to /; menu-concurso-0 (after clicking #ancora-concurso on desktop, or the CONCURSOS tile on mobile) shows home-loader then goes to /; 0 external http(s) hrefs; scrollWidth=390 on mobile; homepage INSCREVA-SE shows loader then goes to /termos.html. Use wait_until='load'. Playwright force-click on a submenu item while the dropdown is closed does nothing (it lands on the element on top), so open the dropdown first."
+}

@@ -1,0 +1,31 @@
+{
+  "summary": "Frontend-only testing of /inicio.html loader behavior for Inscrição links. Verified bullet links stay on home page and PDF links use target=_blank with correct hrefs. Found critical bug: data-testid=link-inscricao-online navigates to /termos.html IMMEDIATELY (~0.5s) without showing the data-testid=page-loader, both on desktop and mobile. The regression button data-testid=btn-inscricao-online works correctly (2.39s with loader visible).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "inicio.html (link-inscricao-online)",
+        "issue": "Clicking the link '15/09/2026 (18:47) – Inscrição On-line' navigates to /termos.html immediately (~0.49s) without showing the 'Carregando...' loader. Expected: show data-testid=page-loader for ~2s then navigate. Same failure on mobile 390x844 (~0.56s, loader not shown).",
+        "selector": "[data-testid=\"link-inscricao-online\"]",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix the inline <script> in /app/frontend/public/inicio.html (around line 181) that binds click handlers to '#btn-inscricao-online,.js-inscricao-loader'. The script runs at parse time BEFORE the <a class=\"js-inscricao-loader\" data-testid=\"link-inscricao-online\"> element (line 198) exists in the DOM, so the link does not get the preventDefault+loader handler and uses its native href. Fix options: (a) wrap in document.addEventListener('DOMContentLoaded', ...), or (b) move the <script> block to AFTER line 205 / end of body. After editing, run `cd /app/frontend && yarn build`."
+  ],
+  "critical_code_review_comments": [
+    "Inline script attaches event listeners before referenced elements exist in DOM — always use DOMContentLoaded or place script after target elements.",
+    "The 7 bullet 'inicio.html' anchors (lines 199-205) are placeholders pointing at the same page — functional but likely intentional stubs; worth confirming with product owner."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "87%"},
+  "seed_data_creation": "none",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Test results: link-inscricao-online = BROKEN (no loader, immediate navigation, both desktop & mobile). btn-inscricao-online = OK (loader shown, 2.39s then /termos.html). All 7 bullet links = OK (href=inicio.html, stay on home, no loader). All 7 PDF links = OK (target=_blank with /seduc/comunicados/*.pdf hrefs). Root cause documented in action_items.",
+  "rca of the issue": "In /app/frontend/public/inicio.html, the <script> at line 181 runs querySelectorAll('#btn-inscricao-online,.js-inscricao-loader') synchronously during HTML parsing. At that moment the parser has not yet reached line 198 where the <a class=\"js-inscricao-loader\"> element is defined, so the NodeList only contains the button. The link therefore has no click handler, no preventDefault, and no loader trigger — it just follows its href=\"/termos.html\" immediately. Reproduction: open /inicio.html, close Aviso modal, click '15/09/2026 (18:47) – Inscrição On-line' — navigates in ~0.5s with no loader. Mitigation: wrap handler-binding code in DOMContentLoaded listener OR relocate the <script> element below line 205."
+}

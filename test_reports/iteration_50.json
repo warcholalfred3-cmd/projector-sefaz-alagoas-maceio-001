@@ -1,0 +1,16 @@
+{
+  "summary": "Frontend-only retest of the 'Página de acompanhamento' header button (seduc-theme.js v18). Desktop 1920: on /, /termos.html (home-acompanhamento-btn) and on /inscricao, /dados-inscricao, /confirmacao, /inscricao-realizada, /pagamento-pix (#seduc-header-host >> header-minhas-inscricoes-desktop-btn), the button is visible, has href=/minhas-inscricoes.html, and clicking it opens /minhas-inscricoes.html (7/7). Mobile 390: opening the drawer and clicking mobile-menu-acompanhamento-btn (home/termos) or header-minhas-inscricoes-btn (form pages) also opens /minhas-inscricoes.html (7/7). On /minhas-inscricoes.html neither the desktop nor the drawer button is present (count 0, no 'Página de acompanhamento' text in the light or shadow DOM). The hamburger opens and closes the drawer; menu items and FAZER INSCRIÇÃO still show. The header layout is fine (logo on the left, nav row intact, nothing broken in the empty right slot). The page content and the Voltar button (goes back in history) work.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "build() removes the button after the shadow DOM is injected, with a path regex check (/minhas-inscricoes/). This works, but it's a little fragile: any future page whose path contains 'minhas-inscricoes' would also lose the button. Acceptable for now."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "On form pages the header is in the shadow DOM #seduc-header-host (drawer opener #mnav-open, close #mnav .mnav-close). On home/termos it is light DOM (mobile-menu-open-btn, home-acompanhamento-btn, mobile-menu-acompanhamento-btn). /minhas-inscricoes.html hides the acompanhamento buttons via seduc-theme.js build()."
+}

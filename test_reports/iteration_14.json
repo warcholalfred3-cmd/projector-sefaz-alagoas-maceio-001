@@ -1,0 +1,23 @@
+{
+  "summary": "Frontend-only testing of static pages: inscricao-realizada.html, pagamento-pix.html, and new minhas-inscricoes.html. All 7 required behaviors verified via Playwright on the public preview URL.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "sessionStorage.inscricao_dados injected via page.evaluate during test",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Header is injected via Shadow DOM (host id=aocp-header-host). On inscricao-realizada and pagamento-pix the rewrite of #logout to 'Minhas inscrições' happens via setInterval up to ~4s after load, so wait >=4s before asserting. In minhas-inscricoes.html, #logout is forced display:none. Card uses data-testid=card-inscricao; back button data-testid=btn-voltar.",
+  "test_results": {
+    "T1 inscricao-realizada header 'Minhas inscrições' href=/minhas-inscricoes.html": "PASS",
+    "T2 pagamento-pix header 'Minhas inscrições' href=/minhas-inscricoes.html": "PASS",
+    "T3 minhas-inscricoes no visible SAIR + logo present": "PASS",
+    "T4 card shows protocolo/nome/CPF/vaga/valor": "PASS",
+    "T5 click card navigates to /inscricao-realizada.html": "PASS",
+    "T6 btn-voltar navigates to /inscricao-realizada.html": "PASS",
+    "T7 empty sessionStorage -> 'Nenhuma inscrição encontrada'": "PASS"
+  }
+}

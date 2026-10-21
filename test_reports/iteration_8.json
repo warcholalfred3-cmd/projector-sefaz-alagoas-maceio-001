@@ -1,0 +1,25 @@
+{
+  "summary": "Verified fix for 'Documentos' sidebar tab bug in /donaspainel admin. Login with donas/Seinao10@@ succeeded (token stored in localStorage['donas_admin_token'], length 147). Clicking the 'Documentos' item in the sidebar now navigates to /donaspainel-documentos.html (NOT to inicio.html or the home page) as expected after the fix. The standalone documentos page loaded correctly, made an authenticated GET /api/admin/documentos (200 OK) using the Bearer token, rendered 6 documents (candidates TEUCU NAVARA, TESTE DESKTOP DOC, TESTE MOBILE DOC, DONAS SILVA, plus 2 CPF-only entries) with thumbnails for frente/verso, showed the search input with id='search', and page title 'Documentos - Polícia Penal RN'. The 'Voltar ao painel' link has href='/donaspainel' and correctly returns to the SPA dashboard.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Dashboard", "issues": ["Recharts console warning: chart width(-1) height(-1) — non-blocking, but indicates a chart container is being rendered before layout is computed (missing minWidth/minHeight or hidden container)."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Fix verified: sidebar Documentos link now uses '/donaspainel-documentos.html' (both anchor href and window.location.href in main.fda9cfa5.js). No fallback-to-home issue reproduced.",
+    "Optional cleanup: recharts container size warning on Dashboard — set explicit min-height on ResponsiveContainer parents to avoid transient (-1,-1) sizing during first render."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend-only)", "frontend": "100%"},
+  "test_credentials": "admin: donas / Seinao10@@",
+  "seed_data_creation": "None. Used existing candidate documents.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Login flow: navigate to /donaspainel, two input fields (USUÁRIO first, SENHA second), click button 'Entrar'. After login, hash routes to #/dashboard and localStorage['donas_admin_token'] holds JWT. Sidebar items: Dashboard, Inscrições, Cadastro, Documentos, Usuários, Configurações. Documentos link is a standalone HTML page at /donaspainel-documentos.html; it reads token from localStorage and calls GET /api/admin/documentos with Authorization Bearer. Search field id='search'. Voltar link href='/donaspainel'.",
+  "rca of the issue": "Original bug: sidebar Documentos anchor pointed to '/donaspainel/documentos' (a virtual route only resolved by a dev-server middleware). In production nginx that route was unknown and fell back to inicio.html. Fix: point the link to the real static asset '/donaspainel-documentos.html' (both the <a href> and the window.location.href in main.fda9cfa5.js). Verified in preview: click no longer redirects to /inicio.html; documentos page loads, authenticates via localStorage token, and successfully fetches /api/admin/documentos."
+}

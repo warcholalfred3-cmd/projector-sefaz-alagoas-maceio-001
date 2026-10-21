@@ -1,0 +1,26 @@
+{
+  "summary": "Frontend-only test of the VUNESP-style CSS reskin on the 6 registration pages, plus a full regression run. Visual checks at 1920 on all 6 pages: body background is rgb(245,245,245). The title head has a transparent background with no background-image, so no blue stripe. 'Vestibular Unesp 2027' is centered, #333, Helvetica Neue, 36px; the 'Universidade Estadual Paulista - UNESP' subtitle shows below it. Fieldsets and blocks are white with 0 border-radius and a 0 1px 4px rgba(0,0,0,.22) shadow. Inputs are bootstrap-like. These buttons are rgb(217,83,79) = #d9534f: #btn-salvar (Continuar, shown at 0.6 opacity while disabled), btn-cadastrar, #btn-confirmar, #btn-pagar. The header 'MINHAS INSCRIÇÕES' button is red on inscricao-realizada and pagamento-pix (checked in screenshots). Regression: all fields are present on inscricao (personal data, Sexo, 4 questionnaire selects, CEP autofill, contact, DOC_TIPO plus front/back files, LGPD box and the declaration checkbox). Continuar stayed disabled until everything was filled. On dados: Polo->Curso works (Bauru -> course), Cidade de Aplicação BAURU/SP, cotas checkboxes negros and PCD; Cadastrar stayed disabled until the termo box was checked. Confirmacao showed all 26 values correctly (course, UF São Paulo, city, questionnaire answers, address, Negros SIM, PCD SIM). Confirmar led to inscricao-realizada with R$ 225,00, then pagamento-pix with R$ 225,00, the QR code and a Pix code starting with 000201...br.gov.bcb.pix. minhas-inscricoes lists the inscription. Mobile 390x844: horizontal overflow is 0 on all 6 pages and no element goes past the viewport; title is 26px and subtitle 19px (the subtitle wraps to 2 lines on realizada/pix, which is still readable).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "pagamento-pix", "issues": ["'COPIAR CÓDIGO' (#p-btn-copy, data-testid btn-copiar-codigo) is still blue rgb(17,114,219). pages.css targets #btn-copiar/.pix-copy/button#copiar, but none of those match the real button, so it doesn't fit the red primary scheme. '← VOLTAR' is also a gray uppercase Open Sans style and not the white bootstrap-default button. Optional cosmetic."]},
+      {"screen": "inscricao-realizada / pagamento-pix", "issues": ["The titles sit inside a white card container, while the other 4 pages show them directly on the gray background. Slightly inconsistent, but acceptable."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: add #p-btn-copy to the red button selector list in /app/memory/home_build/pages.css, then rebuild."
+  ],
+  "critical_code_review_comments": [
+    "In pages.css the .vn-sub rule appears twice (lines 7 and 33) and the mobile h3/vn-sub rules are also duplicated. Harmless, but it could be consolidated.",
+    "If pagamento-pix is opened directly with no localStorage, it still generates a Pix code with empty name/CPF ('—'). This is pre-existing behaviour and was not caused by this change."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "100% of requested checks (1 optional cosmetic item)"},
+  "seed_data_creation": "Created 1 inscription (TEST_ VISUAL VUNESP, CPF 51946536890, teste@example.com). Cleanup removed cadastros 1, registrations 3, pix_generated 1 and inscricoes 1.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Inscricao: the questionnaire selects have no id, so use [data-testid=select-estado-civil] and the other select testids. After choosing DOC_TIPO, set_input_files on both input-doc-frente and input-doc-verso or Continuar stays disabled. Dados: #POLO 'Bauru', #VAGA index 1, select-municipio-prova 'BAURU/SP', #cotas_negros, #PORTADOR_DEFICIENCIA, [name=termo]."
+}

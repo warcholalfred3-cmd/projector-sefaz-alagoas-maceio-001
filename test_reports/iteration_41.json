@@ -1,0 +1,27 @@
+{
+  "summary": "Tested the new Cebraspe SEFAZ/AL 2026 home page (/ -> inicio.html) end to end: content, external-link removal, Fazer inscricao loader -> /termos.html, desktop menu -> loader -> /, acompanhamento -> /minhas-inscricoes.html, POST /api/track/access -> admin KPIs/accesses, and mobile layout + drawer at 360x780 (Android UA), 390x844 (iPhone UA) and 820x1180 (iPad UA). Everything requested works.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Home mobile", "issues": ["Header is not sticky on mobile: after scrolling, the hamburger and logo are off-screen. This is optional; a sticky header would make the menu easier to reach on a long page."]},
+      {"screen": "Home editais list", "issues": ["57 links that went to external pages are now '#' and do nothing when clicked. Edital cards still look clickable (hover color/pointer). This is acceptable because the user wants no external navigation, but they could be made to look not clickable."]},
+      {"screen": "Home tablet 820px", "issues": ["The .vc_row rows extend 15px past the viewport on each side (Bootstrap negative margins), but the extra width is hidden: scrollWidth == viewport and no horizontal scroll. Cosmetic only."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_home_cebraspe.py", "/app/test_reports/pytest/pytest_home_cebraspe.xml"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "The page loads one external resource: static.cloudflareinsights.com/beacon.min.js. It is injected by the Cloudflare edge/proxy, not by the app. It causes no console errors and no navigation away.",
+    "The footer still shows the real Cebraspe address, phone and sac@cebraspe.org.br as plain text. There are no links, so this is OK for the no-external-links requirement.",
+    "Because of the Cloudflare beacon, page.goto with wait_until='networkidle' times out. Future tests should use wait_until='load'."
+  ],
+  "updated_files": ["/app/backend/tests/test_home_cebraspe.py"],
+  "success_rate": {"backend": "100% (7/7)", "frontend": "100%"},
+  "test_credentials": "admin donas / Seinao10@@ (from /app/memory/test_credentials.md) - works",
+  "seed_data_creation": "Created test access records via POST /api/track/access with visitor_id prefix TEST_ and user_agent containing TESTAGENT (these show up in admin accesses).",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "'/' serves the inicio.html content directly (no redirect stub in the response). No WebKit binary in this environment, so iOS was checked with Chromium using an iPhone viewport + UA. Drawer closes with the X button, a backdrop click and Escape. Loader is #home-loader.on; navigation happens after a 2s timeout. bfcache pageshow resets the loader (verified with go_back)."
+}

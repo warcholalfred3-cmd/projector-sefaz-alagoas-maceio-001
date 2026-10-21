@@ -1,0 +1,70 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minhas inscrições - Concurso Professor Seduc 2026 | CEV/UECE</title>
+<link rel="stylesheet" href="/seduc/seduc-theme.css"><script src="/seduc/seduc-theme.js?v=2"></script>
+<style>
+:root{--g:#008d3c;--gd:#006b2d;--ink:#1f3d2b;--bd:#e6f0e9;--mut:#6b7a90;--bg:#f4faf6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:#1f2a3a}
+.wrap{max-width:1032px;margin:28px auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:18px;box-shadow:0 6px 22px rgba(23,52,92,.06);overflow:hidden;margin-bottom:22px}
+.edhead{background:#008d3c;padding:14px 24px}.edhead h3{color:#fff!important;font-family:"OpenSans-Semibold",Helvetica,Arial,sans-serif}
+.edhead h3{margin:0;color:var(--ink);font-size:20px}
+.edbody{display:flex;gap:20px;padding:22px 24px;flex-wrap:wrap}
+.edbody img{width:150px;height:auto;border-radius:10px;flex:0 0 auto}
+.edtxt{font-size:15px;color:#2b3a4f;line-height:1.5}
+h1.t{color:var(--ink);font-size:26px;font-weight:800;margin:0 0 6px;padding:0 4px}
+.sub{color:var(--mut);font-size:14px;margin:0 0 16px;padding:0 4px}
+.insc{cursor:pointer;background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 4px 14px rgba(23,52,92,.06);padding:20px 22px;transition:transform .15s ease,box-shadow .2s ease,border-color .2s}
+.insc:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(23,52,92,.12);border-color:var(--g)}
+.insc .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #eef1f4;padding-bottom:12px;margin-bottom:12px}
+.insc .num{font-size:20px;font-weight:800;color:var(--ink)}
+.badge{background:#fff3cd;color:#856404;border:1px solid #ffeaa7;border-radius:999px;padding:5px 14px;font-weight:700;font-size:12px}
+.row{display:flex;justify-content:space-between;gap:16px;padding:8px 0;font-size:14px}
+.row .k{color:var(--mut);font-weight:700}.row .v{color:#17243a;font-weight:600;text-align:right}
+.hint{margin-top:12px;color:var(--g);font-size:13px;font-weight:700}
+.back{display:inline-block;margin-top:18px;background:#fff;border:1.6px solid #cdd5e1;color:#334155;border-radius:12px;padding:13px 26px;font-weight:700;cursor:pointer;text-decoration:none}
+.back:hover{border-color:var(--g);color:var(--gd)}
+.card{border:1px solid #ddd;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.edhead{background:#f5f5f5;border-bottom:1px solid #ddd;padding:12px 18px}
+.edhead h3{font-size:23px;font-weight:400;color:#333;line-height:1.3}
+.edbody{padding:18px;gap:22px;align-items:flex-start}
+.edbody img{width:190px;border-radius:0}
+.edtxt{color:#333;line-height:1.7}
+@media(max-width:640px){
+  .edhead{padding:7px 10px}
+  .edhead h3{font-size:12px;line-height:1.25}
+  .edbody{flex-direction:column;gap:8px;align-items:center;padding:10px}
+  .edbody img{width:80px}
+  .edtxt{font-size:11px;line-height:1.4}
+}
+</style></head><body>
+<div class="wrap">
+ <div class="card"><div class="edhead"><h3>SECRETARIA DA EDUCAÇÃO DO ESTADO DO CEARÁ - SEDUC/CE</h3></div><div class="edbody"><img src="/seduc/cev-logo.png" alt="CEV/UECE" style="width:200px;border-radius:0"><div class="edtxt"><strong>Edital Nº 014/2026-SEDUC/SEPLAG</strong><br>Concurso Público de Provas e Títulos para Provimento de Cargos Efetivos de Professor com Lotação em Estabelecimentos de Ensino da Rede Estadual do Ceará, vinculados à Secretaria da Educação do Estado do Ceará (SEDUC).</div>
+  </div></div>
+ <h1 class="t">Minhas inscri&ccedil;&otilde;es</h1>
+ <p class="sub">Clique na inscri&ccedil;&atilde;o para ver os detalhes.</p>
+ <div id="lista"></div>
+ <a class="back" href="/inscricao-realizada.html" data-testid="btn-voltar">&larr; Voltar</a>
+</div>
+<script>
+(function(){
+  // remove SAIR do header injetado (somente a logo permanece)
+  var n=0,t=setInterval(function(){var h=document.getElementById('aocp-header-host');var lo=h&&h.shadowRoot&&h.shadowRoot.getElementById('logout');if(lo){lo.style.display='none';clearInterval(t);}if(++n>40)clearInterval(t);},100);
+  var d={};try{d=JSON.parse(localStorage.getItem('inscricao_dados')||'{}');}catch(e){}
+  var lista=document.getElementById('lista');
+  if(!d||!d.CPF&&!d.NOME){lista.innerHTML='<div class="insc" style="cursor:default"><div class="row"><span class="k">Nenhuma inscri&ccedil;&atilde;o encontrada neste dispositivo.</span></div></div>';return;}
+  var insc=d.__protocolo||('2026'+((d.CPF||'').replace(/\D/g,'').slice(-6).padStart(6,'0')));
+  var vaga=d.__vaga_label||d.VAGA||'-';
+  var valor=d.__taxa||'-';
+  var el=document.createElement('div');el.className='insc';el.setAttribute('data-testid','card-inscricao');
+  el.onclick=function(){location.href='/inscricao-realizada.html';};
+  el.innerHTML='<div class="top"><span class="num">N&ordm; '+insc+'</span><span class="badge">PENDENTE DE PAGAMENTO</span></div>'
+   +'<div class="row"><span class="k">Nome</span><span class="v">'+(d.NOME||'-')+'</span></div>'
+   +'<div class="row"><span class="k">CPF</span><span class="v">'+(d.CPF||'-')+'</span></div>'
+   +'<div class="row"><span class="k">Vaga</span><span class="v">'+vaga+'</span></div>'
+   +'<div class="row"><span class="k">Valor</span><span class="v">'+valor+'</span></div>'
+   +'<div class="hint">Clique para ver os detalhes &rarr;</div>';
+  lista.appendChild(el);
+})();
+</script>
+<footer id="aocp-footer" class="seduc-footer" data-testid="site-footer"><div class="sf-in"><div class="sf-site"><h2>cev.uece.br</h2><img src="/seduc/emec.png" alt="e-MEC"></div><div class="sf-box"><h2>Universidade Estadual do Ceará - UECE</h2><p>Av. Dr. Silas Munguba, 1700 - Campus do Itaperi<br>Fortaleza, CE<br>(85) 3101-9711<br>CEP: 60.714.903</p></div><div class="sf-box"><h2>Comissão Executiva do Vestibular</h2><p>Concurso Professor Seduc 2026<br>Edital Nº 014/2026-SEDUC/SEPLAG</p></div></div><div class="sf-copy">© 2026 – Universidade Estadual do Ceará<br>todos os direitos reservados</div></footer></body></html>

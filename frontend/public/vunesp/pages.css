@@ -1,0 +1,46 @@
+html body,html body.concurso128:not(#vn_a):not(#vn_b){background:#f5f5f5!important;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important;color:#333!important}
+html body:not(#vn_a):not(#vn_b) .Miolo,html body:not(#vn_a):not(#vn_b) #conteudo,html body:not(#vn_a):not(#vn_b) .wrap{background:transparent!important}
+/* titulo do vestibular (antes listra azul) */
+html body:not(#vn_a):not(#vn_b) .aocp-edital-card,html body:not(#vn_a):not(#vn_b) .wrap .card{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;margin:14px 0 18px!important;padding:0!important;overflow:visible!important}
+html body:not(#vn_a):not(#vn_b) .aocp-edital-card .aec-head,html body:not(#vn_a):not(#vn_b) .wrap .card .edhead{background:transparent!important;border:0!important;text-align:center!important;padding:4px 0!important;display:block!important}
+html body:not(#vn_a):not(#vn_b) .aocp-edital-card .aec-head h3,html body:not(#vn_a):not(#vn_b) .wrap .card .edhead h3{color:#333!important;font:400 36px/1.15 "Helvetica Neue",Helvetica,Arial,sans-serif!important;text-transform:none!important;letter-spacing:0!important;margin:0 0 14px!important;text-align:center!important}
+html body:not(#vn_a):not(#vn_b) .vn-sub{display:block;color:#333;font:400 28px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:0;text-align:center}
+/* titulos */
+html body:not(#vn_a):not(#vn_b) h2.tituloPagina,html body:not(#vn_a):not(#vn_b) h2.tituloPagina span,html body:not(#vn_a):not(#vn_b) .blocoPadrao h1,html body:not(#vn_a):not(#vn_b) .wrap h1.t{color:#31708f!important;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important;font-weight:400!important;text-transform:none!important;letter-spacing:0!important}
+html body:not(#vn_a):not(#vn_b) h2.tituloPagina{font-size:24px!important}
+html body:not(#vn_a):not(#vn_b) label.description:not(.decl-veracidade){color:#333!important;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important;font-weight:400!important;text-transform:none!important;letter-spacing:0!important;font-size:22px!important}
+html body:not(#vn_a):not(#vn_b) fieldset label.description:not(.decl-veracidade){border-bottom:1px solid #e5e5e5!important;padding-bottom:6px!important}
+html body:not(#vn_a):not(#vn_b) .blocoPadrao .dados > label.description:not(.decl-veracidade){font-size:15px!important;color:#31708f!important;border:0!important}
+/* blocos brancos */
+html body:not(#vn_a):not(#vn_b) fieldset,html body:not(#vn_a):not(#vn_b) .conf-list,html body:not(#vn_a):not(#vn_b) .conf-flags,html body:not(#vn_a):not(#vn_b) .insc,html body:not(#vn_a):not(#vn_b) .vn-lgpd{background:#fff!important;border:0!important;border-radius:0!important;box-shadow:0 1px 4px rgba(0,0,0,.22)!important}
+html body:not(#vn_a):not(#vn_b) .blocoPadrao{border-radius:0!important}
+html body:not(#vn_a):not(#vn_b) .vn-lgpd{color:#333!important;font-size:14px!important}
+/* campos (só visual) */
+html body:not(#vn_a):not(#vn_b) input.textfield,html body:not(#vn_a):not(#vn_b) select.select,html body:not(#vn_a):not(#vn_b) textarea{border:1px solid #ccc!important;border-radius:4px!important;box-shadow:inset 0 1px 1px rgba(0,0,0,.075)!important;color:#555!important;background-color:#fff!important;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important}
+html body:not(#vn_a):not(#vn_b) input.textfield:focus,html body:not(#vn_a):not(#vn_b) select.select:focus{border-color:#66afe9!important;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)!important}
+/* botoes */
+html body:not(#vn_a):not(#vn_b) #btn-salvar,html body:not(#vn_a):not(#vn_b) #btn-confirmar,html body:not(#vn_a):not(#vn_b) #btn-pagar,html body:not(#vn_a):not(#vn_b) .blocoPadrao button.btn-primary,html body:not(#vn_a):not(#vn_b) #btn-copiar,html body:not(#vn_a):not(#vn_b) .pix-copy,html body:not(#vn_a):not(#vn_b) button#copiar,html body:not(#vn_a):not(#vn_b) #p-btn-copy{background:#d9534f!important;background-image:none!important;border:1px solid #d43f3a!important;color:#fff!important;border-radius:4px!important;box-shadow:none!important;text-transform:uppercase!important;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important;font-weight:400!important;letter-spacing:0!important}
+html body:not(#vn_a):not(#vn_b) #btn-salvar:hover,html body:not(#vn_a):not(#vn_b) #btn-confirmar:hover,html body:not(#vn_a):not(#vn_b) #btn-pagar:hover{background:#c9302c!important;border-color:#ac2925!important}
+html body:not(#vn_a):not(#vn_b) #btn-salvar[disabled],html body:not(#vn_a):not(#vn_b) #btn-salvar:disabled{background:#d9534f!important;opacity:.6!important}
+html body:not(#vn_a):not(#vn_b) #btn-alterar,html body:not(#vn_a):not(#vn_b) #btn-voltar-dados,html body:not(#vn_a):not(#vn_b) a.back{background:#fff!important;border:1px solid #ccc!important;color:#333!important;border-radius:4px!important;box-shadow:none!important;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important}
+@media(max-width:767px){
+html body:not(#vn_a):not(#vn_b) .aocp-edital-card .aec-head h3,html body:not(#vn_a):not(#vn_b) .wrap .card .edhead h3{font-size:26px!important;margin-bottom:8px!important}
+html body:not(#vn_a):not(#vn_b) .vn-sub{font-size:19px}
+html body:not(#vn_a):not(#vn_b) label.description:not(.decl-veracidade){font-size:19px!important}
+}
+html body:not(#vn_a):not(#vn_b) .aec-head h3,html body:not(#vn_a):not(#vn_b) .aec-head{background-image:none!important}
+html body:not(#vn_a):not(#vn_b) .aec-head h3::before,html body:not(#vn_a):not(#vn_b) .aec-head h3::after,html body:not(#vn_a):not(#vn_b) .aec-head::before,html body:not(#vn_a):not(#vn_b) .aec-head::after,html body:not(#vn_a):not(#vn_b) .aocp-edital-card::before,html body:not(#vn_a):not(#vn_b) .aocp-edital-card::after{display:none!important;content:none!important}
+html body:not(#vn_a):not(#vn_b) .vn-sub{color:#333!important;font:400 28px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif!important;margin:0!important;text-align:center!important;text-transform:none!important}
+html body:not(#vn_a):not(#vn_b) #TopoInformacoes label.description:not(.decl-veracidade){font-size:15px!important;color:#555!important;border:0!important}
+html body:not(#vn_a):not(#vn_b) #TopoInformacoes fieldset label.description:not(.decl-veracidade){font-size:22px!important;color:#333!important;border-bottom:1px solid #e5e5e5!important}
+html body:not(#vn_a):not(#vn_b) .Miolo{margin-top:10px!important}
+html body:not(#vn_a):not(#vn_b) #pgInformacoes{padding-top:6px!important}
+@media(max-width:767px){html body:not(#vn_a):not(#vn_b) .vn-sub{font-size:19px!important}html body:not(#vn_a):not(#vn_b) #TopoInformacoes fieldset label.description:not(.decl-veracidade){font-size:19px!important}}
+html body:not(#vn_a):not(#vn_b) label.decl-veracidade,html body:not(#vn_a):not(#vn_b) label.decl-veracidade *{color:#333!important;font-weight:400!important}
+html body:not(#vn_a):not(#vn_b) label.decl-veracidade{display:block!important;background:#ededed!important;border:1px solid #dcdcdc!important;border-radius:4px!important;box-shadow:0 2px 6px rgba(0,0,0,.15)!important;padding:14px 16px!important;margin:0!important}
+@media(max-width:767px){html body:not(#vn_a):not(#vn_b) label.decl-veracidade input[type=checkbox]{display:block!important;float:none!important;position:static!important;margin:0 0 10px 0!important}}
+/* Cebraspe SEFAZ/AL 2026 */
+html body:not(#vn_a):not(#vn_b) .aocp-edital-card .aec-head h3,html body:not(#vn_a):not(#vn_b) .wrap .card .edhead h3{font-family:"Proxima Nova Cn Rg","Proxima Nova Rg",Arial,sans-serif!important;text-transform:uppercase!important;color:#253654!important;letter-spacing:.5px!important;font-weight:600!important}
+html body:not(#vn_a):not(#vn_b) .vn-sub{font-family:"Proxima Nova Rg",Arial,sans-serif!important;color:#555!important}
+html body:not(#vn_a):not(#vn_b) .vn-sub::after{content:"";display:block;width:26px;height:2px;background:#253654;margin:16px auto 0}
+[vw],[vw-access-button],#vlibras-access-wrapper{display:none!important}

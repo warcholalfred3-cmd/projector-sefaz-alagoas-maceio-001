@@ -1,0 +1,37 @@
+{
+  "summary": "Frontend-only QA of SEDUC/CEV rebrand across all public pages on desktop (1920x800), Android Pixel 7 (412x915) and iPhone 13 (390x844). Full registration flow (inicio -> termos -> inscricao -> dados-inscricao -> confirmacao -> inscricao-realizada -> pagamento-pix) completed end-to-end on desktop with no errors. All layout/branding checks pass on all 3 device profiles.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "inicio.html and termos.html include the CEV footer inline but DO NOT expose data-testid=\"site-footer\" on the footer node (the testid only appears on pages that get the SEDUC header injected via /seduc/seduc-theme.js). Footer text ('Universidade Estadual do Ceará - UECE') is present and renders correctly, so this is cosmetic/testing-hook only. If the testid is required by spec, add it to the footer wrapper in inicio.html / termos.html.",
+    "Several legacy container IDs from the old AOCP/FGV theme still exist in the DOM of flow pages (e.g. #__fgv_topbar, #__fgv_footer, #__fgv_layout, #__cebraspe_footer_root, #TopMenu, #Topo, #Rodape). They are correctly hidden/overridden by CSS and do NOT leak any visible text (verified: no visible 'Instituto AOCP', 'SESA/AP', 'Cebraspe', 'SAEB' or 'FGV' strings on any tested page). Consider cleaning these up in seduc_rebrand.py for maintainability."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "Created 1 real test registration via public flow: Nome='TESTE LAYOUT QA', CPF='390.533.447-05', Email='qa@example.com', protocolo observed Nº 2026344705. Needs cleanup by main agent.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Public URL: https://concurso-seduc-ce.preview.emergentagent.com . Use wait_until='domcontentloaded' (not networkidle - site has long-polling scripts that never idle). Mobile viewports 412x915 (Android) and 390x844 (iOS) show zero horizontal overflow on all 8 public pages. SEDUC header is injected via Shadow DOM host #seduc-header-host on inner flow pages (inscricao, dados-inscricao, confirmacao, inscricao-realizada, pagamento-pix, minhas-inscricoes); inicio.html and termos.html use their own inline CEV header (host is null on those two). Form IDs on inscricao.html: #CEP, input[name=NOME], #CPF, #DATA_NASCIMENTO, select[name=SEXO], #NUMERO, #CELULAR (not #CEL), #EMAIL, #DOC_TIPO (not #TP_DOCUMENTO), #DOC_FRENTE, #DOC_VERSO, #declaracao_veracidade, #btn-salvar. On dados-inscricao: #VAGA (87 options), #MUNICIPIO_PROVA (3 options), input[name=termo]. Pagamento-pix correctly shows 'Chave PIX não configurada' (admin not configured - expected per spec).",
+  "test_results": {
+    "inicio.html modal (data-testid=modal-aviso-overlay)": "PASS (CEV logo, '15/10/2026', '23h59', OK button closes)",
+    "inicio.html no cookies bar": "PASS",
+    "inicio.html btn-inscricao-online + page-loader + nav to /termos.html": "PASS",
+    "termos.html edital-card SEDUC/CE + Edital Nº 014/2026-SEDUC/SEPLAG": "PASS",
+    "termos.html continuar disabled until checkbox": "PASS",
+    "termos.html btn-voltar-termos present": "PASS",
+    "full registration desktop (inscricao -> dados -> confirmacao -> realizada -> pix)": "PASS",
+    "pagamento-pix shows 'Chave PIX não configurada' (expected)": "PASS",
+    "minhas-inscricoes shows new layout + created inscription": "PASS",
+    "No forbidden text ('Instituto AOCP','SESA/AP','Cebraspe','SAEB','FGV') on any page": "PASS",
+    "Android 412x915 - horizontal overflow on 8 pages": "PASS (all 0px overflow)",
+    "iOS 390x844 - horizontal overflow on 8 pages": "PASS (all 0px overflow)",
+    "SEDUC header injected on inner flow pages (height 111px, width = viewport)": "PASS",
+    "edital-card + site-footer testids present on inner flow pages": "PASS"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "summary": "Frontend-only check of the anti-FOUC fix on the 6 registration pages. pages.css now loads in <head> and html.vn-wait keeps the body at opacity 0 until the header's chrome.css loads, with a 2.5s fallback. An init script recorded a rAF frame log on every frame (vn-wait state, body opacity, header host visibility, pages.css applied). Results by scenario: (1) 1920 desktop, hard reload with cache disabled via CDP and normal reload, all 6 pages: 0 frames where the body was visible without the header visible and pages.css applied. The body first became visible at about 300-840ms. Early screenshots at DCL, 100, 300 and 800ms showed either a blank page or the fully styled VUNESP page, never the old blue stripe card, uppercase blue title or empty box. (2) Throttled network (300ms latency, 200KB/s, no cache) at 1920 and 390 on confirmacao, inscricao, dados and pix: 0 bad frames, first visible at about 2.6-3.0s. (3) parts.json aborted or 404: vn-wait removed right away by the catch (about 100-290ms) and the page shows styled, without a header. parts.json hanging: vn-wait removed by the 2.5s fallback (about 2.58-2.8s). (4) Regression: the inscricao form was filled completely, Continuar became enabled and led to dados-inscricao at 1920 and 390. Mobile horizontal overflow 0, header present.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "all 6 pages (edge case)", "issues": ["If /vunesp/chrome.css fails (404), the link 'load' event never fires. After the 2.5s fallback the header host is shown with no styles: a giant 'Fundação Vunesp' link, a bullet list and default buttons. Suggested fix: add ln.addEventListener('error', ...) in chrome_loader.js host() to hide or remove the host and remove vn-wait. Rare failure mode; low priority."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional (low): in /app/memory/home_build/chrome_loader.js, on chrome.css link 'error', remove the header/footer hosts (or keep them hidden) and remove vn-wait right away, then rebuild."
+  ],
+  "critical_code_review_comments": [
+    "Two independent 2.5s timers (the inline head script and the host() visibility fallback) can reveal the page before the header on very slow links. In the throttled test the header was already visible by then, so no issue was observed.",
+    "On minhas-inscricoes.html the seduc-theme.js script is in <head> at line 4, before the vn-wait script. It is safe because it waits for DOMContentLoaded."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "100% of requested checks"},
+  "seed_data_creation": "The regression flow created a TEST FLASH CHECK cadastro (CPF 51946536890). Removed from Mongo: cadastros 1, registrations 2.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "FOUC check method: add_init_script with a rAF loop logging classList vn-wait, getComputedStyle(body).opacity, #seduc-header-host visibility and whether a pages.css styleSheet is present. Bad frame = opacity>0 while the header is not visible. Use CDP Network.setCacheDisabled / emulateNetworkConditions for hard reload and throttling. Fallback: page.route('**/vunesp/parts.json*') with abort, 404 or hang."
+}

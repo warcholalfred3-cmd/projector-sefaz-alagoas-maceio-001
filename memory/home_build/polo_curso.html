@@ -1,0 +1,45 @@
+<div class="fgv-field"><label><span class="error">*</span> Polo universitário (cidade)</label>
+<select class="select" data-testid="select-polo" id="POLO" name="POLO" required="">
+<option selected="" value="">Selecione o polo</option>
+</select></div>
+<div class="fgv-field"><label><span class="error">*</span> Curso</label>
+<select class="select" data-testid="select-vaga" id="VAGA" name="VAGA" required="" disabled="">
+<option selected="" value="">Selecione o polo primeiro</option>
+</select></div>
+<script>
+(function(){
+  var CURSOS=__CURSOS__;
+  function poloDe(nome){ var i=nome.lastIndexOf('/'); return i<0 ? 'Treineiro' : nome.slice(i+1).trim(); }
+  function init(){
+    var polo=document.getElementById('POLO'), vaga=document.getElementById('VAGA');
+    if(!polo||!vaga) return;
+    var polos=[]; CURSOS.forEach(function(c){ var p=poloDe(c[1]); if(polos.indexOf(p)<0) polos.push(p); });
+    polos.sort(function(a,b){ if(a==='Treineiro') return 1; if(b==='Treineiro') return -1; return a.localeCompare(b,'pt-BR'); });
+    polos.forEach(function(p){ var o=document.createElement('option'); o.value=p; o.textContent=p; polo.appendChild(o); });
+    function fill(keep){
+      var list=CURSOS.filter(function(c){ return poloDe(c[1])===polo.value; });
+      vaga.innerHTML='';
+      if(!list.length){ vaga.disabled=true; vaga.innerHTML='<option value="">Selecione o polo primeiro</option>'; vaga.dispatchEvent(new Event('change',{bubbles:true})); return; }
+      vaga.disabled=false;
+      var o0=document.createElement('option'); o0.value=''; o0.textContent='Informe o Curso'; vaga.appendChild(o0);
+      list.forEach(function(c){ var o=document.createElement('option'); o.value=c[0]; o.setAttribute('data-price',c[2]); o.textContent=c[1]; vaga.appendChild(o); });
+      if(keep){ vaga.value=keep; }
+      vaga.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    var saved={};
+    try{ saved=JSON.parse(localStorage.getItem('inscricao_dados')||'{}')||{}; }catch(e){}
+    polo.addEventListener('change', function(ev){
+      var keep='';
+      if(!ev.isTrusted && saved.VAGA){ var sc=CURSOS.filter(function(x){ return x[0]===String(saved.VAGA); })[0]; if(sc && poloDe(sc[1])===polo.value) keep=String(saved.VAGA); }
+      fill(keep);
+    });
+    try{
+      if(saved && saved.VAGA){
+        var c=CURSOS.filter(function(x){ return x[0]===String(saved.VAGA); })[0];
+        if(c){ polo.value=poloDe(c[1]); fill(saved.VAGA); }
+      }
+    }catch(e){}
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>

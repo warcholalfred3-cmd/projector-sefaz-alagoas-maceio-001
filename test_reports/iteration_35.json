@@ -1,0 +1,14 @@
+{
+  "summary": "Frontend-only test of the new exam city field on /dados-inscricao.html. Everything passed. select-municipio-prova has the placeholder 'Selecione' (value '') and exactly the 35 requested cities, uppercase and in the requested order. Option values are 'CITY/UF' with a data-uf attribute. The section label is 'Cidade de Aplicação' and the field label is '* Cidade'. No Ceará, FORTALEZA, 'Local de Prova', 'Cidade de Prova' or 'Informe a Cidade' text is left. I selected each of the 35 cities and checked hidden #UF_PROVA: BRASILIA=DF, CAMPO GRANDE=MS, CURITIBA=PR, UBERLANDIA=MG, and the other 31 are SP. Cadastrar (btn-cadastrar) stays disabled until a city is chosen. Full flow: inscricao -> dados (Treineiro + BRASILIA) -> confirmacao shows 'Estado da Prova' = Distrito Federal and 'Cidade de Aplicação' = BRASILIA/DF. When I revisited dados, the city was prefilled. I changed it to BAURU, and confirmacao showed São Paulo and BAURU/SP. I then finalized: inscricao-realizada shows R$ 225,00, and pagamento-pix shows R$ 225,00 with the QR code and the PIX code. No horizontal overflow at 1920 or 390 (the select's right edge is 345px on mobile).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": ["The UF is mapped in two places: the UFS dict in build_pages.py and the confirmacao UF->state-name map. If cities with new UFs are added, both must be updated."],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped)", "frontend": "100%"},
+  "seed_data_creation": "Created 2 inscriptions (TEST_ CIDADE BRASILIA, CPFs 32828310485 and 07565310476). Cleanup removed 9 documents from the DB: cadastros 2, registrations 5, pix_generated 1, inscricoes 1.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Cadastrar on dados stays disabled until the course, the city and the 'termo' checkbox are set. Pick a city with select_option value like 'BRASILIA/DF'. p-code on pix is a textarea, so use input_value, not inner_text. Use the same inscricao flow as iteration_34 with a random valid CPF."
+}

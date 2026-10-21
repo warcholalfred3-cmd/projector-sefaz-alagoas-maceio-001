@@ -1,0 +1,37 @@
+{
+  "summary": "Re-tested /termos.html visuals and behaviour only, at 1920x1000, 1366x768, 820x1180, 390x844 and 360x780. Fonts, checkbox styling, behaviour and mobile layout all pass. The one remaining problem: on desktop the header logo and the 'Pagina de Acompanhamento' button don't line up with the card edges (off by 56px on the left at 1920 and 79px on the right at 1366).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "termos.html header vs card at 1920x1000", "issues": [
+        "The header .container_inner spans x=160-1760, but the termos-card spans x=216-1706. The 56px side padding is applied to the content and footer but not to the header contents. The logo starts at x=160, so it sticks out 56px left of the card. The 'Pagina de Acompanhamento' button's right edge is at 1687 vs the card's right edge at 1706 (19px off). The footer columns start at 216, so they align with the card."
+      ]},
+      {"screen": "termos.html header vs card at 1366x768", "issues": [
+        "The logo's left edge is at 45 vs the card's at 41 (OK). The acompanhamento button's right edge is at 1248 but the card's is at 1327, so the button sits 79px inside the card's right edge. The header still looks narrower on the right than the content."
+      ]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Make the left and right edges of the header logo and of the acompanhamento button match the termos-card at desktop widths. Either give the header inner wrapper the same 56px padding inside the 1600px container, or remove the extra right offset on .header__action-follow-button. Expected result at 1920: logo starts at 216 and the button ends at about 1704. At 1366: the button ends at about 1310-1327."
+  ],
+  "critical_code_review_comments": [
+    "The termos_content.html override (.container_inner{max-width:1600px;padding:56px}) evidently does not reach the header's inner logo and action wrappers, which have their own offsets. The header needs its own rule."
+  ],
+  "verified_passing": [
+    "Card widened: 1490px wide at 1920 (was 1100px). No horizontal overflow at any tested viewport (scrollWidth == viewport width).",
+    "Desktop and tablet font sizes: h2 30px, h3 32px, info values 20px, description 20px, checkbox label 19px, buttons 18px. Mobile: 22/23/17/17/16/17px.",
+    "Checkbox: appearance none, 24px. box-shadow is 'none' and outline-style is 'none' before clicking, on focus and when checked. Unchecked: white fill with #9aa3ad border. Checked: #d89300 fill with a white tick drawn by ::after.",
+    "Continuar is disabled until the box is ticked (opacity 0.5, pointer-events none, aria-disabled=true; a forced click does not navigate). After ticking, clicking it goes to /inscricao.html. Voltar goes to /.",
+    "Mobile 390 and 360: card has an 18px side margin, buttons are full width (318px and 288px). At tablet 820 the two buttons sit side by side at 268px each; this is acceptable because 820 is above the 767px breakpoint."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "92%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Use wait_until='load'. Get the header edges from the bounding boxes of the first visible 'header img' and 'a.header__action-follow-button', and the card edges from '.termos-card'. The loader shown after clicking Continuar was not seen in the DOM 300ms after the click, but navigation itself worked.",
+  "rca of the issue": "The width fix only overrides .container_inner and the section inner. The header's logo and action-button wrappers keep their own positioning, so the header contents are not inset by the same 56px as the card."
+}

@@ -1,0 +1,23 @@
+{
+  "summary": "Verified removal of duplicate CEV logo from the green 'edital-card' on termos.html, inscricao.html, dados-inscricao.html, confirmacao.html, pagamento-pix.html, inscricao-realizada.html and minhas-inscricoes.html. For every target page: exactly 1 visible CEV logo (the header) on desktop 1920x800. On mobile 390x844, exactly 1 CEV logo on all pages except termos.html (its own page header hides the logo responsively below 768px via its own CSS — pre-existing, unrelated to the fix). /inicio.html continues to show the intentional modal logo (header + modal = 2) and after clicking data-testid=modal-aviso-ok-btn only the header logo remains (1). Edital cards keep the green title 'SECRETARIA DA EDUCAÇÃO DO ESTADO DO CEARÁ - SEDUC/CE', 'Edital Nº 014/2026-SEDUC/SEPLAG' and the description laid out correctly with no empty image gap. No horizontal overflow on any page/viewport.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "termos.html @ mobile 390", "issues": ["Page-level header logo (class cc-logo-interna) is hidden by its own responsive CSS below 768px, so no CEV logo is visually present on mobile for this page. Pre-existing behavior; unrelated to duplicate-logo cleanup. Flagging for awareness only."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "All 7 target HTML files have the <img> inside .seduc-edital-card/.aocp-edital-card body removed; edital-card data-testid still present with correct title + description.",
+    "pagamento-pix print-only receipt logo src correctly set to /seduc/cev-logo.png and remains display:none on screen (not counted as visible)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Visual audit confirmed single CEV logo per page across requested routes on desktop & mobile. Used shadow-DOM aware JS that filters imgs by alt /cev|comissao/i, class /cev|cc-logo/, or src /cev-logo/. Counted only visible (w>20,h>20, display/visibility/opacity ok)."
+}

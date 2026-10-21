@@ -1,0 +1,19 @@
+{
+  "summary": "Frontend-only mobile stacking validation for hamburger dropdown on /inscricao-realizada and /pagamento-pix. The dropdown .menu now renders FULLY on top of the green edital card. Confirmed via document.elementFromPoint at center of 'Minhas inscrições' link returns the #seduc-header-host (not .aec-head/.aocp-edital-card). Host computed overflow=visible, zIndex=9999, position=relative. Screenshots captured for both pages. Outside-click close + navigation to /minhas-inscricoes.html verified. Desktop 1920x800 regression on /inscricao.html, /dados-inscricao.html, /confirmacao.html, /minhas-inscricoes.html, /inscricao-realizada.html, /pagamento-pix.html — layouts intact, no header overflow onto page content.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Fix in /app/frontend/public/seduc/seduc-theme.js is correct: host.style.cssText now includes 'overflow:visible !important' + z-index:9999 which escapes the page CSS that previously set overflow:hidden on the host. Build was re-run (?v=5 referenced in all 6 HTMLs) and served.",
+    "Shadow DOM pierces work with Playwright locators — no change needed."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100% (2 mobile pages: host-overflow, menuVisible, elementFromPoint==host, outside-click close, link navigate) + 6 desktop regression pages"},
+  "test_credentials": "N/A",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Mobile stacking fix verified at 390x844. elementFromPoint check is the authoritative way to confirm z-order through shadow DOM — top element must be the host div. If regression reappears, inspect /app/frontend/public/seduc/seduc-theme.js inject() and ensure the inline host style keeps overflow:visible !important and z-index high; also check page-level CSS targeting #seduc-header-host.",
+  "rca of the issue": "N/A — fix validated."
+}

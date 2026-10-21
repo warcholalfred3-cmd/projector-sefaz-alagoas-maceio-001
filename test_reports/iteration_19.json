@@ -1,0 +1,23 @@
+{
+  "summary": "Verified VALOR_INSCRICAO=150.0 is enforced across all backend endpoints and frontend pages. 8/8 pytest tests passed. Admin dashboard, inscriptions list, and pagamento-pix page all render R$ 150,00. BR Code always contains '5406150.00' even when client sends valor=90 or 200. pix_key restored to empty at end.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_valor_150.py",
+    "/app/test_reports/pytest/valor_150.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "/app/backend/admin_routes.py has 1864 lines - should be split into modules (auth, tracking, inscriptions, pix, telegram) for maintainability (file-size guideline >700).",
+    "In pix/generate (line ~1319), insc lookup for cpf is performed but result is unused since valor is unconditionally overridden to VALOR_INSCRICAO at line 1314. Dead code — can be removed.",
+    "_build_telegram_message (lines 1524-1527) has try/except around a constant assignment with identical fallback — redundant."
+  ],
+  "updated_files": ["/app/backend/tests/test_valor_150.py"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "Admin donas / Seinao10@@ (as expected)",
+  "seed_data_creation": "Created test inscription for CPF 390.533.447-05 (TESTE VALOR 150, Professor de Biologia). Main agent should delete TESTE data per request.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "VALOR_INSCRICAO enforced server-side at 150.0 in admin_routes.py line 31. All track/registration, track/pix-*, pix/generate, pix/qr.png, pix/code.txt, inscricao/resumo, admin/inscriptions, admin/dashboard/kpis, admin/settings return 150. Telegram message hardcoded to VALOR_INSCRICAO. Frontend cargos (dados-inscricao.html line 801) all say R$ 150,00. pix_key is empty at end of test (as required).",
+  "rca_of_the_issue": "N/A — feature verification only; implementation is correct."
+}
