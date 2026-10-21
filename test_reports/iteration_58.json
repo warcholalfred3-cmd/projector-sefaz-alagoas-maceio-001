@@ -1,0 +1,20 @@
+{
+  "summary": "Tested /minhas-inscricoes.html header changes (seduc-theme.js?v=22, served on all 6 pages). Mobile (390x844 dsf=3 is_mobile/has_touch and Pixel 7 393x851): #mnav-open missing from the shadow root, 0 .mnav-layer, 0 a[href], logo image visible, no horizontal overflow (scrollWidth equals viewport width), tapping the logo keeps the URL. Desktop 1920x800: header shows the logo plus Institucional/Concursos/Avaliações/Certificações/Acesso à universidade/Educação. 29 <a> elements with 0 href, logo cursor is default. Clicking all 6 visible items with locator clicks and by text, and clicking the logo with a mouse coordinate click, never changed the URL or opened a new page. vn-wait was not stuck and body opacity was 1. Page content works: the empty state shows 'Nenhuma inscrição encontrada neste dispositivo.'. With localStorage data the card renders Nº/Nome/CPF/Cargo/Valor and 'Clique para ver os detalhes →', and clicking it goes to /inscricao-realizada.html. '← Voltar' goes to /inscricao-realizada.html. Regression: inscricao, dados-inscricao and confirmacao have the full mobile drawer (× + 6 items + Fazer inscrição + Página de acompanhamento) and 38 header a[href]. Desktop Institucional really navigates to '/'. pagamento-pix and inscricao-realizada have the reduced drawer (× + Página de acompanhamento only). All checks passed.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "minhas-inscricoes footer", "issues": ["Footer links (Sobre nós, Novos, etc.) still navigate. This is out of scope because the request was header-only. Mentioned only in case the user expects the whole page to be non-navigable."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": ["The minhas-inscricoes check uses a /minhas-inscricoes/ regex on pathname in two places (lines 52 and 54). Fine, but it could be merged into one variable."],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "localStorage inscricao_dados with a TEST USER, set only in the test browser context",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "The header lives in the open shadow root of #seduc-header-host. On minhas-inscricoes, build() removes #mnav-open/.mnav-layer, strips hrefs and blocks clicks with a capture-phase listener. Other pages are unchanged (38 or 31 header hrefs). Use .jpg for screenshots that use quality."
+}
