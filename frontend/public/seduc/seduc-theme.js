@@ -51,6 +51,11 @@ function build(p){
  var hr=host('seduc-header-host',p.h,p.cls,true);
  if(/minhas-inscricoes/.test(location.pathname)){hr.querySelectorAll('.header__action-follow-button,[data-testid=header-minhas-inscricoes-btn]').forEach(function(el){el.remove();});}
  menu(hr);
+ if(/minhas-inscricoes/.test(location.pathname)){
+  hr.querySelectorAll('#mnav-open,.mnav-layer').forEach(function(el){el.remove();});
+  hr.querySelectorAll('a').forEach(function(a){a.removeAttribute('href');a.style.cursor='default';});
+  hr.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();},true);
+ }
  document.querySelectorAll('#aocp-footer,.seduc-footer').forEach(function(el){el.remove();});
  host('vunesp-footer-host',p.f,p.cls,false);
 }

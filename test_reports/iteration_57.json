@@ -1,0 +1,18 @@
+{
+  "summary": "Frontend-only test of reduced mobile menu on /pagamento-pix.html and /inscricao-realizada.html (seduc-theme.js v=21). Real mobile emulation (390x844 DPR3 is_mobile/has_touch and Pixel7 393x851 DPR2.75). Both pages: #mnav full height (844/851, top 0, transform none, visible), innerText exactly 'MENU × PÁGINA DE ACOMPANHAMENTO', 0 <li>, only one CTA (/minhas-inscricoes.html). Tapping the CTA navigates to /minhas-inscricoes.html; × and backdrop tap close the menu. Regression: inscricao, dados-inscricao, confirmacao show full menu (6 items + Fazer inscrição + Página de acompanhamento), minhas-inscricoes shows 6 items + Fazer inscrição (acompanhamento intentionally removed), all full height, close via ×/backdrop OK. Desktop 1920: both pages show normal horizontal header (hamburger hidden, 6 nav items + Página de acompanhamento button).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [{"screen": "Mobile menu on pagamento-pix/inscricao-realizada", "issues": ["Cosmetic only: with list removed, drawer is mostly empty white space with the CTA pinned at the bottom; acceptable per request, optionally move CTA up under header."]}]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": ["menu(r) path regex /(pagamento-pix|inscricao-realizada)/ is correct and scoped; no issues found."],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Header in open shadow root #seduc-header-host; #mnav/#mnav-backdrop in .mnav-layer (class mnav-on when open). Use browser.new_context with is_mobile/has_touch and DPR>=2; locator('#seduc-header-host').locator('#mnav-open').tap() pierces shadow DOM."
+}
