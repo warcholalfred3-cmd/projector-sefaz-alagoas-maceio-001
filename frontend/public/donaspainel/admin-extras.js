@@ -4,6 +4,25 @@
    sem precisar mexer no build React.
    ============================================================ */
 (function () {
+  // Fonte menor / layout mais compacto no feed "Atividade em tempo real"
+  (function injectCompactFeedStyle() {
+    if (document.getElementById('dp-feed-compact')) return;
+    var st = document.createElement('style');
+    st.id = 'dp-feed-compact';
+    st.textContent = [
+      '.dp-events{gap:4px}',
+      '.dp-event{padding:6px 10px;gap:8px}',
+      '.dp-event .ico{height:24px;width:24px;border-radius:7px}',
+      '.dp-event .ico svg{width:14px;height:14px}',
+      '.dp-event .row1{gap:6px;margin-bottom:1px}',
+      '.dp-event .desc{font-size:11.5px;font-weight:600;line-height:1.3}',
+      '.dp-event .sub{font-size:10px}',
+      '.dp-event .time{font-size:9.5px}',
+      '.dp-event .device-pill{font-size:9px;padding:1px 6px}'
+    ].join('');
+    (document.head || document.documentElement).appendChild(st);
+  })();
+
   var API = '/api';
   var BTN_ID = 'admin-extra-limpar-cadastros';
 
