@@ -1,0 +1,21 @@
+{
+  "summary": "Retest of the iteration_53 items, run on the public URL. ALL PASS. (1) The quota labels in dados-inscricao and confirmacao (.conf-flags, c-negros, c-pcd) now say 'prevista(s) no Edital nº 1 – SEFAZ/AL para pessoas negras / com deficiência'. Laws 17.432 and 17.433 no longer appear in the HTML or in the rendered text. (2) c-municipio-prova shows 'MACEIÓ/AL' (option value MACEIO/AL is mapped to the label). (3) Panel candidate modal: the section is now 'CONCURSO / CARGO', with no 'É militar?' and no 'Ensino médio'. The bundle main.fda9cfa5.js?v=sefaz2 has no eh_militar or Ensino médio. (4) 'Desenvolvido por' / DesenvolvimentoProSeleta markup is gone from all 5 flow pages. Only CSS rules for internal classes remain, which do not count. (5) POST /api/track/registration with finalized=true and no edital saves edital SEFAZ_AL_26. (6) Full UI regression passed: inicio -> termos -> inscricao (CPF 529.982.247-25, RG front/back, delivered@resend.dev) -> dados-inscricao (AFTE, MACEIÓ/AL, cota negros) -> confirmacao -> inscricao-realizada (R$ 300,00). The DB record has edital SEFAZ_AL_26, concurso 'SEFAZ/AL 2026 - Cebraspe' and valor 300. No VUNESP/SEDUC/Ceará/Polo/Ensino médio/militar text on any flow page or on the panel dashboard, inscricoes, cadastro or modal. The test inscription and cadastro (CPF 52998224725) were deleted afterwards.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "donaspainel view-modal", "issues": ["Cosmetic, optional: the 'Concurso / Cargo' section only shows 'Concurso'. 'Cargo' and 'Edital' sit under 'Outros dados'. Consider moving cargo_titulo and edital into the Concurso / Cargo section."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_sefaz_pendencias_retest.py", "/app/test_reports/pytest/pytest_retest54.xml"],
+  "action_items": [],
+  "critical_code_review_comments": ["The localStorage key __edital is null on inscricao-realizada, probably cleared after finalization. This is harmless now that the server defaults edital to SEFAZ_AL_26."],
+  "updated_files": ["/app/backend/tests/test_sefaz_pendencias_retest.py"],
+  "success_rate": {"backend": "100% (10/10)", "frontend": "100%"},
+  "test_credentials": "Admin donas / Seinao10@@ (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "Test candidate CPF 52998224725 (TEST FLUXO SEFAZ, delivered@resend.dev) created and then DELETED (inscription and cadastro). The pytest module also creates and deletes this CPF in its teardown.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Flow selectors: termos-checkbox, btn-continuar-termos; inscricao: input[name=NOME], input-cpf, input-data-nasc, select[name=SEXO], input-cep, #LOGRADOURO/#BAIRRO/#CIDADE/#UF, input-numero, input-celular, input-email, #DOC_TIPO=RG, input-doc-frente/verso, #declaracao_veracidade, btn-continuar-inscricao; dados: #VAGA=1, #MUNICIPIO_PROVA=MACEIO/AL, #cotas_negros, input[name=termo], btn-cadastrar; confirmacao: btn-confirmar-inscricao, conf-success-ok. Panel: nav-inscricoes -> btn-view-* -> view-modal."
+}

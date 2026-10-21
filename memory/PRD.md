@@ -261,3 +261,12 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - backend/.env: RESEND_API_KEY (chave do usuário), RESEND_FROM="Concurso SEFAZ/AL 2026 <contato@concursoseduc.online>" (domínio verificado na chave), APP_PUBLIC_URL + EMAIL_LOGO_URL = preview URL (logo Cebraspe /seduc/email-logo-cebraspe.png).
 - email_service.py: cabeçalho remontado p/ SEFAZ/AL — logo Cebraspe + "SEFAZ/AL 2026" + "Secretaria de Estado da Fazenda de Alagoas" + "Edital nº 1 · Organização: Cebraspe"; cor navy #00385e (barras topo/base + botão "Pagar inscrição"). Linha Concurso: órgão + Edital nº 1.
 - Dois gatilhos usam build_inscricao_email_html: (1) inscrição realizada (admin_routes.py:388), (2) lembrete de pagamento em massa no painel (lembrete_prazo=hoje BRT). Ambos testados: envio real Resend OK (id retornado).
+
+## 2026-10-21 Varredura de resquícios (vestibular VUNESP / SEDUC-CE)
+- finalizar.js: fallbacks trocados p/ 'SEFAZ/AL 2026 - Cebraspe', edital 'SEFAZ_AL_26', valor 300 (antes Professor SEDUC/CE, 014/2026-SEDUC/SEPLAG, 150). 1 inscrição real com edital SEDUC corrigida no banco. Backend: edital default 'SEFAZ_AL_26'.
+- Leis do Ceará (17.432/17.433/2021) nas cotas -> "prevista no Edital nº 1 – SEFAZ/AL" (dados-inscricao, confirmacao).
+- Metatags keywords/author (vestibular/ProSeleta, acentos corrompidos) e rodapé oculto ProSeleta removidos das 5 páginas do fluxo.
+- Painel: rótulo 'Curso' -> 'Cargo' (admin-extras), seção 'Ensino médio' -> 'Concurso / Cargo', campo 'É militar?' removido (bundle ?v=sefaz2).
+- Confirmação mostra MACEIÓ/AL com acento.
+- Arquivos órfãos movidos (não apagados) p/ /app/_legacy_public_backup: edital-inspetor/especialista, modelo-aocp, brasao-amapa, previews, seduc/comunicados + logos antigas, vunesp/docs + logo, 4 testes backend antigos.
+- Mantido: menu oficial Cebraspe (Acesso à universidade/Vestibular/Educação), nomes internos de classes/pastas (seduc/, vunesp/, fgv-*, aocp-*) — invisíveis.
