@@ -36,6 +36,9 @@ function build(p){
  if(document.getElementById('seduc-header-host'))return;
  fontsLink();
  var hr=host('seduc-header-host',p.h,p.cls,true);
+ var heEl=document.getElementById('seduc-header-host');
+ if(heEl){heEl.style.setProperty('overflow','visible','important');heEl.style.setProperty('display','flow-root','important');}
+ var mfix=document.createElement('style');mfix.textContent='.sfbody{overflow:visible!important;display:flow-root!important}';hr.appendChild(mfix);
  if(/minhas-inscricoes/.test(location.pathname)){hr.querySelectorAll('.header__action-follow-button,[data-testid=header-minhas-inscricoes-btn]').forEach(function(el){el.remove();});}
  menu(hr);
  document.querySelectorAll('#aocp-footer,.seduc-footer').forEach(function(el){el.remove();});
